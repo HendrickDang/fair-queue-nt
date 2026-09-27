@@ -132,7 +132,7 @@ reseeds itself on the next run using the deterministic parser.
 
 The audit trail is the durable half of the trust twist: a commit (`POST /api/commit`)
 and a tenant's escalation (`POST /api/escalate`) are both written down — so the
-"why" a tenant is given is the same record the coordinator signed off on.
+"why" a tenant is given is the same record the coordinator signed off on
 
 ## Demo scenario
 
