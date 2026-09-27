@@ -1,0 +1,14 @@
+# Python deps for the Gemma 4 E4B parser fine-tune.
+#
+# Preferred: run training/setup-env.ps1, which creates an isolated conda env and
+# installs Unsloth (and its pinned torch/transformers/trl). Manual equivalent:
+#
+#   conda create -y -n nt-triage python=3.11
+#   conda activate nt-triage
+#   pip install -r training/requirements.txt
+#
+# Requires an NVIDIA GPU with a working driver (nvidia-smi). CUDA wheels ship
+# with torch via Unsloth -- do not install a CPU-only torch first.
+
+unsloth
+datasets

@@ -1,0 +1,7 @@
+[
+  { "id": "darwin", "name": "Darwin", "lat": -12.4634, "lon": 130.8456, "trades": ["plumber", "electrician", "carpenter", "hvac", "handyperson", "multi"] },
+  { "id": "palmerston", "name": "Palmerston", "lat": -12.486, "lon": 130.9833, "trades": ["plumber", "electrician", "carpenter", "hvac", "handyperson"] },
+  { "id": "katherine", "name": "Katherine", "lat": -14.4652, "lon": 132.2635, "trades": ["plumber", "electrician", "carpenter", "hvac", "handyperson"] },
+  { "id": "tennant-creek", "name": "Tennant Creek", "lat": -19.6497, "lon": 134.1915, "trades": ["plumber", "electrician", "carpenter", "handyperson"] },
+  { "id": "alice-springs", "name": "Alice Springs", "lat": -23.698, "lon": 133.8807, "trades": ["plumber", "electrician", "carpenter", "hvac", "handyperson", "multi"] }
+]

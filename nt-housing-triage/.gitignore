@@ -1,0 +1,39 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env
+.env*
+!.env.example
+ 
+# typescript
+*.tsbuildinfo
+
+# generated training artifacts
+/training/out/
+/training/models/
+
+# local SQLite database (created on first run)
+/data/*.sqlite
+/data/*.sqlite-wal
+/data/*.sqlite-shm
+
+# python / unsloth build caches
+/training/__pycache__/
+/unsloth_compiled_cache/

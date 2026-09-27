@@ -1,0 +1,19 @@
+# Ollama model definition for the fine-tuned NT housing maintenance triage parser.
+#
+#   cd nt-housing-triage
+#   ollama create nt-housing-triage -f training/Modelfile
+#
+# The chat template is read from the GGUF metadata that Unsloth writes, so the
+# app's system+user messages render exactly as they did during training. Do not
+# hand-roll a template here unless you also change the training data.
+
+FROM C:/Users/Admin/Documents/GitHub/nt-warning-blackspot-index/nt-housing-triage/training/models/gguf/unsloth.Q4_K_M.gguf
+
+# Deterministic structured extraction -- the app calls /api/chat with format:json.
+PARAMETER temperature 0
+PARAMETER top_p 0.95
+PARAMETER top_k 64
+PARAMETER num_ctx 2048
+
+# Gemma 4 turn terminator; keeps generations from running on past the JSON.
+PARAMETER stop "<turn|>"

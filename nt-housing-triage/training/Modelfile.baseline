@@ -1,0 +1,19 @@
+# Baseline (un-tuned) Gemma 4 E4B, for the before/after story.
+#
+#   ollama create gemma-4-e4b-baseline -f training/Modelfile.baseline
+#
+# Then point the app at it to show what the *raw* model produces vs the
+# fine-tuned `nt-housing-triage`:
+#
+#   OLLAMA_MODEL=gemma-4-e4b-baseline   # baseline
+#   OLLAMA_MODEL=nt-housing-triage      # fine-tuned
+#
+# Absolute path to the GGUF you were given. Adjust if you move the file.
+
+FROM C:/Users/Admin/Desktop/gemma-4-E4B-it-GGUF/gemma-4-E4B-it-Q4_K_M.gguf
+
+PARAMETER temperature 0
+PARAMETER top_p 0.95
+PARAMETER top_k 64
+PARAMETER num_ctx 2048
+PARAMETER stop "<turn|>"
