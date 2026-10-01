@@ -1,0 +1,86 @@
+{
+  "E1_E2_dial": {
+    "batching": {
+      "0.0": {
+        "median_days_town": 3.65,
+        "median_days_remote": 6.29,
+        "median_days_urgent_town": 2.53,
+        "median_days_urgent_remote": 4.27,
+        "pct_late_town": 58.9,
+        "pct_late_remote": 77.7,
+        "pct_urgent_late_remote": 91.2,
+        "pct_urgent_late_town": 71.3,
+        "jobs_done_5_days_per_queue": 19.8,
+        "need_weighted_days": 4.14,
+        "travel_cost_per_queue": 37342.0
+      },
+      "0.5": {
+        "median_days_town": 2.48,
+        "median_days_remote": 6.97,
+        "median_days_urgent_town": 1.63,
+        "median_days_urgent_remote": 5.08,
+        "pct_late_town": 44.3,
+        "pct_late_remote": 76.9,
+        "pct_urgent_late_remote": 92.2,
+        "pct_urgent_late_town": 60.2,
+        "jobs_done_5_days_per_queue": 21.3,
+        "need_weighted_days": 4.12,
+        "travel_cost_per_queue": 37342.0
+      },
+      "1.0": {
+        "median_days_town": 1.39,
+        "median_days_remote": 7.26,
+        "median_days_urgent_town": 1.56,
+        "median_days_urgent_remote": 7.6,
+        "pct_late_town": 35.6,
+        "pct_late_remote": 68.9,
+        "pct_urgent_late_remote": 93.6,
+        "pct_urgent_late_town": 55.6,
+        "jobs_done_5_days_per_queue": 24.3,
+        "need_weighted_days": 5.07,
+        "travel_cost_per_queue": 37342.0
+      }
+    },
+    "no_batching": {
+      "0.0": {
+        "median_days_town": 4.47,
+        "median_days_remote": 8.23,
+        "median_days_urgent_town": 3.1,
+        "median_days_urgent_remote": 5.69,
+        "pct_late_town": 66.4,
+        "pct_late_remote": 89.8,
+        "pct_urgent_late_remote": 97.2,
+        "pct_urgent_late_town": 74.3,
+        "jobs_done_5_days_per_queue": 16.6,
+        "need_weighted_days": 5.4,
+        "travel_cost_per_queue": 53305.0
+      },
+      "0.5": {
+        "median_days_town": 2.97,
+        "median_days_remote": 9.24,
+        "median_days_urgent_town": 1.93,
+        "median_days_urgent_remote": 6.63,
+        "pct_late_town": 54.0,
+        "pct_late_remote": 88.8,
+        "pct_urgent_late_remote": 97.0,
+        "pct_urgent_late_town": 65.2,
+        "jobs_done_5_days_per_queue": 18.3,
+        "need_weighted_days": 5.31,
+        "travel_cost_per_queue": 53305.0
+      },
+      "1.0": {
+        "median_days_town": 1.56,
+        "median_days_remote": 9.86,
+        "median_days_urgent_town": 1.7,
+        "median_days_urgent_remote": 10.13,
+        "pct_late_town": 37.2,
+        "pct_late_remote": 78.8,
+        "pct_urgent_late_remote": 97.3,
+        "pct_urgent_late_town": 58.1,
+        "jobs_done_5_days_per_queue": 21.8,
+        "need_weighted_days": 6.44,
+        "travel_cost_per_queue": 53305.0
+      }
+    }
+  }
+}

@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "data:generate": "tsx scripts/generate-data.ts",
     "db:reset": "tsx scripts/reset-db.ts",
+    "reference:export": "tsx scripts/export-reference.ts",
     "training:generate": "tsx training/generate-dataset.ts",
     "training:finetune": "python training/finetune_gemma4.py",
     "training:eval": "python training/evaluate_gemma4.py",

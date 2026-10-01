@@ -60,7 +60,45 @@ export function whyCard(
 export interface TenantAnswer {
   headline: string;
   body: string[];
+  /** What the tenant can tell us that would move the repair up. */
+  whatWouldChange: string;
   escalation: string;
+}
+
+/** The human decision behind the current queue order, shown to the tenant. */
+export interface PolicyDecision {
+  lambda: number;
+  /** Who committed the schedule, e.g. "the maintenance coordinator". */
+  decidedBy: string;
+  /** ISO timestamp of the commit. */
+  decidedAt: string;
+}
+
+/**
+ * Response targets. These are the NT Government's standard-area timeframes
+ * (Repairs and maintenance fact sheet FS17, 2025): urgent within 2 business
+ * days and routine within 10. The policy allows remote areas 5 and 25 days.
+ * We apply the standard-area times to every tenant, wherever they live, so a
+ * remote job that runs late is reported as late rather than hidden by a
+ * longer remote target.
+ */
+const RESPONSE_TARGET: Record<string, string> = {
+  critical: "within 1 working day",
+  high: "within 2 business days",
+  medium: "within 10 business days",
+  low: "within 10 business days",
+};
+
+/** The same targets in working days, to compare against the estimated start. */
+export const TARGET_WORKING_DAYS: Record<string, number> = {
+  critical: 1,
+  high: 2,
+  medium: 10,
+  low: 10,
+};
+
+function plural(n: number, word: string): string {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
 
 function addWorkingDays(from: Date, days: number): Date {
@@ -89,24 +127,66 @@ export function formatVisitDate(days: number, today = new Date()): string {
  */
 export function tenantAnswer(
   r: RankedJob,
-  options: { today?: Date; lambda?: number; total?: number } = {},
+  options: {
+    today?: Date;
+    lambda?: number;
+    total?: number;
+    /** The full ranked queue, so the answer can say what sits ahead and why. */
+    ranked?: RankedJob[];
+    /** The committed human decision; omitted when nothing is committed yet. */
+    decision?: PolicyDecision | null;
+  } = {},
 ): TenantAnswer {
   const today = options.today ?? new Date();
-  const total = options.total ?? undefined;
+  const total = options.total ?? options.ranked?.length;
+  const safety = r.job.report.safety_level;
 
   const headline = `Your repair is #${r.finalRank}${total ? ` of ${total}` : ""} in the queue`;
+
+  // 1. What we understood. Only name the community if the summary doesn't already.
+  const summary = r.job.report.summary.replace(/[.\s]+$/, "");
+  const mentionsCommunity = summary.toLowerCase().includes(r.job.community.name.toLowerCase());
   const body: string[] = [
-    `Report: ${r.job.report.summary} (${r.job.community.name}).`,
-    `It is rated ${SAFETY_LABEL[r.job.report.safety_level].toLowerCase()} priority on safety.`,
+    `What we understood: ${summary}${mentionsCommunity ? "" : ` (${r.job.community.name})`}.`,
+    // 2. How urgent we assessed it, as a plain response target.
+    `We rated it ${SAFETY_LABEL[safety].toLowerCase()} for safety. Our target for ${SAFETY_LABEL[
+      safety
+    ].toLowerCase()} repairs is a visit ${RESPONSE_TARGET[safety]}, the same target as in Darwin.`,
   ];
 
+  // 3. What is ahead of it, in concrete terms the tenant can check.
+  if (options.ranked && r.finalRank > 1) {
+    const ahead = options.ranked.filter((o) => o.finalRank < r.finalRank);
+    const moreUrgent = ahead.filter((o) => o.need.score > r.need.score).length;
+    const lessUrgent = ahead.length - moreUrgent;
+    let line = `${plural(ahead.length, "repair")} ${ahead.length === 1 ? "is" : "are"} ahead of yours. ${
+      moreUrgent
+    } of them ${moreUrgent === 1 ? "was" : "were"} rated more urgent for safety than yours.`;
+    if (lessUrgent > 0) {
+      line += ` ${lessUrgent} ${lessUrgent === 1 ? "is" : "are"} ahead mainly because ${
+        lessUrgent === 1 ? "it is" : "they are"
+      } cheaper or quicker to reach.`;
+    }
+    body.push(line);
+  }
+
+  // 4. Who moved it, and when. A person owns the trade-off, never "the system".
+  const decision = options.decision ?? null;
+  const who = decision?.decidedBy ?? "the maintenance coordinator";
+  const when = decision
+    ? ` on ${new Date(decision.decidedAt).toLocaleDateString("en-AU", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })}`
+    : "";
   if (r.movedByDial > 0) {
     body.push(
-      `It moved down ${r.movedByDial} place${r.movedByDial === 1 ? "" : "s"} because this week's schedule weighted travel efficiency more heavily.`,
+      `It is ${plural(r.movedByDial, "place")} lower than safety alone would put it. That is because ${who} decided${when} to give travel cost some weight in this schedule. That decision is recorded and can be reviewed.`,
     );
   } else if (r.movedByDial < 0) {
     body.push(
-      `It moved up ${Math.abs(r.movedByDial)} place${r.movedByDial === -1 ? "" : "s"} because its safety need outweighed travel cost.`,
+      `It is ${plural(Math.abs(r.movedByDial), "place")} higher than safety alone would put it, because it is cheaper to reach and ${who} decided${when} to give travel cost some weight in this schedule.`,
     );
   }
 
@@ -122,10 +202,24 @@ export function tenantAnswer(
 
   body.push(`Earliest expected visit: ${formatVisitDate(r.estimatedStartDays, today)}.`);
 
+  // Say plainly when we expect to miss our own target. Hiding a breach is the
+  // quiet kind of deprioritisation this tool exists to surface.
+  if (Math.ceil(r.estimatedStartDays) > TARGET_WORKING_DAYS[safety]) {
+    body.push(
+      "That is later than our target. There are not enough trades to meet every target right now, and this has been flagged to the coordinator.",
+    );
+  }
+
+  // 5. The lever: explanation without something the tenant can do is just a refusal.
+  const whatWouldChange =
+    "Tell us if anyone in the house is a baby or young child, an older person, has a disability, or relies on medical equipment, or if the problem gets worse. Any of these can move your repair up.";
+
   return {
     headline,
     body,
-    escalation: "If this becomes an emergency, call the housing maintenance line and quote your job number to escalate.",
+    whatWouldChange,
+    escalation:
+      "If you think this is wrong, ask for a review below or call the housing maintenance line with your job number. A person will look at it. The computer does not make the final decision.",
   };
 }
 
@@ -139,5 +233,7 @@ export function dialNarrative(summary: EquitySummary): string {
     summary.addedMedianDaysRemote > 0.05
       ? `adds +${summary.addedMedianDaysRemote.toFixed(0)} median days for remote households`
       : "has no material delay for remote households";
-  return `Efficiency dial at ${pct}% — saves ${formatAud(summary.travelSavedByBatching)} of travel across the queue and ${added}.`;
+  // Batching saves the same travel at every dial setting, and every job still
+  // gets done, so the dial itself saves no travel: it changes who goes first.
+  return `Efficiency dial at ${pct}%: ${added}. The dial does not reduce total travel; batching saves ${formatAud(summary.travelSavedByBatching)} at every setting.`;
 }

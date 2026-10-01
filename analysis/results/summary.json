@@ -1,0 +1,194 @@
+{
+  "E1_E2_dial": {
+    "batching": {
+      "0.0": {
+        "median_days_town": 3.57,
+        "median_days_remote": 6.11,
+        "median_days_urgent_town": 1.65,
+        "median_days_urgent_remote": 2.92,
+        "pct_late_town": 38.5,
+        "pct_late_remote": 55.8,
+        "pct_urgent_late_remote": 84.1,
+        "pct_urgent_late_town": 59.2,
+        "jobs_done_5_days_per_queue": 20.2,
+        "need_weighted_days": 3.55,
+        "travel_cost_per_queue": 37342.0
+      },
+      "0.5": {
+        "median_days_town": 2.49,
+        "median_days_remote": 6.84,
+        "median_days_urgent_town": 1.24,
+        "median_days_urgent_remote": 3.59,
+        "pct_late_town": 23.1,
+        "pct_late_remote": 58.6,
+        "pct_urgent_late_remote": 86.7,
+        "pct_urgent_late_town": 46.8,
+        "jobs_done_5_days_per_queue": 22.2,
+        "need_weighted_days": 3.63,
+        "travel_cost_per_queue": 37342.0
+      },
+      "1.0": {
+        "median_days_town": 1.33,
+        "median_days_remote": 7.06,
+        "median_days_urgent_town": 1.56,
+        "median_days_urgent_remote": 7.2,
+        "pct_late_town": 22.0,
+        "pct_late_remote": 53.7,
+        "pct_urgent_late_remote": 93.0,
+        "pct_urgent_late_town": 53.6,
+        "jobs_done_5_days_per_queue": 24.6,
+        "need_weighted_days": 4.88,
+        "travel_cost_per_queue": 37342.0
+      }
+    },
+    "no_batching": {
+      "0.0": {
+        "median_days_town": 4.39,
+        "median_days_remote": 8.11,
+        "median_days_urgent_town": 2.03,
+        "median_days_urgent_remote": 3.97,
+        "pct_late_town": 50.6,
+        "pct_late_remote": 75.3,
+        "pct_urgent_late_remote": 94.4,
+        "pct_urgent_late_town": 63.8,
+        "jobs_done_5_days_per_queue": 16.8,
+        "need_weighted_days": 4.64,
+        "travel_cost_per_queue": 53305.0
+      },
+      "0.5": {
+        "median_days_town": 2.99,
+        "median_days_remote": 9.18,
+        "median_days_urgent_town": 1.43,
+        "median_days_urgent_remote": 4.74,
+        "pct_late_town": 30.8,
+        "pct_late_remote": 76.4,
+        "pct_urgent_late_remote": 94.1,
+        "pct_urgent_late_town": 53.0,
+        "jobs_done_5_days_per_queue": 18.7,
+        "need_weighted_days": 4.68,
+        "travel_cost_per_queue": 53305.0
+      },
+      "1.0": {
+        "median_days_town": 1.49,
+        "median_days_remote": 9.67,
+        "median_days_urgent_town": 1.7,
+        "median_days_urgent_remote": 9.83,
+        "pct_late_town": 23.0,
+        "pct_late_remote": 67.3,
+        "pct_urgent_late_remote": 96.6,
+        "pct_urgent_late_town": 56.2,
+        "jobs_done_5_days_per_queue": 22.1,
+        "need_weighted_days": 6.25,
+        "travel_cost_per_queue": 53305.0
+      }
+    }
+  },
+  "E3_registers": {
+    "app_style": {
+      "n": 660,
+      "pct_exact": 88.6,
+      "pct_under_triaged": 7.1,
+      "pct_urgent_read_as_routine": 11.2,
+      "pct_urgent_read_as_routine_with_fail_safe": 2.6,
+      "pct_sent_to_human_check": 31.7
+    },
+    "officer": {
+      "n": 660,
+      "pct_exact": 72.7,
+      "pct_under_triaged": 22.7,
+      "pct_urgent_read_as_routine": 35.7,
+      "pct_urgent_read_as_routine_with_fail_safe": 0.0,
+      "pct_sent_to_human_check": 59.1
+    },
+    "sms": {
+      "n": 660,
+      "pct_exact": 60.0,
+      "pct_under_triaged": 34.4,
+      "pct_urgent_read_as_routine": 43.1,
+      "pct_urgent_read_as_routine_with_fail_safe": 7.4,
+      "pct_sent_to_human_check": 51.1
+    },
+    "kriol_inf": {
+      "n": 660,
+      "pct_exact": 31.8,
+      "pct_under_triaged": 68.2,
+      "pct_urgent_read_as_routine": 85.7,
+      "pct_urgent_read_as_routine_with_fail_safe": 7.1,
+      "pct_sent_to_human_check": 81.8
+    }
+  },
+  "E4_ageing": {
+    "lambda=0.0,ageing=0": {
+      "town": {
+        "mean_wait_weeks": 1.32,
+        "max_wait_weeks": 52,
+        "pct_waiting_over_8_weeks": 4.2
+      },
+      "remote": {
+        "mean_wait_weeks": 0.3,
+        "max_wait_weeks": 24,
+        "pct_waiting_over_8_weeks": 0.7
+      }
+    },
+    "lambda=0.0,ageing=6": {
+      "town": {
+        "mean_wait_weeks": 1.38,
+        "max_wait_weeks": 28,
+        "pct_waiting_over_8_weeks": 6.1
+      },
+      "remote": {
+        "mean_wait_weeks": 0.31,
+        "max_wait_weeks": 11,
+        "pct_waiting_over_8_weeks": 0.4
+      }
+    },
+    "lambda=0.3,ageing=0": {
+      "town": {
+        "mean_wait_weeks": 0.9,
+        "max_wait_weeks": 52,
+        "pct_waiting_over_8_weeks": 2.8
+      },
+      "remote": {
+        "mean_wait_weeks": 0.24,
+        "max_wait_weeks": 41,
+        "pct_waiting_over_8_weeks": 0.5
+      }
+    },
+    "lambda=0.3,ageing=6": {
+      "town": {
+        "mean_wait_weeks": 1.18,
+        "max_wait_weeks": 27,
+        "pct_waiting_over_8_weeks": 5.4
+      },
+      "remote": {
+        "mean_wait_weeks": 0.27,
+        "max_wait_weeks": 13,
+        "pct_waiting_over_8_weeks": 0.4
+      }
+    },
+    "lambda=0.6,ageing=0": {
+      "town": {
+        "mean_wait_weeks": 0.81,
+        "max_wait_weeks": 52,
+        "pct_waiting_over_8_weeks": 2.5
+      },
+      "remote": {
+        "mean_wait_weeks": 0.22,
+        "max_wait_weeks": 41,
+        "pct_waiting_over_8_weeks": 0.5
+      }
+    },
+    "lambda=0.6,ageing=6": {
+      "town": {
+        "mean_wait_weeks": 0.94,
+        "max_wait_weeks": 30,
+        "pct_waiting_over_8_weeks": 4.3
+      },
+      "remote": {
+        "mean_wait_weeks": 0.23,
+        "max_wait_weeks": 19,
+        "pct_waiting_over_8_weeks": 0.4
+      }
+    }
+  }
+}

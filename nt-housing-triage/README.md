@@ -1,6 +1,6 @@
 # NT Housing Maintenance Triage
 
-GovHack NT 2026 — a working web app that helps a housing maintenance coordinator
+CDU IT Code Fair 2026 (AI Challenge, Brief 1): a working web app that helps a housing maintenance coordinator
 prioritise urgent repairs across remote Northern Territory communities **without
 "efficiency" quietly pushing remote tenants to the back of the queue**.
 
@@ -51,13 +51,11 @@ separate database server.
 
 ### Install and start
 
-Clone the repository, then install and run the housing-triage app from its
-directory (the repository root contains other projects too). Replace
-`<repository-url>` with the clone URL shown on the repository page:
+Clone the repository, then install and run the app from this directory:
 
 ```bash
-git clone <repository-url> nt-warning-blackspot-index
-cd nt-warning-blackspot-index/nt-housing-triage
+git clone https://github.com/HendrickDang/fair-queue-nt.git
+cd fair-queue-nt/nt-housing-triage
 npm ci
 npm run dev
 ```
@@ -81,6 +79,7 @@ npm run build            # create a production build
 npm run start            # serve the production build
 npm run data:generate    # regenerate data/distance-matrix.json
 npm run db:reset         # delete the local database; it is reseeded on next run
+npm run reference:export # export engine output for the Python parity test (../analysis)
 npm run training:generate -- 3000   # build the fine-tuning dataset
 ```
 

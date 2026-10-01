@@ -17,8 +17,26 @@ import type { ParseResult } from "./types";
 
 /** Deterministic, offline parser. Mirrors the fine-tuned model's output schema. */
 
+/**
+ * Does a trigger phrase start at a word boundary in the text? Plain substring
+ * matching produced false positives: "tenant" matched "nan" (elderly),
+ * "occupants" matched "ants" (vermin) and "cold" matched "old". Matching from
+ * the start of a word fixes those while still letting "overflow" match
+ * "overflowing".
+ */
+const PHRASE_RE = new Map<string, RegExp>();
+export function hasPhrase(haystack: string, phrase: string): boolean {
+  let re = PHRASE_RE.get(phrase);
+  if (!re) {
+    const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    re = new RegExp(`(^|[^a-z0-9])${escaped}`);
+    PHRASE_RE.set(phrase, re);
+  }
+  return re.test(haystack);
+}
+
 function containsAny(haystack: string, phrases: string[]): boolean {
-  return phrases.some((p) => haystack.includes(p));
+  return phrases.some((p) => hasPhrase(haystack, p));
 }
 
 const HEAT_RE = /(3[89]|4\d)\s*(degrees|deg\b|°|c\b)/i;
@@ -87,7 +105,7 @@ export function detectCategory(text: string, flags: UrgencyFlag[]): Category {
   const add = (c: Category, n: number) => scores.set(c, (scores.get(c) ?? 0) + n);
 
   for (const c of Object.keys(CATEGORY_TRIGGERS) as Category[]) {
-    const hits = CATEGORY_TRIGGERS[c].filter((t) => text.includes(t)).length;
+    const hits = CATEGORY_TRIGGERS[c].filter((t) => hasPhrase(text, t)).length;
     if (hits > 0) add(c, hits);
   }
   for (const f of flags) {
@@ -180,6 +198,12 @@ export function parseWithFallback(rawText: string): ParseResult {
 
   const community = matchCommunity(rawText)?.name ?? "";
   if (!community) notes.push("No known NT community detected in the report text.");
+  // Fail-safe: a parser that recognised no hazard has not understood the
+  // report. Say so, so a person reads it rather than it quietly ranking as
+  // routine. (In testing, 86% of urgent Kriol-influenced reports were misread.)
+  if (flags.length === 0) {
+    notes.push("No hazard words recognised. A person should read this report before it is ranked.");
+  }
 
   const confidence = Math.min(0.95, 0.35 + flags.length * 0.12 + (community ? 0.2 : 0) + (vulnerability.length ? 0.1 : 0));
 

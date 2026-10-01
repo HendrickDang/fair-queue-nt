@@ -125,3 +125,33 @@ describe("fallback parser — communities", () => {
     expect(result.notes.join(" ")).toMatch(/community/i);
   });
 });
+
+describe("parseWithFallback — word-start matching", () => {
+  it("does not read 'tenant' as an elderly household member", () => {
+    const p = parseWithFallback("Tenant reports a leak under the kitchen sink, Darwin");
+    expect(p.occupant_vulnerability).not.toContain("elderly");
+  });
+
+  it("does not read 'occupants' as ants or 'cold' as old", () => {
+    const p = parseWithFallback("only cold showers, three occupants, Katherine");
+    expect(p.urgency_flags).not.toContain("vermin_pest");
+    expect(p.occupant_vulnerability).not.toContain("elderly");
+  });
+
+  it("still matches a trigger at the start of a longer word", () => {
+    const p = parseWithFallback("toilet overflowing into the yard, Wadeye");
+    expect(p.urgency_flags).toContain("sewage");
+  });
+});
+
+describe("parseWithFallback — fail-safe note", () => {
+  it("asks for a person when no hazard is recognised", () => {
+    const p = parseWithFallback("pawa point im sparkin, smok kamat longa Wadeye");
+    expect(p.notes.join(" ")).toMatch(/A person should read this report/);
+  });
+
+  it("does not ask when a hazard is recognised", () => {
+    const p = parseWithFallback("sparks coming out of the powerpoint, Wadeye");
+    expect(p.notes.join(" ")).not.toMatch(/A person should read/);
+  });
+});

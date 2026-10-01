@@ -168,9 +168,13 @@ export function buildBatches(jobs: Job[]): {
     };
     batches.push(batch);
 
-    // Credit each job its share of the saving, proportional to its solo cost.
+    // Credit each job its share of the saving, proportional to its community's
+    // solo cost and split between the jobs in that community, so the credits
+    // in a batch add up to exactly the saving (no double counting).
     for (const job of clusterJobs) {
-      const share = soloCost > 0 ? (soloByCommunity.get(job.community.id)!.cost / soloCost) : 0;
+      const jobsHere = jobsByCommunity.get(job.community.id)!.length;
+      const share =
+        soloCost > 0 ? soloByCommunity.get(job.community.id)!.cost / soloCost / jobsHere : 0;
       info.set(job.id, {
         batch,
         bonusCost: savedCost * share,

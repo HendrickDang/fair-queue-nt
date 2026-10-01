@@ -82,3 +82,20 @@ describe("scoring", () => {
     }
   });
 });
+
+describe("buildBatches — credits", () => {
+  it("never credits more than the batch actually saves", async () => {
+    const { buildBatches } = await import("@/lib/engine/batching");
+    // Two jobs in Wadeye plus one in Palumpa: the Wadeye share must be split.
+    const jobs = [
+      job("A", "roof caving over the bedroom, Wadeye"),
+      job("B", "no water at all, Wadeye"),
+      job("C", "sparks coming out of the powerpoint, Palumpa"),
+    ];
+    const { batches, info } = buildBatches(jobs);
+    for (const b of batches) {
+      const credited = b.jobIds.reduce((s, id) => s + (info.get(id)?.bonusCost ?? 0), 0);
+      expect(credited).toBeCloseTo(b.savedCost, 6);
+    }
+  });
+});
