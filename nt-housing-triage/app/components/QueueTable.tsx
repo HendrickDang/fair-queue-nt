@@ -3,6 +3,8 @@
 import { SAFETY_CLASS } from "@/lib/ui/colors";
 import { TIER_LABEL } from "@/lib/data/communities";
 import type { RankedJob } from "@/lib/engine/types";
+import { faultKind } from "@/lib/ui/fault";
+import FaultIcon from "./FaultIcon";
 
 interface Props {
   ranked: RankedJob[];
@@ -51,10 +53,17 @@ export default function QueueTable({ ranked, selectedId, onSelect }: Props) {
                   }`}
                 >
                   <td className="px-2 py-2 font-semibold text-[var(--fg-strong)]">{r.finalRank}</td>
-                  <td className="max-w-[150px] px-2 py-2">
-                    <div className="truncate text-[var(--fg)]">{r.job.report.summary}</div>
-                    <div className="text-[10px] text-[var(--muted)]">
-                      {r.job.id} · {r.job.report.trade_required}
+                  <td className="max-w-[168px] px-2 py-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md border border-[var(--border)] bg-[var(--panel-2)] text-[var(--fg-2)]">
+                        <FaultIcon kind={faultKind(r.job.report)} size={15} />
+                      </span>
+                      <div className="min-w-0">
+                        <div className="truncate text-[var(--fg)]">{r.job.report.summary}</div>
+                        <div className="text-[10px] text-[var(--muted)]">
+                          {r.job.id} · {r.job.report.trade_required}
+                        </div>
+                      </div>
                     </div>
                   </td>
                   <td className="px-2 py-2">

@@ -48,6 +48,13 @@
   --viz-neutral: #7c8aa3;
   --viz-grid: #e6ebf3;
   --viz-axis: #c5cfdf;
+
+  /* House drawings (street, job diagram) and the map's land */
+  --house-line: #8a99b3;
+  --house-fill: #ffffff;
+  --map-land: #f8fafd;
+  --map-coast: #b8c5d9;
+  --map-route: #0d9488;
 }
 
 /* ---- Dark theme --------------------------------------------------------- */
@@ -86,6 +93,12 @@
   --viz-neutral: #6f83a8;
   --viz-grid: #1a2640;
   --viz-axis: #2c3c5e;
+
+  --house-line: #5b6f96;
+  --house-fill: #0e1526;
+  --map-land: #121b30;
+  --map-coast: #30426a;
+  --map-route: #2dd4bf;
 }
 
 html {
@@ -138,4 +151,31 @@ input[type="range"] {
 
 table {
   border-collapse: collapse;
+}
+
+/* The street of houses: each house slides to its new place when the dial moves. */
+.street-house {
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.street-house:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* The house diagram: a slow ring behind the part that needs repair. */
+.house-pulse {
+  opacity: 0.22;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: house-pulse 2.4s ease-in-out infinite;
+}
+@keyframes house-pulse {
+  0%, 100% { opacity: 0.1; transform: scale(0.75); }
+  50% { opacity: 0.3; transform: scale(1.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .street-house { transition: none; }
+  .house-pulse { animation: none; }
 }

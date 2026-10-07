@@ -7,6 +7,7 @@ import { FLAG_LABEL, VULNERABILITY_LABEL } from "@/lib/taxonomy";
 import { SAFETY_CLASS } from "@/lib/ui/colors";
 import type { RankedJob } from "@/lib/engine/types";
 import NeedBreakdown from "./NeedBreakdown";
+import HouseDiagram from "./HouseDiagram";
 
 interface Props {
   ranked: RankedJob | null;
@@ -45,6 +46,10 @@ export default function WhyPanel({ ranked, noBatchById, queueMaxNeed }: Props) {
       <p className="mt-3 rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-3 text-sm leading-relaxed text-[var(--fg)]">
         {r.job.rawText}
       </p>
+
+      <div className="mt-3">
+        <HouseDiagram report={r.job.report} />
+      </div>
 
       <div className="mt-3 space-y-2 text-xs">
         <Line label="Why it ranks here" value={card.needSentence} />
