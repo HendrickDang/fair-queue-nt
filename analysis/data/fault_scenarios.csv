@@ -1,0 +1,23 @@
+scenario_id,fault_category,base_safety_level,true_safety_level,urgency_flags,occupant_vulnerability,sampling_weight,example_app_style,example_officer_note,example_kriol_influenced_approx
+0,plumbing,high,critical,no_water,infants|elderly,0.0247,no water at all for two days,Tenant advises no water supply to the dwelling for 48 hours. Household includes an infant and an elderly resident.,"nomo wota longa haus two day now, biginini en olgamen stap hia"
+1,plumbing,medium,medium,,,0.0741,tap leaking under the sink for weeks,Tenant reports an ongoing leak beneath the kitchen sink.,tap bin lik long time andanith sink
+2,plumbing,medium,medium,no_hot_water,,0.0741,no hot water since tuesday,Hot water system not operating; tenant has had cold water only for one week.,"hot wota nomo werk, onli kol showa one wik"
+3,plumbing,high,critical,sewage,,0.0247,sewage overflowing outside the back door,Sewer overflow reported at the rear of the property.,"sewage im kamap longa yad, big smel"
+4,electrical,critical,critical,exposed_wiring|fire_risk,,0.0247,sparks coming out of the powerpoint,Tenant reports arcing from a general power outlet and a burning odour at the switchboard.,"pawa point im sparkin, smok kamat"
+5,electrical,critical,critical,exposed_wiring|medical_equipment,medical_dependent,0.0247,sparks from the powerpoint near the oxygen machine,Power outlet supplying the resident's oxygen concentrator is scorched. Resident depends on home oxygen.,"pawa point brok wea oksijen masheen plag in, olmen nidim"
+6,electrical,medium,medium,,,0.0741,lights flicker and trip the box,Intermittent loss of lighting; circuit breaker tripping.,lait flikaflika en pawa go off
+7,structural,critical,critical,structural|child_safety,infants,0.0247,roof is leaking right over my kids bed and the ceiling is sagging,Storm damage: ceiling sagging above the children's bedroom and roof leaking.,"ruf lik ola wota la biginini bed, siling im go down"
+8,structural,high,critical,structural,,0.0247,wall cracked right through after the cyclone,Structural crack through an external wall following the cyclone.,wol im brok big krak afta saiklon
+9,cooling,high,high,no_cooling_extreme_heat,infants|elderly,0.037,aircon dead and its 40 degrees,Air-conditioning unit failed during a heatwave; infant and elderly occupants.,"aircon nomo werk, too hot, biginini en olgamen kan sliip"
+10,cooling,medium,medium,,,0.0741,fan broke in the bedroom,Bedroom ceiling fan not operational.,fan brok la bedrum
+11,water_quality,high,high,water_contamination|child_safety,infants,0.037,water from the tap is brown and smells,"Tenant reports discoloured, malodorous tap water; young children in the household.","wota la tap im braun en smel nogudwan, kid kan dringk"
+12,sanitation,high,high,only_toilet_blocked|sewage,,0.037,toilet blocked and its the only one in the house,The sole toilet in the dwelling is blocked and overflowing.,onli wan toilet en im blok ap
+13,security,high,high,security,,0.037,back door wont lock and the window got smashed,Rear door lock defective and a window broken; dwelling cannot be secured.,dowa kan lok en windo brok
+14,security,high,critical,security|child_safety,infants,0.0247,"door wont lock and there was a break in, kids scared",Break-in reported; doors cannot be locked. Infant in the household.,"samwan bin breikin, dowa kan lok, biginini frait"
+15,kitchen,medium,medium,,,0.0741,stove stopped working and fridge died last week,Stove inoperable; refrigerator has failed.,"stob nomo werk, fridj brok"
+16,bathroom,low,low,,,0.0741,shower head dripping and a tile cracked,Shower head dripping; cracked tile in the bathroom.,showa drip drip
+17,medical,critical,critical,medical_equipment,medical_dependent,0.0247,oxygen machine has no power,No power to the resident's oxygen concentrator.,oksijen masheen nomo pawa
+18,accessibility,critical,critical,accessibility,disability,0.0247,wheelchair ramp fell apart and cant get in the house,Wheelchair ramp has collapsed; resident with a disability cannot enter the dwelling.,"ramp brok, olmen la wilchea kan go insaid"
+19,other,medium,medium,vermin_pest,,0.0741,ants everywhere in the kitchen,Ant infestation in the kitchen.,ants ebriwea la kitchen
+20,other,high,high,vermin_pest|child_safety,infants,0.037,snake in the yard near the kids,Snake sighted in the yard near young children.,snek la yad klostu biginini
+21,other,low,low,,,0.0741,mosquito screens torn,Fly screens torn.,skrin brok

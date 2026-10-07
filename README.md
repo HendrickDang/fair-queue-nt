@@ -20,6 +20,7 @@ Distance decides the route, not the queue.
 | Folder | What it is |
 |---|---|
 | `analysis/` | **Python** (the submission's source code): a commented port of the triage engine plus the four experiments behind the report's findings. |
+| `analysis/data/` | **The datasets** as CSV files, with a data dictionary (`DATA.md`): 48 communities, 22 fault scenarios, 2,000 sample jobs and 2,640 test reports. All synthetic. |
 | `nt-housing-triage/` | The working web app (Next.js + TypeScript): coordinator dashboard, equity dial, tenant answer page, SQLite audit trail, optional fine-tuned Gemma parser. |
 | `docs/` | Report, screenshots and presentation material. |
 
@@ -39,6 +40,7 @@ pip install -r requirements.txt
 python -m pytest -q          # 77 tests: parity with the web app + location invariance
 python run_experiments.py    # about 20 seconds; writes results/ and figures/
 python run_experiments.py --uniform   # optional sensitivity check
+python export_datasets.py   # rewrites analysis/data/ (identical output each run)
 ```
 
 Every number in the report is in `analysis/results/summary.json`. All randomness is seeded, so the output is identical on every run.

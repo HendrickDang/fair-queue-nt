@@ -1,0 +1,49 @@
+community_id,community,region,latitude,longitude,tier,tier_name,remote,aria_plus_class,population_approx,access_mode,wet_season_isolation,trade_base,round_trip_km,round_trip_hours,round_trip_travel_cost_aud
+darwin,Darwin,Top End,-12.4634,130.8456,T0,urban base,False,highly_accessible,139000,road,False,Darwin,0.0,0.5,0.0
+palmerston,Palmerston,Top End,-12.486,130.9833,T0,urban base,False,highly_accessible,34000,road,False,Palmerston,0.0,0.5,0.0
+alice-springs,Alice Springs,Central Australia,-23.698,133.8807,T0,urban base,False,highly_accessible,26000,road,False,Alice Springs,0.0,0.5,0.0
+katherine,Katherine,Big Rivers,-14.4652,132.2635,T1,regional town,False,accessible,10600,road,False,Katherine,0.0,0.5,0.0
+tennant-creek,Tennant Creek,Barkly,-19.6497,134.1915,T1,regional town,False,moderately_accessible,3000,road,False,Tennant Creek,0.0,0.5,0.0
+batchelor,Batchelor,Top End,-13.05,130.97,T1,regional town,False,accessible,500,road,False,Darwin,173.2,2.81,147.2
+adelaide-river,Adelaide River,Top End,-13.238,131.105,T1,regional town,False,accessible,350,road,False,Darwin,235.6,3.64,200.24
+pine-creek,Pine Creek,Top End,-13.822,131.833,T1,regional town,False,accessible,330,road,False,Katherine,221.7,3.46,188.43
+humpty-doo,Humpty Doo,Top End,-12.58,131.1,T1,regional town,False,accessible,4000,road,False,Palmerston,42.7,1.07,36.29
+jabiru,Jabiru,Top End,-12.67,132.83,T1,regional town,False,moderately_accessible,1100,road,True,Darwin,563.1,8.01,478.66
+mataranka,Mataranka,Big Rivers,-14.92,133.06,T1,regional town,False,moderately_accessible,400,road,False,Katherine,258.7,3.95,219.86
+daly-waters,Daly Waters,Big Rivers,-16.253,133.37,T1,regional town,False,remote,40,road,True,Katherine,601.9,8.53,511.62
+elliott,Elliott,Barkly,-17.548,133.541,T1,regional town,False,remote,350,road,True,Tennant Creek,633.2,8.94,538.23
+wadeye,Wadeye,West Daly,-14.2417,129.5186,T2,remote,True,very_remote,2400,road,True,Darwin,635.3,8.97,540.03
+maningrida,Maningrida,Arnhem Land,-12.0517,134.2269,T2,remote,True,very_remote,2600,air,True,Darwin,777.5,6.24,5053.91
+gunbalanya,Gunbalanya,Arnhem Land,-12.325,133.05,T2,remote,True,very_remote,1200,road,True,Darwin,623.7,8.82,530.18
+yuendumu,Yuendumu,Central Australia,-22.2567,131.7969,T2,remote,True,very_remote,800,road,False,Alice Springs,693.7,9.75,589.65
+timber-creek,Timber Creek,Victoria Daly,-15.66,130.48,T2,remote,True,remote,250,road,True,Katherine,606.0,8.58,515.09
+peppimenarti,Peppimenarti,West Daly,-14.15,130.08,T2,remote,True,very_remote,250,road,True,Darwin,533.1,7.61,453.1
+palumpa,Palumpa,West Daly,-14.33,129.87,T2,remote,True,very_remote,350,road,True,Darwin,605.4,8.57,514.58
+minyerri,Minyerri,Big Rivers,-15.23,134.09,T2,remote,True,very_remote,400,road,True,Katherine,556.2,7.92,472.81
+barunga,Barunga,Big Rivers,-14.53,132.86,T2,remote,True,very_remote,350,road,True,Katherine,168.0,2.74,142.81
+beswick,Beswick,Big Rivers,-14.56,133.1,T2,remote,True,very_remote,500,road,True,Katherine,235.7,3.64,200.36
+ti-tree,Ti Tree,Central Australia,-22.13,133.42,T2,remote,True,remote,200,road,False,Alice Springs,469.6,6.76,399.18
+hermannsburg,Hermannsburg,Central Australia,-23.94,132.78,T2,remote,True,remote,700,road,False,Alice Springs,299.4,4.49,254.49
+ngukurr,Ngukurr,Big Rivers,-14.73,134.73,T3,very remote or island,True,very_remote,1100,road,True,Katherine,694.3,9.76,590.15
+borroloola,Borroloola,Barkly,-16.07,136.3,T3,very remote or island,True,very_remote,900,road,True,Katherine,1217.6,16.73,1034.95
+galiwin-ku,Galiwin'ku,Arnhem Land,-12.02,135.56,T3,very remote or island,True,very_remote,2200,air,True,Darwin,1080.8,7.5,7025.06
+lajamanu,Lajamanu,Big Rivers,-18.34,130.64,T3,very remote or island,True,very_remote,700,road,True,Katherine,1207.3,16.6,1026.2
+papunya,Papunya,Central Australia,-23.22,131.9,T3,very remote or island,True,very_remote,450,road,False,Alice Springs,543.2,7.74,461.69
+warruwi,Warruwi,Arnhem Land,-11.65,133.39,T3,very remote or island,True,very_remote,450,air,True,Darwin,611.3,5.55,3973.35
+minjilang,Minjilang,Arnhem Land,-11.15,132.55,T3,very remote or island,True,very_remote,250,air,True,Darwin,495.8,5.07,3222.71
+milikapiti,Milikapiti,Tiwi Islands,-11.42,130.68,T3,very remote or island,True,very_remote,450,air,True,Darwin,246.6,4.03,1602.66
+pirlangimpi,Pirlangimpi,Tiwi Islands,-11.4,130.42,T3,very remote or island,True,very_remote,350,air,True,Darwin,266.7,4.11,1733.37
+wurrumiyanga,Wurrumiyanga,Tiwi Islands,-11.76,130.63,T3,very remote or island,True,very_remote,1500,air,True,Darwin,171.5,3.71,1114.54
+ramingining,Ramingining,Arnhem Land,-12.33,134.92,T3,very remote or island,True,very_remote,800,air,True,Darwin,929.7,6.87,6043.31
+milingimbi,Milingimbi,Arnhem Land,-12.1,134.9,T3,very remote or island,True,very_remote,1200,air,True,Darwin,928.9,6.87,6038.15
+gapuwiyak,Gapuwiyak,Arnhem Land,-12.5,135.8,T3,very remote or island,True,very_remote,900,air,True,Darwin,1129.6,7.71,7342.21
+yirrkala,Yirrkala,Arnhem Land,-12.255,136.89,T3,very remote or island,True,very_remote,800,road,True,Darwin,1708.0,23.27,1451.8
+alyangula,Alyangula,Gulf,-13.85,136.42,T3,very remote or island,True,very_remote,1000,air,True,Darwin,1308.1,8.45,8502.97
+umbakumba,Umbakumba,Gulf,-13.87,136.55,T3,very remote or island,True,very_remote,450,air,True,Darwin,1337.9,8.57,8696.3
+angurugu,Angurugu,Gulf,-13.98,136.46,T3,very remote or island,True,very_remote,850,air,True,Darwin,1324.4,8.52,8608.72
+numbulwar,Numbulwar,Arnhem Land,-14.28,135.73,T3,very remote or island,True,very_remote,700,air,True,Katherine,785.3,6.27,5104.51
+robinson-river,Robinson River,Barkly,-16.75,136.95,T3,very remote or island,True,very_remote,250,road,True,Katherine,1462.5,20.0,1243.11
+kalkarindji,Kalkarindji,Victoria Daly,-17.45,130.84,T3,very remote or island,True,very_remote,600,road,True,Katherine,949.3,13.16,806.9
+daguragu,Daguragu,Victoria Daly,-17.42,130.81,T3,very remote or island,True,very_remote,300,road,True,Katherine,945.0,13.1,803.22
+docker-river,Docker River,Central Australia,-24.87,129.08,T3,very remote or island,True,very_remote,350,road,False,Alice Springs,1309.6,17.96,1113.16
+mutitjulu,Mutitjulu,Central Australia,-25.35,131.06,T3,very remote or island,True,very_remote,300,road,False,Alice Springs,882.3,12.26,749.96

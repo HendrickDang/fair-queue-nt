@@ -2,3 +2,4 @@ __pycache__/
 .pytest_cache/
 # Large per-job outputs: regenerate with python run_experiments.py
 results/e1_dial_sweep*.csv.gz
+.venv/
