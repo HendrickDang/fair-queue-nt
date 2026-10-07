@@ -1,6 +1,7 @@
 import { buildBatches, type JobBatchInfo } from "./batching";
 import { scoreEfficiency } from "./efficiency";
 import { scoreNeed } from "./scoring";
+import { AGEING_CAP } from "@/lib/taxonomy";
 import type {
   Batch,
   EfficiencyScore,
@@ -13,6 +14,7 @@ import type {
 } from "./types";
 
 const HOURS_PER_DAY = 8;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -83,20 +85,42 @@ function sortByEfficiency(
 export function rankJobs(jobs: Job[], options: RankOptions = {}): RankResult {
   const lambda = clamp(options.lambda ?? 0, 0, 1);
   const useBatching = options.batching ?? true;
+  const ageing = Math.max(0, options.ageing ?? 0);
+  const nowMs = options.now ? new Date(options.now).getTime() : Date.now();
   const { batches, info } = useBatching
     ? buildBatches(jobs)
     : { batches: [] as Batch[], info: new Map<string, JobBatchInfo>() };
 
-  const scored = jobs.map((job) => ({
-    job,
-    need: scoreNeed(job),
-    efficiency: scoreEfficiency(job, info.get(job.id) ?? {
-      batch: null,
-      bonusCost: 0,
-      bonusKm: 0,
-      bonusHours: 0,
-    }),
-  }));
+  const scored = jobs.map((job) => {
+    const base = scoreNeed(job);
+    // Ageing: waiting time raises need, capped so safety stays dominant. Off by
+    // default (ageing = 0), so a plain caller sees no time-in-queue weighting.
+    const ageDays =
+      ageing > 0
+        ? Math.max(0, (nowMs - new Date(job.reportedAt).getTime()) / DAY_MS)
+        : 0;
+    const agePoints = Math.min(AGEING_CAP, ageing * ageDays);
+    const need: NeedScore = {
+      ...base,
+      score: base.score + agePoints,
+      ageDays,
+      agePoints,
+      drivers:
+        agePoints > 0
+          ? [...base.drivers, `waiting ${Math.round(ageDays)} days has added priority`]
+          : base.drivers,
+    };
+    return {
+      job,
+      need,
+      efficiency: scoreEfficiency(job, info.get(job.id) ?? {
+        batch: null,
+        bonusCost: 0,
+        bonusKm: 0,
+        bonusHours: 0,
+      }),
+    };
+  });
 
   const needOrder = [...scored].sort(sortByNeed);
   const efficiencyOrder = [...scored].sort(sortByEfficiency);
@@ -159,5 +183,5 @@ export function rankJobs(jobs: Job[], options: RankOptions = {}): RankResult {
   const byId: Record<string, RankedJob> = {};
   for (const r of ranked) byId[r.job.id] = r;
 
-  return { lambda, ranked, batches, byId, summary };
+  return { lambda, ageing, ranked, batches, byId, summary };
 }

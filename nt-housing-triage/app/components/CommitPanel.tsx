@@ -84,7 +84,7 @@ export default function CommitPanel({ lambda, ranked, summary }: Props) {
         {busy ? "Committing…" : `Commit this schedule at λ = ${lambda.toFixed(2)}`}
       </button>
 
-      {error && <p className="mt-2 text-[11px] text-rose-300">{error}</p>}
+      {error && <p className="mt-2 text-[11px] text-rose-600 dark:text-rose-300">{error}</p>}
 
       <div className="mt-3 max-h-52 space-y-2 overflow-y-auto">
         {entries.length === 0 && (
@@ -99,7 +99,7 @@ export default function CommitPanel({ lambda, ranked, summary }: Props) {
               <span>{new Date(e.at).toLocaleString("en-AU")}</span>
               <span className="chip">λ {e.lambda.toFixed(2)}</span>
             </div>
-            <p className="mt-1 text-slate-200">{e.narrative}</p>
+            <p className="mt-1 text-[var(--fg-2)]">{e.narrative}</p>
             <p className="mt-1 text-[var(--muted)]">
               Top:{" "}
               {e.order

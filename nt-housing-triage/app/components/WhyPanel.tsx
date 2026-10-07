@@ -28,7 +28,7 @@ export default function WhyPanel({ ranked, noBatchById }: Props) {
     <div className="panel p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-sm font-semibold text-white">{card.headline}</h2>
+          <h2 className="text-sm font-semibold text-[var(--fg-strong)]">{card.headline}</h2>
           <p className="mt-0.5 text-[11px] text-[var(--muted)]">
             {r.job.id} · {r.job.household ?? r.job.community.name} · reported{" "}
             {new Date(r.job.reportedAt).toLocaleDateString("en-AU")}
@@ -39,12 +39,13 @@ export default function WhyPanel({ ranked, noBatchById }: Props) {
         </span>
       </div>
 
-      <p className="mt-3 rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-3 text-sm leading-relaxed text-slate-100">
+      <p className="mt-3 rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-3 text-sm leading-relaxed text-[var(--fg)]">
         {r.job.rawText}
       </p>
 
       <div className="mt-3 space-y-2 text-xs">
         <Line label="Why it ranks here" value={card.needSentence} />
+        {card.ageSentence && <Line label="Waiting time" value={card.ageSentence} tone="ok" />}
         {card.gapSentence && <Line label="Equity gap" value={card.gapSentence} tone="warn" />}
         {card.batchSentence && <Line label="Batching" value={card.batchSentence} tone="ok" />}
       </div>
@@ -54,7 +55,7 @@ export default function WhyPanel({ ranked, noBatchById }: Props) {
           <span key={f} className="chip">{FLAG_LABEL[f]}</span>
         ))}
         {r.job.report.occupant_vulnerability.map((v) => (
-          <span key={v} className="chip border-amber-500/40 text-amber-200">
+          <span key={v} className="chip border-amber-500/40 text-amber-700 dark:text-amber-200">
             {VULNERABILITY_LABEL[v]}
           </span>
         ))}
@@ -77,7 +78,7 @@ export default function WhyPanel({ ranked, noBatchById }: Props) {
 
       <Link
         href={`/tenant?job=${r.job.id}`}
-        className="mt-4 inline-flex rounded-lg border border-[var(--accent)] px-3 py-1.5 text-xs font-medium text-amber-200 transition hover:bg-[var(--accent)]/10"
+        className="mt-4 inline-flex rounded-lg border border-[var(--accent)] px-3 py-1.5 text-xs font-medium text-amber-700 transition hover:bg-[var(--accent)]/10 dark:text-amber-200"
       >
         View tenant answer →
       </Link>
@@ -97,7 +98,7 @@ function Line({
   return (
     <div className="rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2.5">
       <div className="text-[10px] uppercase tracking-wide text-[var(--muted)]">{label}</div>
-      <div className={tone === "warn" ? "text-amber-200" : "text-slate-100"}>{value}</div>
+      <div className={tone === "warn" ? "text-amber-700 dark:text-amber-200" : "text-[var(--fg)]"}>{value}</div>
     </div>
   );
 }
@@ -106,7 +107,7 @@ function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2">
       <dt className="text-[10px] uppercase tracking-wide text-[var(--muted)]">{label}</dt>
-      <dd className="mt-0.5 font-semibold text-white">{value}</dd>
+      <dd className="mt-0.5 font-semibold text-[var(--fg-strong)]">{value}</dd>
     </div>
   );
 }

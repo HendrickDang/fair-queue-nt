@@ -95,7 +95,17 @@ export function scoreNeed(job: JobInput): NeedScore {
 
   const score = (safetyScore + flagScore) * vulnerabilityMultiplier;
 
-  return { score, safetyScore, flagScore, vulnerabilityMultiplier, drivers };
+  return {
+    score,
+    safetyScore,
+    flagScore,
+    vulnerabilityMultiplier,
+    // Ageing is applied by rankJobs (it needs the queue-wide reference "now"),
+    // so a caller scoring a single job sees no waiting time.
+    ageDays: 0,
+    agePoints: 0,
+    drivers,
+  };
 }
 
 export interface BuildJobResult {

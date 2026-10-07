@@ -1,6 +1,51 @@
 @import "tailwindcss";
 
+/*
+ * Class-based dark mode. The ThemeToggle (and an inline script in the root
+ * layout, which runs before paint) sets `.dark` on <html>. Everything else is
+ * driven by the semantic tokens below, so both themes share one set of classes.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---- Light theme (default) ---------------------------------------------- */
 :root {
+  color-scheme: light;
+
+  --bg: #eef1f7;
+  --panel: #ffffff;
+  --panel-2: #f4f7fb;
+  --border: #d9e0ec;
+  --muted: #5b6b86;
+  --accent: #d97706;
+  --accent-2: #0d9488;
+  --danger: #e11d48;
+  --warn: #c2410c;
+
+  /* Text ink: strong headings → quiet secondary text */
+  --fg-strong: #0b1220;
+  --fg: #1e293b;
+  --fg-2: #334155;
+  --fg-3: #475569;
+
+  --header-bg: rgba(255, 255, 255, 0.82);
+  /* Tint over the aerial background photo, so text stays legible in light mode. */
+  --bg-overlay: linear-gradient(rgba(238, 241, 247, 0.8), rgba(238, 241, 247, 0.55));
+
+  /* Dependency-free offline map */
+  --map-bg: #e7edf7;
+  --map-dot: #b9c6da;
+  --map-base: #64748b;
+  --map-text: #475569;
+  --map-text-strong: #1e293b;
+  --map-stroke: #e7edf7;
+  --map-stroke-selected: #0b1220;
+  --map-label: #b45309;
+}
+
+/* ---- Dark theme --------------------------------------------------------- */
+.dark {
+  color-scheme: dark;
+
   --bg: #070b14;
   --panel: #0e1526;
   --panel-2: #131c30;
@@ -10,16 +55,42 @@
   --accent-2: #2dd4bf;
   --danger: #f43f5e;
   --warn: #fb923c;
+
+  --fg-strong: #ffffff;
+  --fg: #eef2f9;
+  --fg-2: #dbe3f0;
+  --fg-3: #c2cde0;
+
+  --header-bg: rgba(7, 11, 20, 0.85);
+  --bg-overlay: linear-gradient(rgba(5, 8, 15, 0.85), rgba(5, 8, 15, 0.6));
+
+  --map-bg: #0b1120;
+  --map-dot: #33456b;
+  --map-base: #94a3b8;
+  --map-text: #cbd5e1;
+  --map-text-strong: #dbeafe;
+  --map-stroke: #0b1120;
+  --map-stroke-selected: #ffffff;
+  --map-label: #fcd34d;
 }
 
-html,
-body {
-  background: var(--bg);
+html {
+  background-color: var(--bg);
+  /*
+   * Aerial community photo as the page backdrop. The theme tint (--bg-overlay)
+   * is the top layer, so panels and text stay readable in light and dark mode.
+   */
+  background-image: var(--bg-overlay), url("/housing.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 body {
-  color: #e6edf7;
+  color: var(--fg);
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  transition: color 0.2s ease;
 }
 
 .panel {

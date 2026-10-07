@@ -48,8 +48,8 @@ export default function EquityDial({ lambda, onChange, summary }: Props) {
             onClick={() => onChange(p.value)}
             className={`rounded-lg border px-2.5 py-1 text-[11px] transition ${
               Math.abs(lambda - p.value) < 0.001
-                ? "border-[var(--accent)] bg-[var(--accent)]/15 text-amber-200"
-                : "border-[var(--border)] text-[var(--muted)] hover:text-white"
+                ? "border-[var(--accent)] bg-[var(--accent)]/15 text-amber-700 dark:text-amber-200"
+                : "border-[var(--border)] text-[var(--muted)] hover:text-[var(--fg-strong)]"
             }`}
           >
             {p.label}
@@ -57,7 +57,7 @@ export default function EquityDial({ lambda, onChange, summary }: Props) {
         ))}
       </div>
 
-      <p className="mt-3 rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-3 text-xs leading-relaxed text-slate-200">
+      <p className="mt-3 rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-3 text-xs leading-relaxed text-[var(--fg-2)]">
         {dialNarrative(summary)}
       </p>
 
@@ -89,7 +89,7 @@ function Stat({
   return (
     <div className="rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2">
       <dt className="text-[10px] uppercase tracking-wide text-[var(--muted)]">{label}</dt>
-      <dd className={`mt-0.5 text-sm font-semibold ${tone === "warn" ? "text-amber-300" : "text-white"}`}>
+      <dd className={`mt-0.5 text-sm font-semibold ${tone === "warn" ? "text-amber-700 dark:text-amber-300" : "text-[var(--fg-strong)]"}`}>
         {value}
       </dd>
     </div>

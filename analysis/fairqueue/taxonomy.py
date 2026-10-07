@@ -95,6 +95,13 @@ VULNERABILITY_WEIGHT = {
     "medical_dependent": 0.3, "overcrowded": 0.12,
 }
 
+# Ageing: a fixed internal policy so a steady stream of new reports cannot keep
+# pushing an older report down the queue. Each day a report waits adds need
+# points, capped so safety stays dominant (the cap sits below the medium->high
+# gap, so age lifts a job at most ~one tier). Mirrors lib/taxonomy.ts.
+AGEING_POINTS_PER_DAY = 1
+AGEING_CAP = 30
+
 CATEGORY_TRADE = {
     "plumbing": "plumber", "electrical": "electrician", "structural": "carpenter",
     "cooling": "hvac", "water_quality": "plumber", "sanitation": "plumber",

@@ -12,12 +12,15 @@ a person sets: 0 = rank purely on need, 1 = rank purely on travel efficiency.
 """
 
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 
 from .geo import (
     LABOUR_COST_PER_HOUR, base_for, haversine_km, mode_for, round_trip, travel_leg,
 )
 from .parser import escalate_safety
-from .taxonomy import CATEGORY_DURATION_HOURS, FLAG_WEIGHT, SAFETY_BASE, VULNERABILITY_WEIGHT
+from .taxonomy import (
+    AGEING_CAP, CATEGORY_DURATION_HOURS, FLAG_WEIGHT, SAFETY_BASE, VULNERABILITY_WEIGHT,
+)
 
 HOURS_PER_DAY = 8
 CLUSTER_KM = 200  # communities this close can share one service run
@@ -162,25 +165,54 @@ def _min_max(values):
     return lambda v: (v - lo) / rng
 
 
-def rank_jobs(jobs, lam: float = 0.0, batching: bool = True):
+def _parse_time(value):
+    """Parse an ISO timestamp (or accept a datetime) into an aware datetime."""
+    dt = value if isinstance(value, datetime) else datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    return dt if dt.tzinfo is not None else dt.replace(tzinfo=timezone.utc)
+
+
+def _age_points(job, ageing: float, now_dt) -> tuple:
+    """(days waited, need points added). Off unless ageing > 0. Mirrors rank.ts."""
+    if ageing <= 0:
+        return 0.0, 0.0
+    days = max(0.0, (now_dt - _parse_time(job.reported_at)).total_seconds() / 86400.0)
+    return days, min(AGEING_CAP, ageing * days)
+
+
+def rank_jobs(jobs, lam: float = 0.0, batching: bool = True,
+              ageing: float = 0.0, now=None):
     """Rank jobs two ways, then blend with the human-set dial lambda.
 
     adjusted = (1 - lambda) * need_normalised - lambda * efficiency_cost_normalised
+
+    ageing: need points added per day a report has waited (0 = off, the default).
+    Waiting time raises need so newer reports cannot keep an older report down
+    the queue; the bonus is capped at AGEING_CAP so safety stays dominant.
+    now: reference time for the waiting time (string or datetime); defaults to
+    the current time. Pass it explicitly to keep a run reproducible.
 
     Returns a list of dicts in final queue order with need rank, efficiency
     rank, equity gap (efficiency rank - need rank) and estimated start day.
     """
     lam = min(1.0, max(0.0, lam))
+    ageing = max(0.0, ageing)
+    now_dt = _parse_time(now) if now is not None else datetime.now(timezone.utc)
     if batching:
         _, info = build_batches(jobs)
     else:
         info = {}
     zero = {"batch": None, "cost": 0.0, "km": 0.0, "hours": 0.0}
-    scored = [
-        {"job": j, "need": score_need(j), "eff": score_efficiency(j, info.get(j.id, zero)),
-         "batch": info.get(j.id, zero)["batch"]}
-        for j in jobs
-    ]
+    scored = []
+    for j in jobs:
+        age_days, age_points = _age_points(j, ageing, now_dt)
+        scored.append({
+            "job": j,
+            "need": score_need(j) + age_points,
+            "age_days": age_days,
+            "age_points": age_points,
+            "eff": score_efficiency(j, info.get(j.id, zero)),
+            "batch": info.get(j.id, zero)["batch"],
+        })
     need_order = sorted(scored, key=lambda s: (-s["need"], s["job"].reported_at))
     eff_order = sorted(scored, key=lambda s: s["eff"]["score"])
     for i, s in enumerate(need_order):

@@ -24,6 +24,11 @@ conflict, an **equity dial** (`λ = 0` pure fair → `1` pure efficient) re-rank
 and reports the human cost: *"saves $X travel, adds +N median days for remote
 households."* The human commits, and the decision is **audited**.
 
+A **fixed waiting-time rule** adds priority for older reports, capped so safety
+still dominates: a routine report that has waited can never outrank a fresh urgent
+one, but a flood of new reports cannot keep pushing an older one down the queue.
+This is the same "ageing" mechanism the analysis experiments measure (E4).
+
 A tenant can ask *why* their repair was deprioritised and get a real answer built
 from the same scores the coordinator sees.
 

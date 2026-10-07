@@ -68,7 +68,7 @@ export default function ReportForm({ onAdd }: Props) {
         onChange={(e) => setText(e.target.value)}
         rows={3}
         placeholder="e.g. roof is leaking over the kids bed and the ceiling is sagging, in Wadeye"
-        className="mt-3 w-full resize-none rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2.5 text-sm text-slate-100 outline-none placeholder:text-[var(--muted)] focus:border-[var(--accent)]"
+        className="mt-3 w-full resize-none rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2.5 text-sm text-[var(--fg)] outline-none placeholder:text-[var(--muted)] focus:border-[var(--accent)]"
       />
       <label className="mt-3 block text-[11px] uppercase tracking-wide text-[var(--muted)]">
         Community (if not in the text)
@@ -76,7 +76,7 @@ export default function ReportForm({ onAdd }: Props) {
       <select
         value={community}
         onChange={(e) => setCommunity(e.target.value)}
-        className="mt-1.5 w-full rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2.5 text-sm text-slate-100 outline-none focus:border-[var(--accent)]"
+        className="mt-1.5 w-full rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2.5 text-sm text-[var(--fg)] outline-none focus:border-[var(--accent)]"
       >
         <option value="">Auto-detect from text</option>
         {COMMUNITIES.map((c) => (
@@ -88,12 +88,12 @@ export default function ReportForm({ onAdd }: Props) {
       <button
         onClick={submit}
         disabled={busy || !text.trim()}
-        className="mt-2 w-full rounded-lg border border-[var(--accent)] px-3 py-2 text-sm font-medium text-amber-200 transition hover:bg-[var(--accent)]/10 disabled:cursor-not-allowed disabled:opacity-40"
+        className="mt-2 w-full rounded-lg border border-[var(--accent)] px-3 py-2 text-sm font-medium text-amber-700 transition hover:bg-[var(--accent)]/10 disabled:cursor-not-allowed disabled:opacity-40 dark:text-amber-200"
       >
         {busy ? "Parsing…" : "Parse & add to queue"}
       </button>
 
-      {error && <p className="mt-2 text-[11px] text-rose-300">{error}</p>}
+      {error && <p className="mt-2 text-[11px] text-rose-600 dark:text-rose-300">{error}</p>}
 
       {result && (
         <div className="mt-3 rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-3 text-[11px]">
@@ -101,7 +101,7 @@ export default function ReportForm({ onAdd }: Props) {
             <span className="chip">{result.method}</span>
             <span className="text-[var(--muted)]">confidence {result.confidence.toFixed(2)}</span>
           </div>
-          <p className="mt-1.5 text-slate-200">
+          <p className="mt-1.5 text-[var(--fg-2)]">
             {result.category} · {result.safety_level} · {result.trade_required}
             {result.community ? ` · ${result.community}` : ""}
           </p>

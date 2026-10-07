@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { rankJobs } from "@/lib/engine/rank";
 import type { Job } from "@/lib/engine/types";
+import { AGEING_POINTS_PER_DAY } from "@/lib/taxonomy";
 import EquityDial from "./EquityDial";
 import QueueTable from "./QueueTable";
 import WhyPanel from "./WhyPanel";
@@ -15,9 +16,17 @@ export default function Dashboard({ initialJobs }: { initialJobs: Job[] }) {
   const [lambda, setLambda] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(initialJobs[0]?.id ?? null);
 
-  const result = useMemo(() => rankJobs(jobs, { lambda }), [jobs, lambda]);
+  // Ageing is a fixed policy, not a dial: waiting time raises priority so new
+  // reports cannot keep pushing an older report down the queue.
+  const result = useMemo(
+    () => rankJobs(jobs, { lambda, ageing: AGEING_POINTS_PER_DAY }),
+    [jobs, lambda],
+  );
   // Rank as if nothing were batched, to show how many places batching recovers.
-  const noBatch = useMemo(() => rankJobs(jobs, { lambda, batching: false }), [jobs, lambda]);
+  const noBatch = useMemo(
+    () => rankJobs(jobs, { lambda, ageing: AGEING_POINTS_PER_DAY, batching: false }),
+    [jobs, lambda],
+  );
 
   const selected = (selectedId && result.byId[selectedId]) || result.ranked[0] || null;
 
@@ -29,19 +38,20 @@ export default function Dashboard({ initialJobs }: { initialJobs: Job[] }) {
   return (
     <div className="mx-auto max-w-7xl px-5 py-5">
       <section className="panel mb-4 p-4">
-        <h1 className="text-base font-semibold text-white">
+        <h1 className="text-base font-semibold text-[var(--fg-strong)]">
           Prioritise urgent repairs across remote NT communities — without quietly pushing remote
           tenants to the back of the queue.
         </h1>
         <p className="mt-1 text-xs text-[var(--muted)]">
-          Two independent ranks: a location-blind <span className="text-slate-200">need</span> rank and
-          a logistics <span className="text-slate-200">efficiency</span> rank. The gap between them is
+          Two independent ranks: a location-blind <span className="text-[var(--fg-2)]">need</span> rank and
+          a logistics <span className="text-[var(--fg-2)]">efficiency</span> rank. The gap between them is
           the equity trade-off. Batching closes most of it; the dial exposes the rest — and a human
-          owns the call.
+          owns the call. A fixed waiting-time rule adds priority for older reports, so a rush of new
+          reports cannot push an old one down the queue.
         </p>
       </section>
 
-      <div className="grid gap-4 lg:grid-cols-[320px_minmax(0,1fr)_360px]">
+      <div className="grid gap-4 lg:grid-cols-[290px_minmax(0,1fr)_330px]">
         <div className="space-y-4">
           <EquityDial lambda={lambda} onChange={setLambda} summary={result.summary} />
           <ReportForm onAdd={addJob} />
@@ -59,7 +69,7 @@ export default function Dashboard({ initialJobs }: { initialJobs: Job[] }) {
                 {result.batches.map((b) => (
                   <li key={b.id} className="rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2.5 text-[11px]">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-slate-100">{b.label}</span>
+                      <span className="font-medium text-[var(--fg)]">{b.label}</span>
                       <span className="chip">{b.mode}</span>
                     </div>
                     <p className="mt-1 text-[var(--muted)]">

@@ -51,12 +51,12 @@ export default function NtMap({ jobs, selectedId, onSelect }: Props) {
             <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
           </radialGradient>
         </defs>
-        <rect x={0} y={0} width={W} height={H} fill="#0b1120" rx={12} />
+        <rect x={0} y={0} width={W} height={H} fill="var(--map-bg)" rx={12} />
 
         {/* faint context: every community in the dataset */}
         {COMMUNITIES.map((c) => {
           const { x, y } = project(c.lat, c.lon);
-          return <circle key={c.id} cx={x} cy={y} r={1.6} fill="#33456b" />;
+          return <circle key={c.id} cx={x} cy={y} r={1.6} fill="var(--map-dot)" />;
         })}
 
         {/* travel lines for the selected job */}
@@ -73,7 +73,7 @@ export default function NtMap({ jobs, selectedId, onSelect }: Props) {
                   y1={a.y}
                   x2={b.x}
                   y2={b.y}
-                  stroke="#f59e0b"
+                  stroke="var(--accent)"
                   strokeWidth={1.6}
                   strokeDasharray="5 4"
                   opacity={0.85}
@@ -81,7 +81,7 @@ export default function NtMap({ jobs, selectedId, onSelect }: Props) {
                 <text
                   x={(a.x + b.x) / 2}
                   y={(a.y + b.y) / 2 - 5}
-                  fill="#fcd34d"
+                  fill="var(--map-label)"
                   fontSize={10}
                   textAnchor="middle"
                 >
@@ -96,8 +96,8 @@ export default function NtMap({ jobs, selectedId, onSelect }: Props) {
           const { x, y } = project(b.lat, b.lon);
           return (
             <g key={b.id}>
-              <rect x={x - 4} y={y - 4} width={8} height={8} fill="#94a3b8" rx={1} />
-              <text x={x + 7} y={y + 3} fill="#cbd5e1" fontSize={9}>
+              <rect x={x - 4} y={y - 4} width={8} height={8} fill="var(--map-base)" rx={1} />
+              <text x={x + 7} y={y + 3} fill="var(--map-text)" fontSize={9}>
                 {b.name}
               </text>
             </g>
@@ -125,10 +125,10 @@ export default function NtMap({ jobs, selectedId, onSelect }: Props) {
                 r={r}
                 fill={SAFETY_DOT[level]}
                 fillOpacity={0.85}
-                stroke={isSelected ? "#fff" : "#0b1120"}
+                stroke={isSelected ? "var(--map-stroke-selected)" : "var(--map-stroke)"}
                 strokeWidth={isSelected ? 2 : 1}
               />
-              <text x={x + r + 3} y={y + 3} fill="#dbeafe" fontSize={10}>
+              <text x={x + r + 3} y={y + 3} fill="var(--map-text-strong)" fontSize={10}>
                 {community.name}
                 {list.length > 1 ? ` (${list.length})` : ""}
               </text>
@@ -144,7 +144,7 @@ export default function NtMap({ jobs, selectedId, onSelect }: Props) {
           </span>
         ))}
         <span className="flex items-center gap-1.5">
-          <span className="inline-block h-2.5 w-2.5 bg-slate-400" /> trade base
+          <span className="inline-block h-2.5 w-2.5 bg-[var(--map-base)]" /> trade base
         </span>
       </div>
     </div>

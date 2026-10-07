@@ -22,6 +22,10 @@ export interface NeedScore {
   safetyScore: number;
   flagScore: number;
   vulnerabilityMultiplier: number;
+  /** Days the report has been waiting (0 when ageing is off). */
+  ageDays: number;
+  /** Need points the waiting time has added (already included in `score`). */
+  agePoints: number;
   drivers: string[];
 }
 
@@ -88,6 +92,8 @@ export interface EquitySummary {
 
 export interface RankResult {
   lambda: number;
+  /** Need points added per waiting day (0 = ageing off). */
+  ageing: number;
   ranked: RankedJob[];
   batches: Batch[];
   byId: Record<string, RankedJob>;
@@ -98,4 +104,8 @@ export interface RankOptions {
   lambda?: number;
   /** Set false to rank as if every job were a separate solo trip. */
   batching?: boolean;
+  /** Need points added per day a report has waited. Defaults to 0 (off). */
+  ageing?: number;
+  /** Reference "now" for the waiting time; defaults to the current time. */
+  now?: string | Date;
 }

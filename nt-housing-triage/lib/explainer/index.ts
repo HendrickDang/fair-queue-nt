@@ -15,6 +15,7 @@ export interface WhyCard {
   needSentence: string;
   gapSentence: string | null;
   batchSentence: string | null;
+  ageSentence: string | null;
   facts: string[];
 }
 
@@ -48,11 +49,19 @@ export function whyCard(
         : `Batched as "${r.batch.label}" — ${saved}.`;
   }
 
+  let ageSentence: string | null = null;
+  if (r.need.agePoints > 0) {
+    ageSentence = `Waiting ${plural(Math.round(r.need.ageDays), "day")} has added ${Math.round(
+      r.need.agePoints,
+    )} need points, so newer reports cannot push it down indefinitely.`;
+  }
+
   return {
     headline: `${CATEGORY_LABEL[r.job.report.category]} · ${r.job.community.name} · queue #${r.finalRank}`,
     needSentence,
     gapSentence,
     batchSentence,
+    ageSentence,
     facts: r.efficiency.drivers,
   };
 }
@@ -157,17 +166,35 @@ export function tenantAnswer(
   // 3. What is ahead of it, in concrete terms the tenant can check.
   if (options.ranked && r.finalRank > 1) {
     const ahead = options.ranked.filter((o) => o.finalRank < r.finalRank);
-    const moreUrgent = ahead.filter((o) => o.need.score > r.need.score).length;
-    const lessUrgent = ahead.length - moreUrgent;
+    // Compare the safety part of need (excluding ageing), so a job ahead because
+    // it has waited longer is not wrongly described as "more urgent for safety".
+    const safetyNeed = (o: RankedJob) => o.need.score - o.need.agePoints;
+    const mine = safetyNeed(r);
+    const moreUrgent = ahead.filter((o) => safetyNeed(o) > mine).length;
+    const aged = ahead.filter((o) => safetyNeed(o) <= mine && o.need.score > r.need.score).length;
+    const lessUrgent = ahead.length - moreUrgent - aged;
     let line = `${plural(ahead.length, "repair")} ${ahead.length === 1 ? "is" : "are"} ahead of yours. ${
       moreUrgent
     } of them ${moreUrgent === 1 ? "was" : "were"} rated more urgent for safety than yours.`;
+    if (aged > 0) {
+      line += ` ${aged} ${aged === 1 ? "is" : "are"} ahead because ${
+        aged === 1 ? "it has" : "they have"
+      } been waiting longer.`;
+    }
     if (lessUrgent > 0) {
       line += ` ${lessUrgent} ${lessUrgent === 1 ? "is" : "are"} ahead mainly because ${
         lessUrgent === 1 ? "it is" : "they are"
       } cheaper or quicker to reach.`;
     }
     body.push(line);
+  }
+
+  // 3b. Waiting time is a lever the tenant cannot pull, so say it plainly when
+  // it is helping them, not just when the dial hurts them.
+  if (r.need.agePoints > 0) {
+    body.push(
+      `This repair has been waiting ${plural(Math.round(r.need.ageDays), "day")}, which raises its priority so newer reports cannot jump ahead of it.`,
+    );
   }
 
   // 4. Who moved it, and when. A person owns the trade-off, never "the system".

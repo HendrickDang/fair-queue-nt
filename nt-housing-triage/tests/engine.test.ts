@@ -3,6 +3,7 @@ import { rankJobs } from "@/lib/engine/rank";
 import { buildJob } from "@/lib/engine/scoring";
 import { seedJobs } from "@/lib/data/seed";
 import { parseWithFallback } from "@/lib/parser/fallback";
+import { AGEING_CAP, AGEING_POINTS_PER_DAY } from "@/lib/taxonomy";
 import type { Job } from "@/lib/engine/types";
 
 function job(id: string, text: string, reportedAt = "2026-09-20T00:00:00+09:30"): Job {
@@ -97,5 +98,42 @@ describe("buildBatches — credits", () => {
       const credited = b.jobIds.reduce((s, id) => s + (info.get(id)?.bonusCost ?? 0), 0);
       expect(credited).toBeCloseTo(b.savedCost, 6);
     }
+  });
+});
+
+describe("ageing — waiting time raises priority", () => {
+  const now = "2026-10-01T00:00:00+09:30";
+  // Same report, same community, same safety — only the submit date differs.
+  const older = job("OLD", "tap leaking under the sink, Darwin", "2026-09-01T00:00:00+09:30");
+  const newer = job("NEW", "tap leaking under the sink, Darwin", "2026-09-30T00:00:00+09:30");
+
+  it("is off by default, so a plain rankJobs call adds no age points", () => {
+    const result = rankJobs([older, newer]);
+    expect(result.ageing).toBe(0);
+    expect(result.ranked.every((r) => r.need.agePoints === 0)).toBe(true);
+  });
+
+  it("gives an older report more age points than a newer one of equal need", () => {
+    const result = rankJobs([older, newer], { ageing: AGEING_POINTS_PER_DAY, now });
+    expect(result.byId["OLD"].need.agePoints).toBeGreaterThan(result.byId["NEW"].need.agePoints);
+    expect(result.byId["OLD"].need.agePoints).toBeGreaterThan(0);
+  });
+
+  it("caps the age bonus so a routine report cannot outrank a fresh urgent one", () => {
+    const urgentNew = job(
+      "URGENT",
+      "sparks coming out of the powerpoint, Darwin",
+      "2026-09-30T00:00:00+09:30",
+    );
+    const routineOld = job("ROUTINE", "tap leaking under the sink, Darwin", "2020-01-01T00:00:00+09:30");
+    const result = rankJobs([urgentNew, routineOld], { ageing: AGEING_POINTS_PER_DAY, now });
+    expect(result.byId["ROUTINE"].need.agePoints).toBe(AGEING_CAP);
+    expect(result.ranked[0].job.id).toBe("URGENT");
+  });
+
+  it("is deterministic for a fixed reference time", () => {
+    const a = rankJobs([older, newer], { ageing: AGEING_POINTS_PER_DAY, now });
+    const b = rankJobs([older, newer], { ageing: AGEING_POINTS_PER_DAY, now });
+    expect(a.ranked.map((r) => r.job.id)).toEqual(b.ranked.map((r) => r.job.id));
   });
 });

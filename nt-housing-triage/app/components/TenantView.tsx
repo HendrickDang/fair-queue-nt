@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { rankJobs } from "@/lib/engine/rank";
 import type { Job } from "@/lib/engine/types";
+import { AGEING_POINTS_PER_DAY } from "@/lib/taxonomy";
 import { tenantAnswer, formatVisitDate, type PolicyDecision } from "@/lib/explainer";
 import { SAFETY_LABEL } from "@/lib/taxonomy";
 import { SAFETY_CLASS } from "@/lib/ui/colors";
@@ -23,7 +24,10 @@ export default function TenantView({ jobs, initialJobId, decision }: Props) {
   // Read-only: the tenant sees the coordinator's committed decision, never sets it.
   const lambda = decision?.lambda ?? 0;
 
-  const result = useMemo(() => rankJobs(jobs, { lambda }), [jobs, lambda]);
+  const result = useMemo(
+    () => rankJobs(jobs, { lambda, ageing: AGEING_POINTS_PER_DAY }),
+    [jobs, lambda],
+  );
   const ranked = (selectedId && result.byId[selectedId]) || result.ranked[0];
 
   const answer = tenantAnswer(ranked, {
@@ -74,7 +78,7 @@ export default function TenantView({ jobs, initialJobId, decision }: Props) {
         <select
           value={ranked.job.id}
           onChange={(e) => setSelectedId(e.target.value)}
-          className="mt-1.5 w-full rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2.5 text-sm text-slate-100 outline-none focus:border-[var(--accent)]"
+          className="mt-1.5 w-full rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2.5 text-sm text-[var(--fg)] outline-none focus:border-[var(--accent)]"
         >
           {result.ranked.map((r) => (
             <option key={r.job.id} value={r.job.id}>
@@ -96,35 +100,35 @@ export default function TenantView({ jobs, initialJobId, decision }: Props) {
             <p className="text-[11px] uppercase tracking-wide text-[var(--muted)]">
               {ranked.job.id} · {ranked.job.community.name}
             </p>
-            <h1 className="mt-1 text-xl font-semibold text-white">{answer.headline}</h1>
+            <h1 className="mt-1 text-xl font-semibold text-[var(--fg-strong)]">{answer.headline}</h1>
           </div>
           <span className={`chip ${SAFETY_CLASS[ranked.job.report.safety_level]}`}>
             {SAFETY_LABEL[ranked.job.report.safety_level]}
           </span>
         </div>
 
-        <div className="mt-4 space-y-3 text-sm leading-relaxed text-slate-100">
+        <div className="mt-4 space-y-3 text-sm leading-relaxed text-[var(--fg)]">
           {answer.body.map((line) => (
             <p key={line}>{line}</p>
           ))}
         </div>
 
-        <div className="mt-5 rounded-lg border border-sky-500/30 bg-sky-500/5 p-3 text-xs text-sky-100">
+        <div className="mt-5 rounded-lg border border-sky-500/30 bg-sky-500/5 p-3 text-xs text-sky-800 dark:text-sky-100">
           <p className="font-semibold">What would change this</p>
           <p className="mt-1">{answer.whatWouldChange}</p>
         </div>
 
-        <div className="mt-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-xs text-amber-100">
+        <div className="mt-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-xs text-amber-800 dark:text-amber-100">
           <p>{answer.escalation}</p>
           <div className="mt-2 flex flex-wrap items-center gap-3">
             <button
               onClick={escalate}
               disabled={escalating || escalated}
-              className="rounded-lg border border-amber-400/40 px-3 py-1.5 font-medium text-amber-100 transition hover:bg-amber-400/10 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg border border-amber-400/40 px-3 py-1.5 font-medium text-amber-800 transition hover:bg-amber-400/10 disabled:cursor-not-allowed disabled:opacity-50 dark:text-amber-100"
             >
               {escalated ? "Review requested" : escalating ? "Sending…" : "Ask a person to review this"}
             </button>
-            {escalationError && <span className="text-rose-300">{escalationError}</span>}
+            {escalationError && <span className="text-rose-600 dark:text-rose-300">{escalationError}</span>}
           </div>
         </div>
 
@@ -148,7 +152,7 @@ function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2">
       <div className="text-[10px] uppercase tracking-wide text-[var(--muted)]">{label}</div>
-      <div className="mt-0.5 text-sm font-semibold text-white">{value}</div>
+      <div className="mt-0.5 text-sm font-semibold text-[var(--fg-strong)]">{value}</div>
     </div>
   );
 }

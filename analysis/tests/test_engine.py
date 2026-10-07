@@ -17,6 +17,7 @@ import pytest
 from fairqueue.engine import Job, rank_jobs, score_need
 from fairqueue.geo import COMMUNITIES, match_community
 from fairqueue.parser import parse
+from fairqueue.taxonomy import AGEING_CAP, AGEING_POINTS_PER_DAY
 
 REF = json.loads((Path(__file__).parents[1] / "reference" / "ts_reference.json").read_text())
 
@@ -43,7 +44,8 @@ def test_parser_matches_typescript(ref):
 def test_ranking_matches_typescript(queue):
     jobs = _jobs(REF[queue]["inputs"])
     for run in REF[queue]["runs"]:
-        ours = rank_jobs(jobs, run["lambda"], run["batching"])
+        ours = rank_jobs(jobs, run["lambda"], run["batching"],
+                         ageing=REF["ageing"], now=REF["now"])
         theirs = run["ranked"]
         assert [s["job"].id for s in ours] == [t["id"] for t in theirs], (run["lambda"], run["batching"])
         for s, t in zip(ours, theirs):
@@ -60,3 +62,30 @@ def test_need_score_ignores_location():
         before = score_need(j)
         for c in COMMUNITIES:  # move the same report to every community in the NT
             assert score_need(Job(j.id, j.report, c, j.reported_at)) == before
+
+
+def test_ageing_raises_priority_for_older_reports():
+    """Waiting time adds need points, so a newer equal report cannot jump ahead."""
+    now = "2026-10-01T00:00:00+09:30"
+    c = match_community("Darwin")
+    older = Job("OLD", parse("tap leaking under the sink, Darwin"), c, "2026-09-01T00:00:00+09:30")
+    newer = Job("NEW", parse("tap leaking under the sink, Darwin"), c, "2026-09-30T00:00:00+09:30")
+
+    off = rank_jobs([older, newer], 0.0)
+    assert all(s["age_points"] == 0 for s in off)
+
+    on = rank_jobs([older, newer], 0.0, ageing=AGEING_POINTS_PER_DAY, now=now)
+    by_id = {s["job"].id: s for s in on}
+    assert by_id["OLD"]["age_points"] > by_id["NEW"]["age_points"] > 0
+
+
+def test_ageing_is_capped_so_safety_still_dominates():
+    now = "2026-10-01T00:00:00+09:30"
+    c = match_community("Darwin")
+    urgent = Job("U", parse("sparks coming out of the powerpoint, Darwin"), c, "2026-09-30T00:00:00+09:30")
+    routine = Job("R", parse("tap leaking under the sink, Darwin"), c, "2020-01-01T00:00:00+09:30")
+
+    ranked = rank_jobs([urgent, routine], 0.0, ageing=AGEING_POINTS_PER_DAY, now=now)
+    by_id = {s["job"].id: s for s in ranked}
+    assert by_id["R"]["age_points"] == AGEING_CAP
+    assert ranked[0]["job"].id == "U"  # a fresh critical report still wins
