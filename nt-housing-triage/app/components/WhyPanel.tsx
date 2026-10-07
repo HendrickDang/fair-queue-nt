@@ -6,13 +6,16 @@ import { whyCard } from "@/lib/explainer";
 import { FLAG_LABEL, VULNERABILITY_LABEL } from "@/lib/taxonomy";
 import { SAFETY_CLASS } from "@/lib/ui/colors";
 import type { RankedJob } from "@/lib/engine/types";
+import NeedBreakdown from "./NeedBreakdown";
 
 interface Props {
   ranked: RankedJob | null;
   noBatchById?: Record<string, RankedJob>;
+  /** Highest need score in the queue; when given, the score make-up is drawn. */
+  queueMaxNeed?: number;
 }
 
-export default function WhyPanel({ ranked, noBatchById }: Props) {
+export default function WhyPanel({ ranked, noBatchById, queueMaxNeed }: Props) {
   if (!ranked) {
     return (
       <div className="panel p-4 text-sm text-[var(--muted)]">
@@ -45,6 +48,7 @@ export default function WhyPanel({ ranked, noBatchById }: Props) {
 
       <div className="mt-3 space-y-2 text-xs">
         <Line label="Why it ranks here" value={card.needSentence} />
+        {queueMaxNeed !== undefined && <NeedBreakdown need={r.need} queueMax={queueMaxNeed} />}
         {card.ageSentence && <Line label="Waiting time" value={card.ageSentence} tone="ok" />}
         {card.gapSentence && <Line label="Equity gap" value={card.gapSentence} tone="warn" />}
         {card.batchSentence && <Line label="Batching" value={card.batchSentence} tone="ok" />}

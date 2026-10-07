@@ -40,6 +40,14 @@
   --map-stroke: #e7edf7;
   --map-stroke-selected: #0b1220;
   --map-label: #b45309;
+
+  /* Charts: blue = town and regional, orange = remote (checked for colour-blind
+     separation and contrast on the panel surface). Grid and axis stay quiet. */
+  --viz-town: #2a78d6;
+  --viz-remote: #eb6834;
+  --viz-neutral: #7c8aa3;
+  --viz-grid: #e6ebf3;
+  --viz-axis: #c5cfdf;
 }
 
 /* ---- Dark theme --------------------------------------------------------- */
@@ -72,6 +80,12 @@
   --map-stroke: #0b1120;
   --map-stroke-selected: #ffffff;
   --map-label: #fcd34d;
+
+  --viz-town: #3987e5;
+  --viz-remote: #d95926;
+  --viz-neutral: #6f83a8;
+  --viz-grid: #1a2640;
+  --viz-axis: #2c3c5e;
 }
 
 html {

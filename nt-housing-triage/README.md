@@ -111,6 +111,18 @@ nt-housing-triage/
 └── tests/                   # engine, parser golden set, generator
 ```
 
+## Charts
+
+Three charts sit beside the queue. They only draw what `rankJobs` returns, so they cannot disagree with it (`tests/viz.test.ts` checks this).
+
+| Chart | Where | What it shows |
+|---|---|---|
+| What the dial does to waits | under the equity dial | The same queue re-ranked at every dial setting, with the median estimated start for town and for remote households. Hover to read a setting, click to move the dial there. |
+| Who moves when travel cost counts | under the ranked queue | Each job's position at need only, at the current dial, and at cost only. A line that slopes down is a household that waits longer because of where it lives. Click a line to select the job. |
+| How the need score is built | in the job panel | The selected job's score as a running total: safety level, hazards, who lives there, days waiting. Location is not an input, so it has no row. |
+
+Blue is town and regional, orange is remote, in both themes. The helpers are in `lib/viz/` and the components in `app/components/` (`TradeoffChart`, `RankShiftChart`, `NeedBreakdown`).
+
 ## Data & methodology
 
 - **Communities**: real NT community locations with ARIA+ remoteness classes and

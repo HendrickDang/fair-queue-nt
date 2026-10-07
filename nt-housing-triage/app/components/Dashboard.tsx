@@ -10,25 +10,28 @@ import WhyPanel from "./WhyPanel";
 import NtMap from "./NtMap";
 import CommitPanel from "./CommitPanel";
 import ReportForm from "./ReportForm";
+import TradeoffChart from "./TradeoffChart";
+import RankShiftChart from "./RankShiftChart";
 
-export default function Dashboard({ initialJobs }: { initialJobs: Job[] }) {
+export default function Dashboard({ initialJobs, now }: { initialJobs: Job[]; now: string }) {
   const [jobs, setJobs] = useState<Job[]>(initialJobs);
   const [lambda, setLambda] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(initialJobs[0]?.id ?? null);
 
+  // One options object for every ranking on the page, so the charts and the queue agree.
   // Ageing is a fixed policy, not a dial: waiting time raises priority so new
   // reports cannot keep pushing an older report down the queue.
-  const result = useMemo(
-    () => rankJobs(jobs, { lambda, ageing: AGEING_POINTS_PER_DAY }),
-    [jobs, lambda],
-  );
+  const rankOptions = useMemo(() => ({ ageing: AGEING_POINTS_PER_DAY, now }), [now]);
+  const result = useMemo(() => rankJobs(jobs, { ...rankOptions, lambda }), [jobs, lambda, rankOptions]);
   // Rank as if nothing were batched, to show how many places batching recovers.
   const noBatch = useMemo(
-    () => rankJobs(jobs, { lambda, ageing: AGEING_POINTS_PER_DAY, batching: false }),
-    [jobs, lambda],
+    () => rankJobs(jobs, { ...rankOptions, lambda, batching: false }),
+    [jobs, lambda, rankOptions],
   );
 
   const selected = (selectedId && result.byId[selectedId]) || result.ranked[0] || null;
+  // Highest need score in the queue: the common scale for the score make-up bars.
+  const queueMaxNeed = Math.max(0, ...result.ranked.map((r) => r.need.score));
 
   function addJob(job: Job) {
     setJobs((prev) => [...prev, job]);
@@ -51,15 +54,24 @@ export default function Dashboard({ initialJobs }: { initialJobs: Job[] }) {
         </p>
       </section>
 
+      {/* min-w-0 lets each column shrink to the screen, so a wide table scrolls inside its panel */}
       <div className="grid gap-4 lg:grid-cols-[290px_minmax(0,1fr)_330px]">
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <EquityDial lambda={lambda} onChange={setLambda} summary={result.summary} />
+          <TradeoffChart jobs={jobs} lambda={lambda} onChange={setLambda} options={rankOptions} />
           <ReportForm onAdd={addJob} />
           <CommitPanel lambda={lambda} ranked={result.ranked} summary={result.summary} />
         </div>
 
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <QueueTable ranked={result.ranked} selectedId={selected?.job.id ?? null} onSelect={setSelectedId} />
+          <RankShiftChart
+            jobs={jobs}
+            current={result}
+            selectedId={selected?.job.id ?? null}
+            onSelect={setSelectedId}
+            options={rankOptions}
+          />
           <div className="panel p-4">
             <h2 className="text-sm font-semibold">Batches this week</h2>
             {result.batches.length === 0 ? (
@@ -83,8 +95,8 @@ export default function Dashboard({ initialJobs }: { initialJobs: Job[] }) {
           </div>
         </div>
 
-        <div className="space-y-4">
-          <WhyPanel ranked={selected} noBatchById={noBatch.byId} />
+        <div className="min-w-0 space-y-4">
+          <WhyPanel ranked={selected} noBatchById={noBatch.byId} queueMaxNeed={queueMaxNeed} />
           <NtMap jobs={jobs} selectedId={selected?.job.id ?? null} onSelect={setSelectedId} />
         </div>
       </div>
