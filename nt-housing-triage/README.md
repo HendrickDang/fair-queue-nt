@@ -1,161 +1,93 @@
-# NT Housing Maintenance Triage
+# Fair Queue NT
 
-CDU IT Code Fair 2026 (AI Challenge, Brief 1): a working web app that helps a housing maintenance coordinator
-prioritise urgent repairs across remote Northern Territory communities **without
-"efficiency" quietly pushing remote tenants to the back of the queue**.
+**Housing maintenance triage for remote Northern Territory communities that ranks repairs by tenant need, never by travel cost, and makes the cost trade-off a visible decision a person owns.**
 
-> **How might we** help a coordinator prioritise urgent repairs across remote NT
-> communities without efficiency quietly pushing remote tenants to the back of the queue?
+CDU IT Code Fair 2026, AI Challenge, Brief 1: *How might we help a housing maintenance coordinator prioritise urgent repairs across remote NT communities without "efficiency" quietly pushing remote tenants to the back of the queue?*
+
+> **All data in this repository is synthetic.** No real tenant, household or NT Government data was used. Community names and coordinates are public; every fault report is generated.
 
 ## The idea
 
-Two independent ranks, and the tension between them made visible:
+Distance decides the route, not the queue.
 
-- **Need rank** — location-blind, human-centric: `safety × occupant vulnerability`.
-- **Efficiency rank** — logistics: travel distance + job duration − batching bonus.
-- **Equity gap** = `efficiency rank − need rank`. Remote jobs get a big positive gap.
+1. **Need rank** reads only the report (safety level, hazards, who lives in the house). Location cannot change it: a test moves every job to all 48 communities and checks its score never changes.
+2. **Efficiency rank** reads travel distance, time and cost, with **batching** so jobs in nearby communities share one trip.
+3. **The dial** (λ, 0 = need only, 1 = travel cost only) is set by the coordinator, shows what it does to remote waits, and is **committed and audited** as a human decision.
+4. **The tenant answer** says what was understood, how urgent it was rated, what is ahead and why, who decided, when the target will be missed, what would move it up, and how to ask a person to review it.
 
-The dashboard shows the gap and its driver, e.g. *"Wadeye roof leak is #2 on need,
-#9 after logistics — 1,140 km round trip. Batch with the 2 other West Daly jobs →
-recovers places at ~zero extra cost."*
+## What is in this repository
 
-Reconciliation is **batching**, not sacrifice. Where equity and efficiency genuinely
-conflict, an **equity dial** (`λ = 0` pure fair → `1` pure efficient) re-ranks live
-and reports the human cost: *"saves $X travel, adds +N median days for remote
-households."* The human commits, and the decision is **audited**.
+| Folder | What it is |
+|---|---|
+| `analysis/` | **Python** (the submission's source code): a commented port of the triage engine plus the four experiments behind the report's findings. |
+| `analysis/data/` | **The datasets** as CSV files, with a data dictionary (`DATA.md`): 48 communities, 22 fault scenarios, 2,000 sample jobs and 2,640 test reports. All synthetic. |
+| `nt-housing-triage/` | The working web app (Next.js + TypeScript): coordinator dashboard, equity dial, tenant answer page, SQLite audit trail, optional fine-tuned Gemma parser. |
+| `docs/` | Report, screenshots and presentation material. |
 
-A **fixed waiting-time rule** adds priority for older reports, capped so safety
-still dominates: a routine report that has waited can never outrank a fresh urgent
-one, but a flood of new reports cannot keep pushing an older one down the queue.
-This is the same "ageing" mechanism the analysis experiments measure (E4).
+The Python and TypeScript engines are tested against each other: `analysis/tests/test_engine.py` checks that both produce identical parses, scores and ranks on 74 reports and 44 ranked runs (two queues, 11 dial values, batching on and off).
 
-A tenant can ask *why* their repair was deprioritised and get a real answer built
-from the same scores the coordinator sees.
+## Reproduce the results (Python)
 
-## Stack
-
-- **Next.js (App Router) + Tailwind CSS** — single `npm run dev`, minimal deps.
-- **Deterministic engine** in TypeScript — never a black box.
-- **Fine-tuned parser** — Gemma 4 E2B via local **Ollama** (Q4_K_M GGUF), with a
-  deterministic keyword fallback so the app works fully offline with no model.
-- **Grounded explainer** — every sentence is built from numbers already in the
-  engine, so a fairness explanation can never hallucinate a figure.
-- **SQLite persistence** — reports, committed schedules and the audit trail live
-  in a local file (`data/nt-triage.sqlite`) via Node's built-in `node:sqlite`.
-  No server, no cloud — consistent with the offline, on-country promise.
-
-## Run the app from a clone
-
-### Prerequisites
-
-- Git
-- Node.js **22.5 or newer** and npm
-
-The app uses Node's built-in `node:sqlite`; you do not need to install or run a
-separate database server.
-
-### Install and start
-
-Clone the repository, then install and run the app from this directory:
+Requires Python 3.10+ and the community data in `nt-housing-triage/data/` (already in the repository).
 
 ```bash
 git clone https://github.com/HendrickDang/fair-queue-nt.git
-cd fair-queue-nt/nt-housing-triage
-npm ci
-npm run dev
+cd fair-queue-nt/analysis
+python -m venv .venv
+# Windows: .venv\Scripts\activate    macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+
+python -m pytest -q          # 77 tests: parity with the web app + location invariance
+python run_experiments.py    # about 20 seconds; writes results/ and figures/
+python run_experiments.py --uniform   # optional sensitivity check
+python export_datasets.py   # rewrites analysis/data/ (identical output each run)
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Stop the development server
-with `Ctrl+C` in the terminal.
+Every number in the report is in `analysis/results/summary.json`. All randomness is seeded, so the output is identical on every run.
 
-No environment file or model is required for the demo. On first use, the app
-creates and seeds its local SQLite database at `data/nt-triage.sqlite`. The
-deterministic parser works without a network connection or Ollama. To enable the
-optional local model parser, follow `training/README.md` and configure the values
-from `.env.example` in a local `.env` file.
+| Experiment | Question | Headline (batching on) |
+|---|---|---|
+| E1 The dial | Who waits when travel cost is weighted? | Urgent remote jobs: 2.9 days at λ=0, 7.2 days at λ=1. Total travel cost: unchanged. |
+| E2 Batching | What does grouping trips do? | 30% less travel cost; remote median wait 8.1 → 6.1 days at λ=0. |
+| E3 Parser robustness | Whose reports get misread? | Urgent reports read as routine: 11% (app phrasing) to 86% (Kriol-influenced). A fail-safe cuts this to under 8%. |
+| E4 Ageing | Do some jobs wait forever? | Without ageing, some jobs are still waiting when the simulation ends; ageing roughly halves the worst wait, at some cost to average town waits. |
 
-### Common commands
+## Run the web app
 
-Run these from `nt-housing-triage/`:
+Requires Node.js 22.5 or newer.
 
 ```bash
-npm test                 # run the test suite
-npm run build            # create a production build
-npm run start            # serve the production build
-npm run data:generate    # regenerate data/distance-matrix.json
-npm run db:reset         # delete the local database; it is reseeded on next run
-npm run reference:export # export engine output for the Python parity test (../analysis)
-npm run training:generate -- 3000   # build the fine-tuning dataset
+cd fair-queue-nt/nt-housing-triage
+npm ci
+npm test        # 44 tests
+npm run dev     # then open http://localhost:3000
 ```
 
-## Layout
+On Windows you can instead double-click `nt-housing-triage/start-server.bat`, which starts the app and opens a temporary public link:
 
-```
-nt-housing-triage/
-├── app/                     # Next.js App Router
-│   ├── page.tsx             # coordinator dashboard
-│   ├── tenant/page.tsx      # tenant answer view
-│   ├── components/          # dashboard, queue, map, equity dial, audit
-│   └── api/parse/route.ts   # model-first parse endpoint (Ollama + fallback)
-├── lib/
-│   ├── taxonomy.ts          # enums, trigger phrases, weights (shared contract)
-│   ├── engine/              # need score, batching, efficiency, equity ranking
-│   ├── parser/              # LLM-first parser + deterministic fallback
-│   ├── explainer/           # deterministic, grounded explanations
-│   ├── db/                  # SQLite schema + repository (reports, schedules, audit)
-│   ├── data/                # communities, distances, generator, seed
-│   └── ui/                  # shared UI colour tokens
-├── data/                    # communities.json, distance matrix, nt-triage.sqlite
-├── scripts/                 # data artifact generation
-├── training/                # dataset generation + fine-tune recipe
-└── tests/                   # engine, parser golden set, generator
-```
+1. **First time only:** if it says `cloudflared was not found`, run `winget install Cloudflare.cloudflared`, then close the Command Prompt window, open a new one, and run `start-server.bat` again.
+2. Wait several seconds until a new browser tab opens with the public address.
+3. If the tab says "This site can't be reached", wait several seconds for the public address to come up, then click Reload.
 
-## Charts
+Keep the two windows it opens running while you use the link. Details are in `nt-housing-triage/README.md`.
 
-Three charts sit beside the queue. They only draw what `rankJobs` returns, so they cannot disagree with it (`tests/viz.test.ts` checks this).
+The app runs fully offline with the deterministic parser; no model or environment file is needed. The coordinator dashboard is at `/` and the tenant answer at `/tenant`. See `nt-housing-triage/README.md` for the optional local language model.
 
-| Chart | Where | What it shows |
-|---|---|---|
-| What the dial does to waits | under the equity dial | The same queue re-ranked at every dial setting, with the median estimated start for town and for remote households. Hover to read a setting, click to move the dial there. |
-| Who moves when travel cost counts | under the ranked queue | Each job's position at need only, at the current dial, and at cost only. A line that slopes down is a household that waits longer because of where it lives. Click a line to select the job. |
-| How the need score is built | in the job panel | The selected job's score as a running total: safety level, hazards, who lives there, days waiting. Location is not an input, so it has no row. |
+## Limitations
 
-Blue is town and regional, orange is remote, in both themes. The helpers are in `lib/viz/` and the components in `app/components/` (`TradeoffChart`, `RankShiftChart`, `NeedBreakdown`).
+Synthetic data shows the mechanism works, not that it works on real NT reports. Travel uses straight-line distance with a detour factor, not a road network. The Kriol-influenced test reports were written by non-speakers as rough approximations and must be replaced by examples from Kriol speakers before any real evaluation. See the report's Discussion section.
 
-## Data & methodology
+## Team
 
-- **Communities**: real NT community locations with ARIA+ remoteness classes and
-  curated remoteness tiers (T0 urban base → T3 very remote / island).
-- **Distances**: derived from real coordinates with a documented detour factor per
-  access mode (road/barge/air). Illustrative, not a routed road network — see
-  `lib/data/distances.ts`. Swap in a real routing matrix without touching the engine.
-- **Reports**: synthetic, generated from the shared taxonomy so the demo scenario
-  stages reproducibly. The same generator produces the fine-tune dataset.
+**Last Bar** (registration AIC008), CDU IT Code Fair 2026 AI Challenge.
 
-## Persistence (SQLite)
-
-Everything that must survive a reload lives in `data/nt-triage.sqlite`
-(gitignored, created on first run). `npm run db:reset` wipes it; the demo queue
-reseeds itself on the next run using the deterministic parser.
-
-| table | holds |
+| Member | Role |
 |---|---|
-| `reports` | report text, parsed fields, and the engine's need / efficiency / equity-gap ranks |
-| `schedules` | a committed schedule at a given equity dial (λ) plus its grounded narrative |
-| `schedule_jobs` | the ordered jobs in a schedule, each with a rationale |
-| `audit_log` | append-only record of commits and escalations (who, what, why) |
+| Le Nhat Minh (Thomas) Tran | Web app and ranking engine |
+| Van Hoi (Hendrick) Dang | Python analysis, experiments and report |
+| Minh Hoang Bui | Presentation and data checks |
+| Ngoc Ngan Le | Presentation and test scenarios |
 
-The audit trail is the durable half of the trust twist: a commit (`POST /api/commit`)
-and a tenant's escalation (`POST /api/escalate`) are both written down — so the
-"why" a tenant is given is the same record the coordinator signed off on
+AI assistance was used in this project and is declared in the report appendix.
 
-## Demo scenario
-
-1. Darwin tap leak and an Alice Springs aircon fault sort to the top on efficiency.
-2. A **Wadeye roof caving over a bedroom with young children** is critical on need
-   but drops far down the efficiency-only sort.
-3. Turn on batching → Wadeye groups with the two other West Daly jobs and recovers
-   places at almost no extra travel cost.
-4. Read the tenant's answer aloud — it is honest about the trade-off.
-5. Commit the schedule and record an escalation — both land in `audit_log`.
+MIT licence.
