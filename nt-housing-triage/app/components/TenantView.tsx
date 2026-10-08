@@ -7,6 +7,7 @@ import { AGEING_POINTS_PER_DAY } from "@/lib/taxonomy";
 import { tenantAnswer, formatVisitDate, type PolicyDecision } from "@/lib/explainer";
 import { SAFETY_LABEL } from "@/lib/taxonomy";
 import { SAFETY_CLASS } from "@/lib/ui/colors";
+import TenantStreet from "./TenantStreet";
 
 interface Props {
   jobs: Job[];
@@ -106,6 +107,8 @@ export default function TenantView({ jobs, initialJobId, decision }: Props) {
             {SAFETY_LABEL[ranked.job.report.safety_level]}
           </span>
         </div>
+
+        <TenantStreet mine={ranked} ranked={result.ranked} />
 
         <div className="mt-4 space-y-3 text-sm leading-relaxed text-[var(--fg)]">
           {answer.body.map((line) => (

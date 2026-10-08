@@ -41,3 +41,38 @@ describe("houseZones", () => {
     }
   });
 });
+
+// The tenant's street drawing and the tenant's written answer must give the same counts.
+import { rankJobs } from "@/lib/engine/rank";
+import { aheadOf, tenantAnswer } from "@/lib/explainer";
+
+describe("aheadOf", () => {
+  const jobs = seedJobs();
+  const options = { ageing: 1, now: "2026-10-08T09:00:00+09:30" };
+
+  it("lists exactly the jobs ranked ahead, in queue order, at every dial setting", () => {
+    for (const lambda of [0, 0.4, 1]) {
+      const { ranked } = rankJobs(jobs, { ...options, lambda });
+      for (const r of ranked) {
+        const ahead = aheadOf(r, ranked);
+        expect(ahead.map((a) => a.job.finalRank)).toEqual(Array.from({ length: r.finalRank - 1 }, (_, i) => i + 1));
+      }
+    }
+  });
+
+  it("matches the counts in the tenant's written answer", () => {
+    const { ranked } = rankJobs(jobs, { ...options, lambda: 1 });
+    for (const r of ranked.filter((x) => x.finalRank > 1)) {
+      const ahead = aheadOf(r, ranked);
+      const urgent = ahead.filter((a) => a.reason === "more_urgent").length;
+      const line = tenantAnswer(r, { ranked, lambda: 1 }).body.find((l) => l.includes("ahead of yours"))!;
+      expect(line).toContain(`${ahead.length} repair`);
+      expect(line).toContain(`${urgent} of them`);
+    }
+  });
+
+  it("says nobody is ahead of the first job", () => {
+    const { ranked } = rankJobs(jobs, options);
+    expect(aheadOf(ranked[0], ranked)).toEqual([]);
+  });
+});

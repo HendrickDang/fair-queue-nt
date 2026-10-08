@@ -144,6 +144,9 @@ Everything here only draws what `rankJobs` and the parsed report already say, so
 | What the dial does to waits | under the equity dial | The same queue re-ranked at every dial setting, with the median estimated start for town and for remote households. Hover to read a setting, click to move the dial there. |
 | Who moves when travel cost counts | under the ranked queue | Each job's position at need only, at the current dial, and at cost only. A line that slopes down is a household that waits longer because of where it lives. |
 | House diagram | in the job panel | A cut-away house with the parts the report touches lit in the safety colour. It shows what the system understood, not the layout of the real house. |
+| Live reading preview | in the new fault report form | As a report is typed, the house diagram shows what the offline parser understood. If no hazard is recognised the house is marked with a question and a note asks a person to read the report. |
+| Play the dial | under the equity dial | One click sweeps the dial from need only to cost only and back, so the street rearranges on its own. |
+| The tenant's place in the queue | tenant page | A street of the homes ahead of the tenant, each marked with why it is ahead (more urgent, waiting longer, or cheaper to reach). No names or details of other homes are shown. |
 | How the need score is built | in the job panel | The selected job's score as a running total: safety level, hazards, who lives there, days waiting. Location is not an input, so it has no row. |
 | NT service map | right column | The NT outline, communities with work, and this week's batched runs drawn as routes from the trade base. |
 

@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { buildJob } from "@/lib/engine/scoring";
 import type { Job } from "@/lib/engine/types";
 import type { ParseResult } from "@/lib/parser/types";
 import { COMMUNITIES } from "@/lib/data/communities";
+import { parseWithFallback } from "@/lib/parser/fallback";
+import { FLAG_LABEL, SAFETY_LABEL, VULNERABILITY_LABEL } from "@/lib/taxonomy";
+import { SAFETY_CLASS } from "@/lib/ui/colors";
+import { FAULT_LABEL, faultKind } from "@/lib/ui/fault";
+import FaultIcon from "./FaultIcon";
+import HouseDiagram from "./HouseDiagram";
 
 interface Props {
   onAdd: (job: Job) => void;
@@ -16,6 +22,12 @@ export default function ReportForm({ onAdd }: Props) {
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<ParseResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Live preview: the offline parser reads the text as it is typed, so the coordinator
+  // sees what the system understood (or failed to) before anything joins the queue.
+  const typed = useDeferredValue(text);
+  const preview = useMemo(() => (typed.trim().length >= 6 ? parseWithFallback(typed) : null), [typed]);
+  const unread = preview !== null && preview.urgency_flags.length === 0;
 
   async function submit() {
     if (!text.trim() || busy) return;
@@ -70,6 +82,32 @@ export default function ReportForm({ onAdd }: Props) {
         placeholder="e.g. roof is leaking over the kids bed and the ceiling is sagging, in Wadeye"
         className="mt-3 w-full resize-none rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-2.5 text-sm text-[var(--fg)] outline-none placeholder:text-[var(--muted)] focus:border-[var(--accent)]"
       />
+      {preview && (
+        <div className="mt-3" aria-live="polite">
+          <p className="mb-1.5 text-[11px] text-[var(--muted)]">What the offline parser reads as you type:</p>
+          <HouseDiagram report={preview} unread={unread} />
+          <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px]">
+            <span className="chip text-[var(--fg-2)]">
+              <FaultIcon kind={faultKind(preview)} size={12} labelled={false} />
+              {FAULT_LABEL[faultKind(preview)]}
+            </span>
+            <span className={`chip ${SAFETY_CLASS[preview.safety_level]}`}>{SAFETY_LABEL[preview.safety_level]}</span>
+            {preview.urgency_flags.map((f) => (
+              <span key={f} className="chip">{FLAG_LABEL[f]}</span>
+            ))}
+            {preview.occupant_vulnerability.map((v) => (
+              <span key={v} className="chip border-amber-500/40 text-amber-700 dark:text-amber-200">{VULNERABILITY_LABEL[v]}</span>
+            ))}
+            <span className="chip">{preview.community || "No community found yet"}</span>
+          </div>
+          {unread && (
+            <p className="mt-2 rounded-lg border border-amber-500/40 bg-amber-500/10 p-2 text-[11px] text-amber-800 dark:text-amber-100">
+              No hazard words recognised. A person should read this report before it is ranked.
+            </p>
+          )}
+        </div>
+      )}
+
       <label className="mt-3 block text-[11px] uppercase tracking-wide text-[var(--muted)]">
         Community (if not in the text)
       </label>

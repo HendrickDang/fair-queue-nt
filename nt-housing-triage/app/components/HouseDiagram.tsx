@@ -5,7 +5,9 @@ import { SAFETY_DOT } from "@/lib/ui/colors";
 import { ZONE_LABEL, houseZones, type HouseZone } from "@/lib/ui/fault";
 
 interface Props {
-  report: ParsedReport;
+  report: Pick<ParsedReport, "category" | "urgency_flags" | "safety_level">;
+  /** Set when the system could not read the report: the house is marked with a question. */
+  unread?: boolean;
 }
 
 /** Where the attention ring sits for each part of the house. */
@@ -31,7 +33,7 @@ const CENTRE: Record<HouseZone, [number, number]> = {
  * It is drawn from the parsed report, so it shows what the system understood,
  * not the layout of the real house.
  */
-export default function HouseDiagram({ report }: Props) {
+export default function HouseDiagram({ report, unread = false }: Props) {
   const zones = houseZones(report);
   const lit = new Set(zones);
   const hot = SAFETY_DOT[report.safety_level];
@@ -63,6 +65,16 @@ export default function HouseDiagram({ report }: Props) {
         {zones.map((z) => (
           <circle key={z} className="house-pulse" cx={CENTRE[z][0]} cy={CENTRE[z][1]} r={15} fill={hot} />
         ))}
+
+        {/* a report the system could not read is a question, not a quiet "nothing wrong" */}
+        {unread && (
+          <g>
+            <circle cx={136} cy={56} r={13} fill="var(--accent)" />
+            <text x={136} y={62} textAnchor="middle" fontSize={18} fontWeight={700} fill="#0b1220">
+              ?
+            </text>
+          </g>
+        )}
 
         {/* ground, stumps, walls */}
         <line x1={4} x2={316} y1={158} y2={158} stroke="var(--house-line)" strokeWidth={1.2} />

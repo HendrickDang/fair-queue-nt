@@ -106,6 +106,27 @@ export const TARGET_WORKING_DAYS: Record<string, number> = {
   low: 10,
 };
 
+/** Why a job sits ahead of another in the queue, in the tenant's terms. */
+export type AheadReason = "more_urgent" | "waiting_longer" | "cheaper_to_reach";
+
+/**
+ * Every job ahead of `r`, with the reason it is ahead. The tenant's written
+ * answer and the tenant's street drawing both use this, so they always agree.
+ * Safety is compared without ageing, so a job that is ahead because it has
+ * waited longer is not wrongly described as "more urgent for safety".
+ */
+export function aheadOf(r: RankedJob, ranked: RankedJob[]): { job: RankedJob; reason: AheadReason }[] {
+  const safetyNeed = (o: RankedJob) => o.need.score - o.need.agePoints;
+  const mine = safetyNeed(r);
+  return ranked
+    .filter((o) => o.finalRank < r.finalRank)
+    .sort((a, b) => a.finalRank - b.finalRank)
+    .map((o) => ({
+      job: o,
+      reason: safetyNeed(o) > mine ? "more_urgent" : o.need.score > r.need.score ? "waiting_longer" : "cheaper_to_reach",
+    }));
+}
+
 function plural(n: number, word: string): string {
   return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
@@ -165,13 +186,9 @@ export function tenantAnswer(
 
   // 3. What is ahead of it, in concrete terms the tenant can check.
   if (options.ranked && r.finalRank > 1) {
-    const ahead = options.ranked.filter((o) => o.finalRank < r.finalRank);
-    // Compare the safety part of need (excluding ageing), so a job ahead because
-    // it has waited longer is not wrongly described as "more urgent for safety".
-    const safetyNeed = (o: RankedJob) => o.need.score - o.need.agePoints;
-    const mine = safetyNeed(r);
-    const moreUrgent = ahead.filter((o) => safetyNeed(o) > mine).length;
-    const aged = ahead.filter((o) => safetyNeed(o) <= mine && o.need.score > r.need.score).length;
+    const ahead = aheadOf(r, options.ranked);
+    const moreUrgent = ahead.filter((a) => a.reason === "more_urgent").length;
+    const aged = ahead.filter((a) => a.reason === "waiting_longer").length;
     const lessUrgent = ahead.length - moreUrgent - aged;
     let line = `${plural(ahead.length, "repair")} ${ahead.length === 1 ? "is" : "are"} ahead of yours. ${
       moreUrgent

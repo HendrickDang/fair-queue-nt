@@ -22,7 +22,7 @@ Distance decides the route, not the queue.
 | `analysis/` | **Python** (the submission's source code): a commented port of the triage engine plus the four experiments behind the report's findings. |
 | `analysis/data/` | **The datasets** as CSV files, with a data dictionary (`DATA.md`): 48 communities, 22 fault scenarios, 2,000 sample jobs and 2,640 test reports. All synthetic. |
 | `nt-housing-triage/` | The working web app (Next.js + TypeScript): coordinator dashboard, equity dial, tenant answer page, SQLite audit trail, optional fine-tuned Gemma parser. |
-| `docs/` | Report, screenshots and presentation material. |
+| `docs/` | The script that builds the report (`docs/report/`), app screenshots (`docs/screenshots/`), and the slide-sized charts with the script that draws them (`docs/presentation/`). |
 
 The Python and TypeScript engines are tested against each other: `analysis/tests/test_engine.py` checks that both produce identical parses, scores and ranks on 74 reports and 44 ranked runs (two queues, 11 dial values, batching on and off).
 
@@ -59,7 +59,7 @@ Requires Node.js 22.5 or newer.
 ```bash
 cd fair-queue-nt/nt-housing-triage
 npm ci
-npm test        # 59 tests
+npm test        # 62 tests
 npm run dev     # then open http://localhost:3000
 ```
 
