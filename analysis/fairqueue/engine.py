@@ -38,6 +38,7 @@ class Job:
     community: object     # geo.Community
     reported_at: str = "2026-09-20T00:00:00+09:30"
     extra_need: float = 0.0   # used only by the ageing experiment (E4)
+    needs_reading: bool = False  # fail-safe: no hazard recognised and not yet read by a person
     base: object = field(init=False)
 
     def __post_init__(self):
@@ -51,6 +52,10 @@ def score_need(job: Job) -> float:
     Reads job.report only: the job's location never enters this function."""
     r = {k: job.report[k] for k in NEED_FIELDS}  # whitelist: nothing else gets in
     level = escalate_safety(r["safety_level"], r["urgency_flags"], r["occupant_vulnerability"])
+    # Fail-safe hold (mirrors scoring.ts): an unread report with no recognised
+    # hazard is scored as at least "high" until a person reads it.
+    if job.needs_reading and SAFETY_BASE[level] < SAFETY_BASE["high"]:
+        level = "high"
     safety_score = SAFETY_BASE[level]
     flag_score = sum(FLAG_WEIGHT.get(f, 0) for f in r["urgency_flags"])
     vuln_bonus = sum(VULNERABILITY_WEIGHT.get(v, 0) for v in r["occupant_vulnerability"])

@@ -175,7 +175,7 @@ def main() -> None:
     _total = sum(s for _, s, _ in files)
     print(f"{args.repo}: {len(files)} files, {_total / 1e9:.2f} GB -> {_out_dir}", flush=True)
     if not HEADERS:
-        print("  (no HF_TOKEN set — download may be rate-limited)", flush=True)
+        print("  (no HF_TOKEN set - download may be rate-limited)", flush=True)
 
     threading.Thread(target=progress_loop, daemon=True).start()
     for name, size, sha in files:

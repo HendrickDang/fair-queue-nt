@@ -9,6 +9,12 @@ export interface JobInput {
   reportedAt: string;
   /** Optional household reference shown to the tenant. */
   household?: string;
+  /**
+   * Fail-safe: the parser recognised no hazard in this report and no person has
+   * read it yet. While true, the job is held at high priority, so a report the
+   * system could not read never drifts to the back of the queue.
+   */
+  needsReading?: boolean;
 }
 
 /** A job resolved against the community / trade-base dataset. */
@@ -22,6 +28,10 @@ export interface NeedScore {
   safetyScore: number;
   flagScore: number;
   vulnerabilityMultiplier: number;
+  /** True while the job is held at high priority because no person has read it yet. */
+  heldForReading: boolean;
+  /** Need points the hold adds on top of what the parser read (already included in `score`). */
+  holdPoints: number;
   /** Days the report has been waiting (0 when ageing is off). */
   ageDays: number;
   /** Need points the waiting time has added (already included in `score`). */

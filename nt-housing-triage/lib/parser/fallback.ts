@@ -41,7 +41,7 @@ function containsAny(haystack: string, phrases: string[]): boolean {
 
 const HEAT_RE = /(3[89]|4\d)\s*(degrees|deg\b|°|c\b)/i;
 
-/** Refined phrase sets — the taxonomy tables stay the shared vocabulary, but a
+/** Refined phrase sets - the taxonomy tables stay the shared vocabulary, but a
  * few bare words ("smells") are too ambiguous to fire on their own here. */
 const WATER_CONTAMINATION_RE = /\b(brown|dirty|muddy|salty|smells?\s+(off|bad|funny)|can'?t drink|cant drink)\b/i;
 

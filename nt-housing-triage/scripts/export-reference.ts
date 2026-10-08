@@ -71,6 +71,10 @@ for (const g of generated) {
   if (job) genJobs.push(job);
 }
 
+// The fail-safe hold: the same seed queue, with every report in which the parser
+// recognised no hazard marked as not yet read by a person.
+const heldJobs: Job[] = seedJobs().map((j) => ({ ...j, needsReading: j.report.urgency_flags.length === 0 }));
+
 const texts = [...SEED_REPORTS.map((s) => s.rawText), ...generated.map((g) => g.rawText)];
 
 const reference = {
@@ -80,6 +84,11 @@ const reference = {
   seed: {
     inputs: SEED_REPORTS,
     runs: snapshot(seedJobs()),
+  },
+  held: {
+    note: "Seed queue with needsReading = (no urgency flags recognised).",
+    inputs: SEED_REPORTS,
+    runs: snapshot(heldJobs),
   },
   generated: {
     inputs: generated.map((g) => ({ ...g, reportedAt: "2026-09-20T00:00:00+09:30" })),

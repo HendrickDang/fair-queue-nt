@@ -17,6 +17,8 @@ export interface ReportRow {
   efficiency_rank: number | null;
   equity_gap: number | null;
   created_at: string;
+  /** 1 while the report is held for a person to read (fail-safe). */
+  needs_reading: number;
 }
 
 export interface ScheduleRow {
@@ -24,6 +26,9 @@ export interface ScheduleRow {
   equity_lambda: number;
   cost_note: string | null;
   created_at: string;
+  decided_role: string | null;
+  decided_name: string | null;
+  reason: string | null;
 }
 
 export interface ScheduleJobRow {
@@ -51,6 +56,8 @@ export interface ReportInput {
   reportedAt?: string | null;
   communityId?: string | null;
   tier?: string | null;
+  /** Hold the report at high priority until a person has read it. */
+  needsReading?: boolean;
 }
 
 export interface RankWrite {
@@ -76,6 +83,12 @@ export interface ScheduleInput {
   actor?: string;
   action?: string;
   detail?: string | null;
+  /** The role that owns the decision, e.g. "Maintenance coordinator". Shown to tenants. */
+  decidedRole?: string | null;
+  /** The person who committed it. Kept in the audit trail, never shown to tenants. */
+  decidedName?: string | null;
+  /** Why travel cost was given weight, in the decider's own words. */
+  reason?: string | null;
   jobs: ScheduleJobInput[];
 }
 
@@ -85,6 +98,9 @@ export interface ScheduleWithJobs {
   at: string;
   lambda: number;
   narrative: string;
+  role: string | null;
+  name: string | null;
+  reason: string | null;
   order: {
     id: string;
     community: string | null;

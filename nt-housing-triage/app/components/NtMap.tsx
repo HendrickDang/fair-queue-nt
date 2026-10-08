@@ -196,6 +196,10 @@ export default function NtMap({ jobs, batches = [], selectedId, onSelect }: Prop
           return (
             <g key={d.id} onClick={() => onSelect(d.list[0].id)} className="cursor-pointer" tabIndex={0}>
               {isSelected && <circle cx={d.x} cy={d.y} r={d.r + 14} fill="url(#glow)" />}
+              {d.list[0].community.wetSeasonIsolation && (
+                // commonly cut off in the wet season
+                <circle cx={d.x} cy={d.y} r={d.r + 3.5} fill="none" stroke="var(--map-text)" strokeWidth={1.2} strokeDasharray="2.5 2.5" />
+              )}
               <circle
                 cx={d.x}
                 cy={d.y}
@@ -249,6 +253,9 @@ export default function NtMap({ jobs, batches = [], selectedId, onSelect }: Prop
         </span>
         <span className="flex items-center gap-1.5">
           <span className="inline-block h-0.5 w-4 rounded" style={{ background: "var(--map-route)" }} /> batched run
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-3 w-3 rounded-full border border-dashed border-[var(--map-text)]" /> cut off in the wet
         </span>
       </div>
       <p className="mt-1 text-[10px] text-[var(--muted)]">Outline: Natural Earth.</p>

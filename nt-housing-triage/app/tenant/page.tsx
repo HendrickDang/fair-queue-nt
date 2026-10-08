@@ -15,7 +15,13 @@ export default async function TenantPage({
   // they can move themselves. With nothing committed yet, the queue is need-only.
   const latest = listSchedulesWithJobs(1)[0] ?? null;
   const decision = latest
-    ? { lambda: latest.lambda, decidedBy: "the maintenance coordinator", decidedAt: latest.at }
+    ? {
+        lambda: latest.lambda,
+        // Tenants are told the role that decided, never the person's name.
+        decidedBy: `the ${(latest.role ?? "maintenance coordinator").toLowerCase()}`,
+        decidedAt: latest.at,
+        reason: latest.reason,
+      }
     : null;
 
   return (

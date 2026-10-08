@@ -214,10 +214,26 @@ def main() -> int:
 
     if not args.dry_run:
         try:
-            urllib.request.urlopen(f"{args.url}/api/tags", timeout=5).read()
-        except (urllib.error.URLError, OSError) as e:
+            tags = json.loads(urllib.request.urlopen(f"{args.url}/api/tags", timeout=5).read() or b"{}")
+        except (urllib.error.URLError, OSError, ValueError) as e:
             print(f"Cannot reach Ollama at {args.url} ({e}). Start Ollama, or use --dry-run to test the script.")
             return 1
+        # Stop early if a model is not in Ollama, so a missing model never shows up as a run of failed calls.
+        have = set()
+        for m in tags.get("models", []) if isinstance(tags, dict) else []:
+            for key in ("name", "model"):
+                name = str(m.get(key, ""))
+                if name:
+                    have.add(name)
+                    if name.endswith(":latest"):
+                        have.add(name[: -len(":latest")])
+        missing = [m for m in models if m not in have]
+        if missing:
+            print("These models are not in Ollama: " + ", ".join(missing))
+            print("Models Ollama has: " + (", ".join(sorted(n for n in have if not n.endswith(":latest"))) or "none"))
+            print("Create the fine-tuned one with training/create_ollama.ps1, or pass the right name with --model.")
+            return 1
+        print("Ollama has: " + ", ".join(models))
 
     # The keyword parser on the same reports, for the side-by-side comparison.
     rows = []

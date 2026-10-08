@@ -13,7 +13,7 @@ function job(id: string, text: string, reportedAt = "2026-09-20T00:00:00+09:30")
   return built;
 }
 
-describe("rankJobs — equity gap", () => {
+describe("rankJobs - equity gap", () => {
   const jobs = seedJobs();
 
   it("builds a job for every seeded report", () => {
@@ -84,7 +84,7 @@ describe("scoring", () => {
   });
 });
 
-describe("buildBatches — credits", () => {
+describe("buildBatches - credits", () => {
   it("never credits more than the batch actually saves", async () => {
     const { buildBatches } = await import("@/lib/engine/batching");
     // Two jobs in Wadeye plus one in Palumpa: the Wadeye share must be split.
@@ -101,9 +101,9 @@ describe("buildBatches — credits", () => {
   });
 });
 
-describe("ageing — waiting time raises priority", () => {
+describe("ageing - waiting time raises priority", () => {
   const now = "2026-10-01T00:00:00+09:30";
-  // Same report, same community, same safety — only the submit date differs.
+  // Same report, same community, same safety - only the submit date differs.
   const older = job("OLD", "tap leaking under the sink, Darwin", "2026-09-01T00:00:00+09:30");
   const newer = job("NEW", "tap leaking under the sink, Darwin", "2026-09-30T00:00:00+09:30");
 

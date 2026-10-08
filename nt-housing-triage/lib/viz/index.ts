@@ -109,7 +109,7 @@ export function rankShift(jobs: Job[], current: RankResult, options: SweepOption
 /* ------------------------------------------------------------------------ */
 
 export interface NeedPart {
-  key: "safety" | "hazards" | "household" | "waiting";
+  key: "safety" | "hazards" | "household" | "hold" | "waiting";
   label: string;
   /** Need points this part adds. The parts always sum to the need score. */
   points: number;
@@ -117,7 +117,7 @@ export interface NeedPart {
 
 /**
  * Split a need score into the points each input adds:
- *   score = (safety + hazards) x household multiplier + waiting
+ *   score = (safety + hazards) x household multiplier + hold + waiting
  * The household uplift is the extra the multiplier adds on top of safety and
  * hazards. Location is not an input, so it never appears here.
  */
@@ -127,6 +127,8 @@ export function needBreakdown(need: NeedScore): { parts: NeedPart[]; total: numb
     { key: "safety", label: "Safety level", points: need.safetyScore },
     { key: "hazards", label: "Hazards reported", points: need.flagScore },
     { key: "household", label: "Who lives there", points: base * (need.vulnerabilityMultiplier - 1) },
+    // Only present while a report the system could not read is waiting for a person.
+    ...(need.heldForReading ? [{ key: "hold" as const, label: "Held until read", points: need.holdPoints }] : []),
     { key: "waiting", label: "Days waiting", points: need.agePoints },
   ];
   return { parts, total: need.score };

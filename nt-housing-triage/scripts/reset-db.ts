@@ -9,4 +9,4 @@ import { join } from "node:path";
 for (const suffix of ["", "-wal", "-shm"]) {
   rmSync(join(process.cwd(), "data", `nt-triage.sqlite${suffix}`), { force: true });
 }
-console.log("nt-triage: local database reset — it will reseed on the next run.");
+console.log("nt-triage: local database reset - it will reseed on the next run.");

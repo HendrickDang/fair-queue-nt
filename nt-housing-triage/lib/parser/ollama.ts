@@ -19,7 +19,7 @@ import type { ParseResult } from "./types";
  *
  * Everything here is best-effort: if Ollama is not running, or returns
  * something off-schema, the caller falls back to the deterministic parser.
- * That is deliberate — the app must work fully offline with no model at all.
+ * That is deliberate - the app must work fully offline with no model at all.
  */
 
 const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://127.0.0.1:11434";

@@ -1,4 +1,4 @@
--- NT Housing Maintenance Triage — SQLite schema.
+-- NT Housing Maintenance Triage - SQLite schema.
 --
 -- Idempotent: safe to run on every boot (CREATE TABLE IF NOT EXISTS).
 -- File lives at data/nt-triage.sqlite and is created on first run.
@@ -22,7 +22,9 @@ CREATE TABLE IF NOT EXISTS reports (
   need_rank              INTEGER,            -- written back by the ranking engine
   efficiency_rank        INTEGER,
   equity_gap             INTEGER,
-  created_at             TEXT NOT NULL DEFAULT (datetime('now'))
+  created_at             TEXT NOT NULL DEFAULT (datetime('now')),
+  -- Fail-safe hold: 1 while the parser recognised no hazard and no person has read the report.
+  needs_reading          INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE INDEX IF NOT EXISTS idx_reports_created ON reports(created_at);
@@ -32,7 +34,10 @@ CREATE TABLE IF NOT EXISTS schedules (
   id            TEXT PRIMARY KEY,
   equity_lambda REAL NOT NULL,               -- 0 = pure-fair … 1 = pure-efficient
   cost_note     TEXT,                        -- grounded narrative ("saves $4,800, +11 median days")
-  created_at    TEXT NOT NULL DEFAULT (datetime('now'))
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  decided_role  TEXT,                        -- the role that owns this decision (shown to tenants)
+  decided_name  TEXT,                        -- the person, kept in the audit trail only
+  reason        TEXT                         -- why travel cost was weighted, in the decider's words
 );
 
 -- The ordered jobs inside a committed schedule, with a grounded per-job rationale.
@@ -44,7 +49,7 @@ CREATE TABLE IF NOT EXISTS schedule_jobs (
   PRIMARY KEY (schedule_id, report_id)
 );
 
--- Append-only trail of human decisions — the trust twist, made durable.
+-- Append-only trail of human decisions - the trust twist, made durable.
 CREATE TABLE IF NOT EXISTS audit_log (
   id         TEXT PRIMARY KEY,
   actor      TEXT NOT NULL,                  -- who (coordinator / tenant escalation)

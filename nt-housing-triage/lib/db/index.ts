@@ -16,6 +16,7 @@ export {
   listReports,
   listSchedulesWithJobs,
   mapReportRow,
+  markReportRead,
   saveRanks,
 } from "./repository";
 export { ensureSeeded, loadJobs } from "./seed";

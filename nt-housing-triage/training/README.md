@@ -7,8 +7,8 @@ the fine-tuned **Gemma 4 E4B** parser.
 > **Plan vs. reality.** `nt-housing-maintenance-triage.md` nominates
 > Qwen2.5-3B-Instruct and an 8 GB RTX 3080. This build fine-tunes **Gemma 4 E4B**
 > (the model supplied in `gemma-4-E4B-it-GGUF/`) on the RTX 3080 **10 GB**.
-> Everything else in the plan — parser-only scope, synthetic data, field-level
-> eval, offline Ollama serving — is unchanged.
+> Everything else in the plan - parser-only scope, synthetic data, field-level
+> eval, offline Ollama serving - is unchanged.
 
 ## 0. Why we do not fine-tune the GGUF you have
 
@@ -24,7 +24,7 @@ We fine-tune the original bf16 weights for the **same model** and re-quantise to
 GGUF at the end. The GGUF you already have stays useful as an inference-only
 baseline for comparison.
 
-## Route A — free Colab (no local GPU, no 16 GB download)
+## Route A - free Colab (no local GPU, no 16 GB download)
 
 `training/finetune_gemma4_colab.ipynb` runs the whole thing on a free Colab T4:
 install → train → evaluate → merge → export GGUF. You upload the two JSONL files
@@ -35,7 +35,7 @@ fetched and merged on Colab, so this laptop never pulls 16 GB.
 2. Run the notebook; upload `training/out/train.jsonl` and `eval.jsonl`.
 3. Download the GGUF into `training/models/gguf/` and serve it (§5).
 
-Sections 2–4 below are the local route (Route B) for the RTX 3080.
+Sections 2-4 below are the local route (Route B) for the RTX 3080.
 
 ## 1. Generate the dataset
 
@@ -60,7 +60,7 @@ the demo stages reproducibly.
 
 ## 2. Set up the local environment (Route B)
 
-Unsloth needs Python 3.10–3.12 (the base Anaconda env here is 3.9). Create an
+Unsloth needs Python 3.10-3.12 (the base Anaconda env here is 3.9). Create an
 isolated env:
 
 ```powershell
@@ -78,13 +78,13 @@ Alternatives: the official Unsloth installer
 > `pip install --force-reinstall torch torchvision --index-url https://download.pytorch.org/whl/cu128`
 
 > **Why Unsloth specifically?** Gemma 4 E2B/E4B share KV state across layers. With
-> `use_cache=False` — which gradient checkpointing forces — stock transformers
+> `use_cache=False` - which gradient checkpointing forces - stock transformers
 > produces garbage logits and training silently diverges. Unsloth ships the fix.
 
 ## 3. Fine-tune
 
 On this 10 GB card, target **E2B** (see the VRAM note below). First pull the base
-weights with the parallel downloader — it resumes if interrupted, and an
+weights with the parallel downloader - it resumes if interrupted, and an
 `HF_TOKEN` lifts the anonymous rate limit:
 
 ```powershell
@@ -117,16 +117,16 @@ Our reports are short (system prompt + one-line report + small JSON ≈ 300 toke
 so `--max-seq-length 512` keeps activations tiny.
 
 > **On a 10 GB card (this machine):** with ~8.9 GB actually free, **E2B is the
-> sensible local target** — its QLoRA fits in 8 GB, while E4B sits right on the
+> sensible local target** - its QLoRA fits in 8 GB, while E4B sits right on the
 > ~10 GB line. Train E2B with `--model unsloth/gemma-4-E2B-it`; use E4B only via
 > the Colab route (Route A) or a bigger GPU.
 
 If you OOM:
 
-1. close desktop apps (a browser + Teams can hold 1–2 GB),
+1. close desktop apps (a browser + Teams can hold 1-2 GB),
 2. `--max-seq-length 384` (still ample for this task),
 3. keep `--batch-size 1 --grad-accum 8`,
-4. last resort — the plan's fallback, which trains on 8 GB and still beats the
+4. last resort - the plan's fallback, which trains on 8 GB and still beats the
    deterministic parser:
    ```bash
    python training/finetune_gemma4.py --model unsloth/gemma-4-E2B-it
@@ -149,7 +149,7 @@ Reports `json_valid_rate`, exact-match accuracy for `category` / `safety_level` 
 `occupant_vulnerability`, plus five raw samples for a human eyeball check.
 
 For the "matched a big cloud model, fully offline" story, run the same eval file
-through a hosted model and compare — facts stay grounded either way.
+through a hosted model and compare - facts stay grounded either way.
 
 ## 5. Export GGUF and serve with Ollama
 
@@ -189,7 +189,7 @@ OLLAMA_MODEL=nt-housing-triage
 ```
 
 The app calls `/api/chat` with `format: "json"` at temperature 0. If Ollama is
-unreachable, `lib/parser/fallback.ts` produces the same JSON shape offline — so
+unreachable, `lib/parser/fallback.ts` produces the same JSON shape offline - so
 the demo never depends on the model being up.
 
 ## Files
@@ -197,8 +197,8 @@ the demo never depends on the model being up.
 | file | purpose |
 |---|---|
 | `generate-dataset.ts` | synthetic report → JSONL (train/eval split) |
-| `finetune_gemma4_colab.ipynb` | **Route A** — full train/eval/merge/GGUF on free Colab |
-| `finetune_gemma4.py` | **Route B** — unsloth + QLoRA training, optional GGUF export |
+| `finetune_gemma4_colab.ipynb` | **Route A** - full train/eval/merge/GGUF on free Colab |
+| `finetune_gemma4.py` | **Route B** - unsloth + QLoRA training, optional GGUF export |
 | `evaluate_gemma4.py` | field-level F1, base vs fine-tuned |
 | `export_gguf.py` | merge LoRA + convert to GGUF standalone |
 | `setup-env.ps1` | create the Python 3.11 Unsloth env |

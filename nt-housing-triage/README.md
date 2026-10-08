@@ -1,190 +1,214 @@
-# NT Housing Maintenance Triage
+# Fine-tuning the parser (Gemma 4 E4B, unsloth + QLoRA)
 
-CDU IT Code Fair 2026 (AI Challenge, Brief 1): a working web app that helps a housing maintenance coordinator
-prioritise urgent repairs across remote Northern Territory communities **without
-"efficiency" quietly pushing remote tenants to the back of the queue**.
+The parser is **model-first with a deterministic fallback**. This folder holds the
+dataset generator, the QLoRA recipe, the evaluator and the GGUF/Ollama export for
+the fine-tuned **Gemma 4 E4B** parser.
 
-> **How might we** help a coordinator prioritise urgent repairs across remote NT
-> communities without efficiency quietly pushing remote tenants to the back of the queue?
+> **Plan vs. reality.** `nt-housing-maintenance-triage.md` nominates
+> Qwen2.5-3B-Instruct and an 8 GB RTX 3080. This build fine-tunes **Gemma 4 E4B**
+> (the model supplied in `gemma-4-E4B-it-GGUF/`) on the RTX 3080 **10 GB**.
+> Everything else in the plan - parser-only scope, synthetic data, field-level
+> eval, offline Ollama serving - is unchanged.
 
-## The idea
+## 0. Why we do not fine-tune the GGUF you have
 
-Two independent ranks, and the tension between them made visible:
+`gemma-4-E4B-it-Q4_K_M.gguf` is an **inference-only** container: 4-bit weights,
+no autograd graph, no optimiser state, no `lm_head` in trainable form. No LoRA/QLoRA
+tool can train it. The correct flow is:
 
-- **Need rank** — location-blind, human-centric: `safety × occupant vulnerability`.
-- **Efficiency rank** — logistics: travel distance + job duration − batching bonus.
-- **Equity gap** = `efficiency rank − need rank`. Remote jobs get a big positive gap.
-
-The dashboard shows the gap and its driver, e.g. *"Wadeye roof leak is #2 on need,
-#9 after logistics — 1,140 km round trip. Batch with the 2 other West Daly jobs →
-recovers places at ~zero extra cost."*
-
-Reconciliation is **batching**, not sacrifice. Where equity and efficiency genuinely
-conflict, an **equity dial** (`λ = 0` pure fair → `1` pure efficient) re-ranks live
-and reports the human cost: *"saves $X travel, adds +N median days for remote
-households."* The human commits, and the decision is **audited**.
-
-A **fixed waiting-time rule** adds priority for older reports, capped so safety
-still dominates: a routine report that has waited can never outrank a fresh urgent
-one, but a flood of new reports cannot keep pushing an older one down the queue.
-This is the same "ageing" mechanism the analysis experiments measure (E4).
-
-A tenant can ask *why* their repair was deprioritised and get a real answer built
-from the same scores the coordinator sees.
-
-## Stack
-
-- **Next.js (App Router) + Tailwind CSS** — single `npm run dev`, minimal deps.
-- **Deterministic engine** in TypeScript — never a black box.
-- **Fine-tuned parser** — Gemma 4 E2B via local **Ollama** (Q4_K_M GGUF), with a
-  deterministic keyword fallback so the app works fully offline with no model.
-- **Grounded explainer** — every sentence is built from numbers already in the
-  engine, so a fairness explanation can never hallucinate a figure.
-- **SQLite persistence** — reports, committed schedules and the audit trail live
-  in a local file (`data/nt-triage.sqlite`) via Node's built-in `node:sqlite`.
-  No server, no cloud — consistent with the offline, on-country promise.
-
-## Run the app from a clone
-
-### Prerequisites
-
-- Git
-- Node.js **22.5 or newer** and npm
-
-The app uses Node's built-in `node:sqlite`; you do not need to install or run a
-separate database server.
-
-### Install and start
-
-Clone the repository, then install and run the app from this directory:
-
-```bash
-git clone https://github.com/HendrickDang/fair-queue-nt.git
-cd fair-queue-nt/nt-housing-triage
-npm ci
-npm run dev
+```
+google/gemma-4-E4B-it  (bf16 safetensors)  --QLoRA-->  LoRA adapter  --merge-->  Q4_K_M GGUF  -->  Ollama
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Stop the development server
-with `Ctrl+C` in the terminal.
+We fine-tune the original bf16 weights for the **same model** and re-quantise to
+GGUF at the end. The GGUF you already have stays useful as an inference-only
+baseline for comparison.
 
-No environment file or model is required for the demo. On first use, the app
-creates and seeds its local SQLite database at `data/nt-triage.sqlite`. The
-deterministic parser works without a network connection or Ollama. To enable the
-optional local model parser, follow `training/README.md` and configure the values
-from `.env.example` in a local `.env` file.
+## Route A - free Colab (no local GPU, no 16 GB download)
 
-### One-click start on Windows (with a public link)
+`training/finetune_gemma4_colab.ipynb` runs the whole thing on a free Colab T4:
+install → train → evaluate → merge → export GGUF. You upload the two JSONL files
+and download the finished `unsloth.Q4_K_M.gguf` (~5 GB). The base weights are
+fetched and merged on Colab, so this laptop never pulls 16 GB.
 
-`start-server.bat` starts the app and opens a temporary public link through a Cloudflare tunnel, so someone on another network can open the dashboard. Double-click it in `nt-housing-triage/`, or run it from Command Prompt.
+1. `Runtime → Change runtime type → T4 GPU`.
+2. Run the notebook; upload `training/out/train.jsonl` and `eval.jsonl`.
+3. Download the GGUF into `training/models/gguf/` and serve it (§5).
 
-**First time only: install Cloudflare's tunnel tool**
+Sections 2-4 below are the local route (Route B) for the RTX 3080.
 
-1. Run `start-server.bat`. If it says `cloudflared was not found`, run this in Command Prompt:
+## 1. Generate the dataset
 
-   ```bat
-   winget install Cloudflare.cloudflared
+```bash
+npm run training:generate -- 3000
+```
+
+Writes `training/out/train.jsonl` (2,700) and `training/out/eval.jsonl` (300) in
+chat format:
+
+```json
+{"messages":[
+  {"role":"system","content":"You are a maintenance triage parser ..."},
+  {"role":"user","content":"roof is leaking over my kids bed ..."},
+  {"role":"assistant","content":"{\"summary\":\"...\",\"category\":\"structural\",...}"}
+]}
+```
+
+The assistant target is exactly the taxonomy §1 schema, so the model learns the
+same contract the deterministic fallback implements. Same seed → same split, so
+the demo stages reproducibly.
+
+## 2. Set up the local environment (Route B)
+
+Unsloth needs Python 3.10-3.12 (the base Anaconda env here is 3.9). Create an
+isolated env:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File training/setup-env.ps1
+conda activate nt-triage
+```
+
+Alternatives: the official Unsloth installer
+(`irm https://unsloth.ai/install.ps1 | iex`) or Unsloth Studio's UI.
+
+> **Windows torch gotcha.** Plain `pip install unsloth` can resolve to a
+> **CPU-only** torch wheel. Check with:
+> `python -c "import torch; print(torch.version.cuda, torch.cuda.is_available())"`.
+> If `cuda` is `None`, reinstall the CUDA build:
+> `pip install --force-reinstall torch torchvision --index-url https://download.pytorch.org/whl/cu128`
+
+> **Why Unsloth specifically?** Gemma 4 E2B/E4B share KV state across layers. With
+> `use_cache=False` - which gradient checkpointing forces - stock transformers
+> produces garbage logits and training silently diverges. Unsloth ships the fix.
+
+## 3. Fine-tune
+
+On this 10 GB card, target **E2B** (see the VRAM note below). First pull the base
+weights with the parallel downloader - it resumes if interrupted, and an
+`HF_TOKEN` lifts the anonymous rate limit:
+
+```powershell
+$env:HF_TOKEN = "hf_..."   # optional but much faster
+python training/download_model.py --repo unsloth/gemma-4-E2B-it --out training/models/base
+```
+
+Then train (add `--export-gguf` to also merge + export in one go):
+
+```bash
+python training/finetune_gemma4.py --model training/models/base --export-gguf
+```
+
+What the script does: loads `unsloth/gemma-4-E4B-it` in 4-bit, attaches LoRA
+(text-only: vision off, attention + MLP on, `r=16`, `alpha=16`), applies the
+`gemma-4` chat template, trains on the assistant JSON only
+(`train_on_responses_only`), evaluates on the held-out split, saves the adapter to
+`training/models/gemma4-e4b-lora/`, then merges and exports Q4_K_M GGUF.
+
+Smoke test first (20 steps, ~1 min):
+
+```bash
+python training/finetune_gemma4.py --max-steps 20
+```
+
+### VRAM budget (RTX 3080 10 GB)
+
+Unsloth's guidance: **E4B QLoRA needs ~10 GB**; E4B full LoRA needs ~17 GB.
+Our reports are short (system prompt + one-line report + small JSON ≈ 300 tokens),
+so `--max-seq-length 512` keeps activations tiny.
+
+> **On a 10 GB card (this machine):** with ~8.9 GB actually free, **E2B is the
+> sensible local target** - its QLoRA fits in 8 GB, while E4B sits right on the
+> ~10 GB line. Train E2B with `--model unsloth/gemma-4-E2B-it`; use E4B only via
+> the Colab route (Route A) or a bigger GPU.
+
+If you OOM:
+
+1. close desktop apps (a browser + Teams can hold 1-2 GB),
+2. `--max-seq-length 384` (still ample for this task),
+3. keep `--batch-size 1 --grad-accum 8`,
+4. last resort - the plan's fallback, which trains on 8 GB and still beats the
+   deterministic parser:
+   ```bash
+   python training/finetune_gemma4.py --model unsloth/gemma-4-E2B-it
    ```
+5. or train free on Colab (Unsloth's E4B notebook) and copy the adapter back.
 
-2. Close the Command Prompt window and open a new one. Windows only sees the newly installed program in a new window.
-3. Run `start-server.bat` again. On this first run it also installs the app's dependencies, which can take a few minutes.
+`--max-steps 20` is also a good way to confirm the pipeline before a full run.
 
-**Every time**
-
-1. Run `start-server.bat` and wait. It starts the app, opens the tunnel, prints the `PUBLIC URL`, and then opens that address in a new browser tab. This takes several seconds.
-2. If the new tab says "This site can't be reached", the public address is not live yet. Wait several seconds, then click Reload.
-3. Keep the two windows it opens ("NT app" and "NT tunnel") open while you share the link. Closing either one stops the public site.
-
-The public address is different on every run. The app is also available on the same computer at [http://localhost:3000](http://localhost:3000).
-
-### Common commands
-
-Run these from `nt-housing-triage/`:
+## 4. Evaluate (base vs fine-tuned)
 
 ```bash
-npm test                 # run the test suite
-npm run build            # create a production build
-npm run start            # serve the production build
-npm run data:generate    # regenerate data/distance-matrix.json
-npm run db:reset         # delete the local database; it is reseeded on next run
-npm run reference:export # export engine output for the Python parity test (../analysis)
-npm run training:generate -- 3000   # build the fine-tuning dataset
+python training/evaluate_gemma4.py --out training/out/eval-base.json
+python training/evaluate_gemma4.py \
+    --adapter training/models/gemma4-e4b-lora \
+    --out training/out/eval-finetuned.json
 ```
 
-## Layout
+Reports `json_valid_rate`, exact-match accuracy for `category` / `safety_level` /
+`trade_required` / `community`, and micro/macro set-F1 for `urgency_flags` and
+`occupant_vulnerability`, plus five raw samples for a human eyeball check.
 
-```
-nt-housing-triage/
-├── app/                     # Next.js App Router
-│   ├── page.tsx             # coordinator dashboard
-│   ├── tenant/page.tsx      # tenant answer view
-│   ├── components/          # dashboard, queue, map, equity dial, audit
-│   └── api/parse/route.ts   # model-first parse endpoint (Ollama + fallback)
-├── lib/
-│   ├── taxonomy.ts          # enums, trigger phrases, weights (shared contract)
-│   ├── engine/              # need score, batching, efficiency, equity ranking
-│   ├── parser/              # LLM-first parser + deterministic fallback
-│   ├── explainer/           # deterministic, grounded explanations
-│   ├── db/                  # SQLite schema + repository (reports, schedules, audit)
-│   ├── data/                # communities, distances, generator, seed
-│   └── ui/                  # shared UI colour tokens
-├── data/                    # communities.json, distance matrix, nt-triage.sqlite
-├── scripts/                 # data artifact generation
-├── training/                # dataset generation + fine-tune recipe
-└── tests/                   # engine, parser golden set, generator
+For the "matched a big cloud model, fully offline" story, run the same eval file
+through a hosted model and compare - facts stay grounded either way.
+
+## 5. Export GGUF and serve with Ollama
+
+If you did not pass `--export-gguf` above:
+
+```bash
+python training/export_gguf.py
 ```
 
-## Charts and drawings
+> **Windows gotcha (this machine).** Unsloth's `save_pretrained_gguf` downloads a
+> prebuilt llama.cpp app bundle whose deepest Svelte UI path exceeds `MAX_PATH`,
+> so extraction fails and it falls back to a slow cmake build. The reliable path
+> is the manual exporter, which fetches a clean CPU build + the matching
+> `gguf-py` and runs the conversion itself:
+> ```powershell
+> python training/fetch_llamacpp.py
+> powershell -ExecutionPolicy Bypass -File training/export_gguf_manual.ps1
+> ```
+> It is resumable: it skips the merge/f16/quantize steps that already exist.
 
-Everything here only draws what `rankJobs` and the parsed report already say, so a picture cannot disagree with the queue (`tests/viz.test.ts` and `tests/fault.test.ts` check this).
+Then create the Ollama model:
 
-| What | Where | What it shows |
-|---|---|---|
-| The queue as a street | top of the page | One house per repair, first in line on the left. Roof colour is town or remote, the badge is what is broken, coloured by urgency. Houses slide to their new place when the dial moves. |
-| What the dial does to waits | under the equity dial | The same queue re-ranked at every dial setting, with the median estimated start for town and for remote households. Hover to read a setting, click to move the dial there. |
-| Who moves when travel cost counts | under the ranked queue | Each job's position at need only, at the current dial, and at cost only. A line that slopes down is a household that waits longer because of where it lives. |
-| House diagram | in the job panel | A cut-away house with the parts the report touches lit in the safety colour. It shows what the system understood, not the layout of the real house. |
-| Live reading preview | in the new fault report form | As a report is typed, the house diagram shows what the offline parser understood. If no hazard is recognised the house is marked with a question and a note asks a person to read the report. |
-| Play the dial | under the equity dial | One click sweeps the dial from need only to cost only and back, so the street rearranges on its own. |
-| The tenant's place in the queue | tenant page | A street of the homes ahead of the tenant, each marked with why it is ahead (more urgent, waiting longer, or cheaper to reach). No names or details of other homes are shown. |
-| How the need score is built | in the job panel | The selected job's score as a running total: safety level, hazards, who lives there, days waiting. Location is not an input, so it has no row. |
-| NT service map | right column | The NT outline, communities with work, and this week's batched runs drawn as routes from the trade base. |
+```bash
+ollama create nt-housing-triage -f training/Modelfile
+```
 
-Blue is town and regional and orange is remote, in both themes. Repair icons in the queue come from `FaultIcon`. Chart helpers are in `lib/viz/`, drawing helpers in `lib/ui/fault.ts`, and the components in `app/components/`. The NT outline in `lib/data/nt-outline.ts` is made with Natural Earth, which is public domain map data.
+> The `FROM` line in `Modelfile` is an **absolute** path. Ollama resolves a
+> relative `FROM` against the Modelfile's own directory, so `./training/...`
+> silently becomes `training/training/...` and fails with
+> `400 Bad Request: invalid model name`.
 
-## Data & methodology
+Point the app at it (defaults shown, already in `.env.example`):
 
-- **Communities**: real NT community locations with ARIA+ remoteness classes and
-  curated remoteness tiers (T0 urban base → T3 very remote / island).
-- **Distances**: derived from real coordinates with a documented detour factor per
-  access mode (road/barge/air). Illustrative, not a routed road network — see
-  `lib/data/distances.ts`. Swap in a real routing matrix without touching the engine.
-- **Reports**: synthetic, generated from the shared taxonomy so the demo scenario
-  stages reproducibly. The same generator produces the fine-tune dataset.
+```bash
+OLLAMA_URL=http://127.0.0.1:11434
+OLLAMA_MODEL=nt-housing-triage
+```
 
-## Persistence (SQLite)
+The app calls `/api/chat` with `format: "json"` at temperature 0. If Ollama is
+unreachable, `lib/parser/fallback.ts` produces the same JSON shape offline - so
+the demo never depends on the model being up.
 
-Everything that must survive a reload lives in `data/nt-triage.sqlite`
-(gitignored, created on first run). `npm run db:reset` wipes it; the demo queue
-reseeds itself on the next run using the deterministic parser.
+## Files
 
-| table | holds |
+| file | purpose |
 |---|---|
-| `reports` | report text, parsed fields, and the engine's need / efficiency / equity-gap ranks |
-| `schedules` | a committed schedule at a given equity dial (λ) plus its grounded narrative |
-| `schedule_jobs` | the ordered jobs in a schedule, each with a rationale |
-| `audit_log` | append-only record of commits and escalations (who, what, why) |
-
-The audit trail is the durable half of the trust twist: a commit (`POST /api/commit`)
-and a tenant's escalation (`POST /api/escalate`) are both written down — so the
-"why" a tenant is given is the same record the coordinator signed off on
-
-## Demo scenario
-
-1. Darwin tap leak and an Alice Springs aircon fault sort to the top on efficiency.
-2. A **Wadeye roof caving over a bedroom with young children** is critical on need
-   but drops far down the efficiency-only sort.
-3. Turn on batching → Wadeye groups with the two other West Daly jobs and recovers
-   places at almost no extra travel cost.
-4. Read the tenant's answer aloud — it is honest about the trade-off.
-5. Commit the schedule and record an escalation — both land in `audit_log`.
+| `generate-dataset.ts` | synthetic report → JSONL (train/eval split) |
+| `finetune_gemma4_colab.ipynb` | **Route A** - full train/eval/merge/GGUF on free Colab |
+| `finetune_gemma4.py` | **Route B** - unsloth + QLoRA training, optional GGUF export |
+| `evaluate_gemma4.py` | field-level F1, base vs fine-tuned |
+| `export_gguf.py` | merge LoRA + convert to GGUF standalone |
+| `setup-env.ps1` | create the Python 3.11 Unsloth env |
+| `download_model.py` | parallel + resumable base-model download (slow links) |
+| `fetch_llamacpp.py` | fetch prebuilt llama.cpp + matching `gguf-py` (short paths) |
+| `export_gguf_manual.ps1` | resumable GGUF export that avoids Unsloth's long-path bug |
+| `after_training.ps1` | optional unattended train → eval → export → shutdown runner |
+| `run_eval.ps1` / `create_ollama.ps1` | detached eval / Ollama registration |
+| `Modelfile` | Ollama model definition |
+| `Modelfile.baseline` | Ollama definition for the un-tuned GGUF (before/after) |
+| `requirements.txt` | Python deps |
+| `out/` | generated `train.jsonl` / `eval.jsonl` / eval reports |
+| `models/` | LoRA adapter and GGUF output (gitignored) |

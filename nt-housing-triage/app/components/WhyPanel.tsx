@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { formatAud, formatKm } from "@/lib/data/distances";
 import { whyCard } from "@/lib/explainer";
@@ -14,9 +15,26 @@ interface Props {
   noBatchById?: Record<string, RankedJob>;
   /** Highest need score in the queue; when given, the score make-up is drawn. */
   queueMaxNeed?: number;
+  /** Called when a person has read a held report and judged its level (null = as the system read it). */
+  onMarkRead?: (id: string, level: "high" | "critical" | null) => Promise<void>;
 }
 
-export default function WhyPanel({ ranked, noBatchById, queueMaxNeed }: Props) {
+export default function WhyPanel({ ranked, noBatchById, queueMaxNeed, onMarkRead }: Props) {
+  const [saving, setSaving] = useState(false);
+  const [readError, setReadError] = useState<string | null>(null);
+  async function read(level: "high" | "critical" | null) {
+    if (!ranked || !onMarkRead || saving) return;
+    setSaving(true);
+    setReadError(null);
+    try {
+      await onMarkRead(ranked.job.id, level);
+    } catch (e) {
+      setReadError((e as Error).message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
   if (!ranked) {
     return (
       <div className="panel p-4 text-sm text-[var(--muted)]">
@@ -47,8 +65,47 @@ export default function WhyPanel({ ranked, noBatchById, queueMaxNeed }: Props) {
         {r.job.rawText}
       </p>
 
+      {r.need.heldForReading && (
+        <div className="mt-3 rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 text-xs text-amber-900 dark:text-amber-100">
+          <p className="font-semibold">Held at high priority until a person reads it</p>
+          <p className="mt-1">
+            The system recognised no hazard in this report. That can mean it is routine, or that it could not
+            read the words.
+          </p>
+          {onMarkRead && (
+            <div className="mt-2">
+              <p className="font-medium">I have read it. It is:</p>
+              <div className="mt-1.5 flex flex-wrap gap-2">
+                <button
+                  onClick={() => read(null)}
+                  disabled={saving}
+                  className="rounded-lg border border-amber-500/50 px-2.5 py-1 font-medium transition hover:bg-amber-500/15 disabled:opacity-50"
+                >
+                  Routine, as shown
+                </button>
+                <button
+                  onClick={() => read("high")}
+                  disabled={saving}
+                  className="rounded-lg border border-amber-500/50 px-2.5 py-1 font-medium transition hover:bg-amber-500/15 disabled:opacity-50"
+                >
+                  High
+                </button>
+                <button
+                  onClick={() => read("critical")}
+                  disabled={saving}
+                  className="rounded-lg bg-[var(--accent)] px-2.5 py-1 font-semibold text-slate-950 transition hover:brightness-110 disabled:opacity-50"
+                >
+                  Critical
+                </button>
+              </div>
+            </div>
+          )}
+          {readError && <p className="mt-1.5 text-rose-700 dark:text-rose-300">{readError}</p>}
+        </div>
+      )}
+
       <div className="mt-3">
-        <HouseDiagram report={r.job.report} />
+        <HouseDiagram report={r.job.report} unread={r.need.heldForReading} />
       </div>
 
       <div className="mt-3 space-y-2 text-xs">
@@ -57,6 +114,13 @@ export default function WhyPanel({ ranked, noBatchById, queueMaxNeed }: Props) {
         {card.ageSentence && <Line label="Waiting time" value={card.ageSentence} tone="ok" />}
         {card.gapSentence && <Line label="Equity gap" value={card.gapSentence} tone="warn" />}
         {card.batchSentence && <Line label="Batching" value={card.batchSentence} tone="ok" />}
+        {r.job.community.wetSeasonIsolation && (
+          <Line
+            label="Wet season"
+            value={`Access to ${r.job.community.name} is commonly cut off in the wet season (about November to April). A visit that slips past the first rains may slip by months.`}
+            tone="warn"
+          />
+        )}
       </div>
 
       <div className="mt-3 flex flex-wrap gap-1.5">

@@ -88,7 +88,7 @@ def main() -> None:
     args = parse_args()
 
     import torch
-    from unsloth import FastModel  # Unsloth first — before trl/transformers/peft
+    from unsloth import FastModel  # Unsloth first - before trl/transformers/peft
     from datasets import load_dataset
     from trl import SFTConfig, SFTTrainer
     from unsloth.chat_templates import get_chat_template, train_on_responses_only
@@ -169,7 +169,7 @@ def main() -> None:
     if use_eval:
         free_vram, _ = torch.cuda.mem_get_info()
         if free_vram < 2.5 * 2**30:
-            print(f"[warn] only {free_vram / 2**30:.2f} GiB VRAM free — skipping "
+            print(f"[warn] only {free_vram / 2**30:.2f} GiB VRAM free - skipping "
                   f"in-training eval to avoid OOM (run evaluate_gemma4.py later).")
             use_eval = False
 

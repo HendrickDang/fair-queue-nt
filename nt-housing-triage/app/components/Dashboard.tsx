@@ -36,6 +36,29 @@ export default function Dashboard({ initialJobs, now }: { initialJobs: Job[]; no
   const queueMaxNeed = Math.max(0, ...result.ranked.map((r) => r.need.score));
   const criticalCount = result.ranked.filter((r) => r.job.report.safety_level === "critical").length;
   const remoteCount = result.ranked.filter((r) => isRemote(r.job)).length;
+  const wetCount = result.ranked.filter((r) => r.job.community.wetSeasonIsolation).length;
+
+  /**
+   * A person has read a held report. The server lifts the hold and writes the
+   * audit entry; the queue here is updated the same way.
+   */
+  async function markRead(id: string, level: "high" | "critical" | null) {
+    const res = await fetch("/api/read", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ reportId: id, level, actor: "coordinator" }),
+    });
+    if (!res.ok) throw new Error(`Could not save (${res.status})`);
+    const order = ["low", "medium", "high", "critical"];
+    setJobs((prev) =>
+      prev.map((j) => {
+        if (j.id !== id) return j;
+        const current = j.report.safety_level;
+        const raised = level && order.indexOf(level) > order.indexOf(current) ? level : current;
+        return { ...j, needsReading: false, report: { ...j.report, safety_level: raised } };
+      }),
+    );
+  }
 
   function addJob(job: Job) {
     setJobs((prev) => [...prev, job]);
@@ -48,24 +71,25 @@ export default function Dashboard({ initialJobs, now }: { initialJobs: Job[]; no
         <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3 p-4 pb-3">
           <div className="min-w-0 max-w-3xl flex-1 basis-96">
             <h1 className="text-base font-semibold text-[var(--fg-strong)]">
-              Prioritise urgent repairs across remote NT communities — without quietly pushing remote
+              Prioritise urgent repairs across remote NT communities - without quietly pushing remote
               tenants to the back of the queue.
             </h1>
             <p className="mt-1 text-xs text-[var(--muted)]">
               Two independent ranks: a location-blind <span className="text-[var(--fg-2)]">need</span> rank and
               a logistics <span className="text-[var(--fg-2)]">efficiency</span> rank. The gap between them is
-              the equity trade-off. Batching closes most of it; the dial exposes the rest — and a human
+              the equity trade-off. Batching closes most of it; the dial exposes the rest - and a human
               owns the call. A fixed waiting-time rule adds priority for older reports, so a rush of new
               reports cannot push an old one down the queue.
             </p>
           </div>
-          <dl className="flex gap-2 text-[11px]">
+          <dl className="flex flex-wrap gap-2 text-[11px]">
             {[
               { label: "Repairs waiting", value: result.ranked.length },
               { label: "Critical", value: criticalCount },
               { label: "In remote communities", value: remoteCount },
+              { label: "Cut off in the wet", value: wetCount },
             ].map((s) => (
-              <div key={s.label} className="min-w-[92px] rounded-lg border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2">
+              <div key={s.label} className="min-w-[84px] rounded-lg border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2">
                 <dd className="text-2xl font-semibold leading-none text-[var(--fg-strong)]">{s.value}</dd>
                 <dt className="mt-1 text-[var(--muted)]">{s.label}</dt>
               </div>
@@ -137,7 +161,7 @@ export default function Dashboard({ initialJobs, now }: { initialJobs: Job[]; no
         </div>
 
         <div className="min-w-0 space-y-4">
-          <WhyPanel ranked={selected} noBatchById={noBatch.byId} queueMaxNeed={queueMaxNeed} />
+          <WhyPanel ranked={selected} noBatchById={noBatch.byId} queueMaxNeed={queueMaxNeed} onMarkRead={markRead} />
           <NtMap jobs={jobs} batches={result.batches} selectedId={selected?.job.id ?? null} onSelect={setSelectedId} />
         </div>
       </div>

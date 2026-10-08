@@ -58,6 +58,17 @@ export async function POST(request: Request) {
   }
 
   const narrative = typeof p.narrative === "string" ? p.narrative : "";
+  const text = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim().slice(0, 300) : null);
+  const decidedRole = text(p.role);
+  const decidedName = text(p.name);
+  const reason = text(p.reason);
+  // Weighting travel cost moves households down the queue, so it must come with a reason.
+  if (clamp(lambda, 0, 1) > 0 && !reason) {
+    return NextResponse.json(
+      { error: "A reason is required when travel cost is given weight." },
+      { status: 400 },
+    );
+  }
   const actor =
     typeof p.actor === "string" && p.actor.trim() ? p.actor.trim() : "coordinator";
 
@@ -67,6 +78,9 @@ export async function POST(request: Request) {
     detail: narrative || `Committed schedule at λ=${clamp(lambda, 0, 1)}`,
     actor,
     action: "commit",
+    decidedRole,
+    decidedName,
+    reason,
     jobs,
   });
 

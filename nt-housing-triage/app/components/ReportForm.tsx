@@ -52,12 +52,14 @@ export default function ReportForm({ onAdd }: Props) {
         reportedAt: new Date().toISOString(),
         household: parsed.community ? `${parsed.community} (new)` : "new report",
         report: parsed,
+        // Same rule as the server: no hazard recognised means held until a person reads it.
+        needsReading: parsed.urgency_flags.length === 0,
       });
       if (job) {
         onAdd(job);
         setText("");
       } else if (!parsed.community) {
-        setError("No community detected — pick one below, then try again.");
+        setError("No community detected - pick one below, then try again.");
       } else {
         setError(buildError ?? "Could not place this report on the map.");
       }
@@ -102,7 +104,7 @@ export default function ReportForm({ onAdd }: Props) {
           </div>
           {unread && (
             <p className="mt-2 rounded-lg border border-amber-500/40 bg-amber-500/10 p-2 text-[11px] text-amber-800 dark:text-amber-100">
-              No hazard words recognised. A person should read this report before it is ranked.
+              No hazard words recognised. If added, this report is held at high priority until a person reads it.
             </p>
           )}
         </div>
@@ -145,6 +147,11 @@ export default function ReportForm({ onAdd }: Props) {
           </p>
           {result.urgency_flags.length > 0 && (
             <p className="text-[var(--muted)]">flags: {result.urgency_flags.join(", ")}</p>
+          )}
+          {result.urgency_flags.length === 0 && (
+            <p className="mt-1 text-amber-700 dark:text-amber-200">
+              Added and held at high priority until a person reads it.
+            </p>
           )}
           {result.notes.map((n) => (
             <p key={n} className="mt-1 text-[var(--muted)]">• {n}</p>

@@ -7,7 +7,7 @@ import { haversineKm } from "./communities";
  * Distances are derived from real coordinates with a documented detour factor
  * rather than a hard-coded matrix, so the demo stays reproducible and the
  * methodology is auditable. Swap `travelLeg` for a real road-routing matrix
- * later without touching the engine — it only depends on this function's shape.
+ * later without touching the engine - it only depends on this function's shape.
  */
 
 export interface TravelLeg {

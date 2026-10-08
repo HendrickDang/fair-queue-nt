@@ -6,8 +6,8 @@ import type { Batch, Job } from "./types";
 /**
  * Batching = reconciliation, not sacrifice.
  *
- * Jobs in the same community — or in neighbouring communities reachable on one
- * service run — are grouped into a cluster. The cluster's combined trip cost is
+ * Jobs in the same community - or in neighbouring communities reachable on one
+ * service run - are grouped into a cluster. The cluster's combined trip cost is
  * compared with visiting each community separately, and the saving is credited
  * back to the jobs in the batch. This is what lets a remote job "recover places
  * at ~zero extra cost".

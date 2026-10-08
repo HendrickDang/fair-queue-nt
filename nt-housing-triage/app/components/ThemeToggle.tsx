@@ -5,7 +5,7 @@
  *
  * Deliberately stateless: the active theme lives as the `.dark` class on
  * <html> (set before paint by the script in the root layout). CSS decides which
- * icon is visible, so server and client markup always agree — no hydration
+ * icon is visible, so server and client markup always agree - no hydration
  * mismatch, and no flash while React mounts.
  */
 export default function ThemeToggle() {

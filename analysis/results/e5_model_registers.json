@@ -1,0 +1,79 @@
+{
+ "reports": 2640,
+ "note": "Safety level is the one the ranking engine acts on: the parser's level after the engine's escalation rules. Fail-safe: a report with no recognised hazard is held at 'high' and sent to a person.",
+ "keyword_parser": {
+  "app_style": {
+   "n": 660,
+   "pct_exact": 88.6,
+   "pct_under_triaged": 7.1,
+   "pct_urgent_read_as_routine": 11.2,
+   "pct_urgent_read_as_routine_with_fail_safe": 2.6,
+   "pct_sent_to_human_check": 31.7
+  },
+  "officer": {
+   "n": 660,
+   "pct_exact": 72.7,
+   "pct_under_triaged": 22.7,
+   "pct_urgent_read_as_routine": 35.7,
+   "pct_urgent_read_as_routine_with_fail_safe": 0.0,
+   "pct_sent_to_human_check": 59.1
+  },
+  "sms": {
+   "n": 660,
+   "pct_exact": 60.0,
+   "pct_under_triaged": 34.4,
+   "pct_urgent_read_as_routine": 43.1,
+   "pct_urgent_read_as_routine_with_fail_safe": 7.4,
+   "pct_sent_to_human_check": 51.1
+  },
+  "kriol_inf": {
+   "n": 660,
+   "pct_exact": 31.8,
+   "pct_under_triaged": 68.2,
+   "pct_urgent_read_as_routine": 85.7,
+   "pct_urgent_read_as_routine_with_fail_safe": 7.1,
+   "pct_sent_to_human_check": 81.8
+  }
+ },
+ "models": {
+  "nt-housing-triage": {
+   "json_valid_pct": 100.0,
+   "failed_calls": 0,
+   "mean_seconds_per_report": 2.92,
+   "by_register": {
+    "app_style": {
+     "n": 660,
+     "pct_exact": 63.6,
+     "pct_under_triaged": 29.2,
+     "pct_urgent_read_as_routine": 16.9,
+     "pct_urgent_read_as_routine_with_fail_safe": 8.3,
+     "pct_sent_to_human_check": 30.6
+    },
+    "officer": {
+     "n": 660,
+     "pct_exact": 70.6,
+     "pct_under_triaged": 23.9,
+     "pct_urgent_read_as_routine": 12.9,
+     "pct_urgent_read_as_routine_with_fail_safe": 9.3,
+     "pct_sent_to_human_check": 28.3
+    },
+    "sms": {
+     "n": 660,
+     "pct_exact": 63.3,
+     "pct_under_triaged": 28.9,
+     "pct_urgent_read_as_routine": 18.8,
+     "pct_urgent_read_as_routine_with_fail_safe": 9.5,
+     "pct_sent_to_human_check": 28.6
+    },
+    "kriol_inf": {
+     "n": 660,
+     "pct_exact": 36.1,
+     "pct_under_triaged": 61.4,
+     "pct_urgent_read_as_routine": 58.8,
+     "pct_urgent_read_as_routine_with_fail_safe": 14.0,
+     "pct_sent_to_human_check": 55.5
+    }
+   }
+  }
+ }
+}

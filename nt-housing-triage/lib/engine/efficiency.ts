@@ -34,11 +34,11 @@ export function scoreEfficiency(job: Job, batchInfo: JobBatchInfo): EfficiencySc
   ];
   if (batchInfo.batch) {
     drivers.push(
-      `batched with ${batchInfo.batch.communityNames.join(" + ")} — ` +
+      `batched with ${batchInfo.batch.communityNames.join(" + ")} - ` +
         `saves ${Math.round(batchInfo.bonusCost)} in shared travel`,
     );
   } else {
-    drivers.push("not batched — full solo trip");
+    drivers.push("not batched - full solo trip");
   }
 
   return {

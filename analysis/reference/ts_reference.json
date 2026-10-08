@@ -2996,6 +2996,3001 @@
    }
   ]
  },
+ "held": {
+  "note": "Seed queue with needsReading = (no urgency flags recognised).",
+  "inputs": [
+   {
+    "id": "JOB-1042",
+    "rawText": "roof is leaking right over my kids bed and the ceiling is sagging, storm did it, in Wadeye",
+    "household": "Wadeye house 14",
+    "reportedAt": "2026-09-22T08:10:00+09:30"
+   },
+   {
+    "id": "JOB-1043",
+    "rawText": "no water at all for two days and its 42 degrees, got a baby and my nan here, Palumpa",
+    "household": "Palumpa house 3",
+    "reportedAt": "2026-09-22T09:40:00+09:30"
+   },
+   {
+    "id": "JOB-1044",
+    "rawText": "sparks coming out of the powerpoint near the oxygen machine, Peppimenarti",
+    "household": "Peppimenarti house 7",
+    "reportedAt": "2026-09-22T11:05:00+09:30"
+   },
+   {
+    "id": "JOB-1045",
+    "rawText": "tap leaking under the sink for weeks, Darwin",
+    "household": "Darwin unit 2",
+    "reportedAt": "2026-09-19T13:20:00+09:30"
+   },
+   {
+    "id": "JOB-1046",
+    "rawText": "aircon not cooling properly and its 40 degrees, Alice Springs",
+    "household": "Alice Springs house 21",
+    "reportedAt": "2026-09-20T15:00:00+09:30"
+   },
+   {
+    "id": "JOB-1047",
+    "rawText": "toilet blocked and its the only one in the house, backing up, Maningrida",
+    "household": "Maningrida house 9",
+    "reportedAt": "2026-09-21T07:30:00+09:30"
+   },
+   {
+    "id": "JOB-1048",
+    "rawText": "stove stopped working, fridge died last week, Katherine",
+    "household": "Katherine house 5",
+    "reportedAt": "2026-09-18T10:00:00+09:30"
+   },
+   {
+    "id": "JOB-1049",
+    "rawText": "water from the tap is brown and smells, worried for the kids, Yuendumu",
+    "household": "Yuendumu house 11",
+    "reportedAt": "2026-09-21T16:45:00+09:30"
+   },
+   {
+    "id": "JOB-1050",
+    "rawText": "wheelchair ramp fell apart, cant get in the house, Tennant Creek",
+    "household": "Tennant Creek house 2",
+    "reportedAt": "2026-09-20T08:15:00+09:30"
+   },
+   {
+    "id": "JOB-1051",
+    "rawText": "oxygen machine has no power, Galiwin'ku",
+    "household": "Galiwin'ku house 4",
+    "reportedAt": "2026-09-22T06:50:00+09:30"
+   },
+   {
+    "id": "JOB-1052",
+    "rawText": "back door wont lock and the window got smashed, worried at night, Borroloola",
+    "household": "Borroloola house 8",
+    "reportedAt": "2026-09-19T20:30:00+09:30"
+   },
+   {
+    "id": "JOB-1053",
+    "rawText": "ants everywhere in the kitchen, Lajamanu",
+    "household": "Lajamanu house 6",
+    "reportedAt": "2026-09-17T12:00:00+09:30"
+   },
+   {
+    "id": "JOB-1054",
+    "rawText": "lights flicker and trip the box, Darwin",
+    "household": "Darwin unit 12",
+    "reportedAt": "2026-09-20T18:20:00+09:30"
+   },
+   {
+    "id": "JOB-1055",
+    "rawText": "sewage overflowing outside the back door, Ngukurr",
+    "household": "Ngukurr house 1",
+    "reportedAt": "2026-09-22T07:05:00+09:30"
+   }
+  ],
+  "runs": [
+   {
+    "lambda": 0,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 0.6314675283441181
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 1.3687134337199247
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 3,
+      "estimatedStartDays": 2.561373157580226
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 4,
+      "estimatedStartDays": 3.4049014818883476
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 5,
+      "estimatedStartDays": 3.8424014818883476
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 6,
+      "estimatedStartDays": 5.4370563228571935
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 7,
+      "estimatedStartDays": 7.030733696267233
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 8,
+      "estimatedStartDays": 7.937945447904141
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 9,
+      "estimatedStartDays": 8.375445447904141
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 10,
+      "estimatedStartDays": 10.842264779014895
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 11,
+      "estimatedStartDays": 11.154764779014895
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 12,
+      "estimatedStartDays": 11.529764779014895
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 13,
+      "estimatedStartDays": 11.842264779014895
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0.1,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 0.6314675283441181
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 1.3687134337199247
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 3,
+      "estimatedStartDays": 2.561373157580226
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 4,
+      "estimatedStartDays": 3.4049014818883476
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 5,
+      "estimatedStartDays": 3.8424014818883476
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 6,
+      "estimatedStartDays": 5.4370563228571935
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 7,
+      "estimatedStartDays": 7.030733696267233
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 8,
+      "estimatedStartDays": 7.937945447904141
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 9,
+      "estimatedStartDays": 8.375445447904141
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 10,
+      "estimatedStartDays": 8.687945447904141
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 11,
+      "estimatedStartDays": 9.062945447904141
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 12,
+      "estimatedStartDays": 11.529764779014895
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 13,
+      "estimatedStartDays": 11.842264779014895
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0.2,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 0.6314675283441181
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 1.3687134337199247
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 3,
+      "estimatedStartDays": 2.561373157580226
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 4,
+      "estimatedStartDays": 2.998873157580226
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 5,
+      "estimatedStartDays": 3.8424014818883476
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 6,
+      "estimatedStartDays": 5.4370563228571935
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 7,
+      "estimatedStartDays": 7.030733696267233
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 8,
+      "estimatedStartDays": 7.468233696267233
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 9,
+      "estimatedStartDays": 7.780733696267233
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 10,
+      "estimatedStartDays": 8.155733696267234
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 11,
+      "estimatedStartDays": 8.468233696267234
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 12,
+      "estimatedStartDays": 9.375445447904141
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 13,
+      "estimatedStartDays": 11.842264779014895
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0.3,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 0.6314675283441181
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 1.3687134337199247
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 3,
+      "estimatedStartDays": 2.561373157580226
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 4,
+      "estimatedStartDays": 2.998873157580226
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 5,
+      "estimatedStartDays": 4.593527998549072
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 6,
+      "estimatedStartDays": 5.4370563228571935
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 7,
+      "estimatedStartDays": 5.8745563228571935
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 8,
+      "estimatedStartDays": 7.468233696267233
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 9,
+      "estimatedStartDays": 7.780733696267233
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 10,
+      "estimatedStartDays": 8.155733696267234
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 11,
+      "estimatedStartDays": 8.468233696267234
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 12,
+      "estimatedStartDays": 9.375445447904141
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 13,
+      "estimatedStartDays": 11.842264779014895
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0.4,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 0.6314675283441181
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 1.3687134337199247
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 3,
+      "estimatedStartDays": 2.561373157580226
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 4,
+      "estimatedStartDays": 2.998873157580226
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 5,
+      "estimatedStartDays": 3.436373157580226
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 6,
+      "estimatedStartDays": 5.031027998549072
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 7,
+      "estimatedStartDays": 5.343527998549072
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 8,
+      "estimatedStartDays": 5.656027998549072
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 9,
+      "estimatedStartDays": 6.031027998549072
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 10,
+      "estimatedStartDays": 7.624705371959111
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 11,
+      "estimatedStartDays": 8.468233696267234
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 12,
+      "estimatedStartDays": 9.375445447904141
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 13,
+      "estimatedStartDays": 11.842264779014895
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0.5,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 0.6314675283441181
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 1.3687134337199247
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 3,
+      "estimatedStartDays": 1.8062134337199247
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 4,
+      "estimatedStartDays": 2.998873157580226
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 5,
+      "estimatedStartDays": 3.436373157580226
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 6,
+      "estimatedStartDays": 3.748873157580226
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 7,
+      "estimatedStartDays": 4.061373157580226
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 8,
+      "estimatedStartDays": 4.436373157580226
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 9,
+      "estimatedStartDays": 6.031027998549072
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 10,
+      "estimatedStartDays": 7.624705371959111
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 11,
+      "estimatedStartDays": 8.468233696267234
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 12,
+      "estimatedStartDays": 10.935053027377988
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 11.842264779014895
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0.6,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 0.6314675283441181
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 1.3687134337199247
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 3,
+      "estimatedStartDays": 1.8062134337199247
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 4,
+      "estimatedStartDays": 2.998873157580226
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 5,
+      "estimatedStartDays": 3.436373157580226
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 6,
+      "estimatedStartDays": 3.748873157580226
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 7,
+      "estimatedStartDays": 4.061373157580226
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 8,
+      "estimatedStartDays": 4.436373157580226
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 9,
+      "estimatedStartDays": 6.031027998549072
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 10,
+      "estimatedStartDays": 7.624705371959111
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 11,
+      "estimatedStartDays": 10.091524703069865
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 12,
+      "estimatedStartDays": 10.998736454706773
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 13,
+      "estimatedStartDays": 11.842264779014895
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0.7,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 0.6314675283441181
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 1.3687134337199247
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 3,
+      "estimatedStartDays": 1.8062134337199247
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 4,
+      "estimatedStartDays": 2.2437134337199245
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 5,
+      "estimatedStartDays": 3.4363731575802254
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 6,
+      "estimatedStartDays": 3.7488731575802254
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 7,
+      "estimatedStartDays": 4.061373157580226
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 8,
+      "estimatedStartDays": 4.436373157580226
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 9,
+      "estimatedStartDays": 6.031027998549072
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 10,
+      "estimatedStartDays": 7.624705371959111
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 11,
+      "estimatedStartDays": 10.091524703069865
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 12,
+      "estimatedStartDays": 12.353678968428966
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 13.260890720065873
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0.8,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 0.6314675283441181
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 2,
+      "estimatedStartDays": 1.068967528344118
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 3,
+      "estimatedStartDays": 1.8062134337199245
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 4,
+      "estimatedStartDays": 2.1187134337199245
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 5,
+      "estimatedStartDays": 2.4312134337199245
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 6,
+      "estimatedStartDays": 2.8687134337199245
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 7,
+      "estimatedStartDays": 3.2437134337199245
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 8,
+      "estimatedStartDays": 4.436373157580226
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 9,
+      "estimatedStartDays": 6.031027998549072
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 10,
+      "estimatedStartDays": 7.624705371959111
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 11,
+      "estimatedStartDays": 10.091524703069865
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 12,
+      "estimatedStartDays": 12.353678968428966
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 13.260890720065873
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0.9,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 1,
+      "estimatedStartDays": 0.4375
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 2,
+      "estimatedStartDays": 0.75
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 3,
+      "estimatedStartDays": 1.0625
+     },
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 4,
+      "estimatedStartDays": 1.693967528344118
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 5,
+      "estimatedStartDays": 2.068967528344118
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 6,
+      "estimatedStartDays": 2.506467528344118
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 7,
+      "estimatedStartDays": 3.2437134337199245
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 8,
+      "estimatedStartDays": 4.436373157580226
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 9,
+      "estimatedStartDays": 6.031027998549072
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 10,
+      "estimatedStartDays": 7.624705371959111
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 11,
+      "estimatedStartDays": 9.886859637318212
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 12,
+      "estimatedStartDays": 12.353678968428966
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 13.260890720065873
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 1,
+    "batching": true,
+    "ranked": [
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 1,
+      "estimatedStartDays": 0.3125
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 2,
+      "estimatedStartDays": 0.625
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 3,
+      "estimatedStartDays": 1
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 4,
+      "estimatedStartDays": 1.4375
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 5,
+      "estimatedStartDays": 1.875
+     },
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 727.9440495259641,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 6,
+      "estimatedStartDays": 2.506467528344118
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 844.4007233491882,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 7,
+      "estimatedStartDays": 3.2437134337199245
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 1254.8389161613613,
+      "needRank": 3,
+      "efficiencyRank": 8,
+      "finalRank": 8,
+      "estimatedStartDays": 4.436373157580226
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 9,
+      "finalRank": 9,
+      "estimatedStartDays": 6.030050530990265
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 10,
+      "finalRank": 10,
+      "estimatedStartDays": 7.624705371959111
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 11,
+      "estimatedStartDays": 9.886859637318212
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 12,
+      "estimatedStartDays": 12.353678968428966
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 3739.4181041071643,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 13.260890720065873
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 4830.469310518437,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 14,
+      "estimatedStartDays": 14.104419044373996
+     }
+    ]
+   },
+   {
+    "lambda": 0,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 1.2009338669063578
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 2.584912844029115
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 3,
+      "estimatedStartDays": 4.456287944151791
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 4,
+      "estimatedStartDays": 5.6441937565330065
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 5,
+      "estimatedStartDays": 6.0816937565330065
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 6,
+      "estimatedStartDays": 7.676348597501852
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 7,
+      "estimatedStartDays": 9.270025970911892
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 8,
+      "estimatedStartDays": 10.424986788010687
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 9,
+      "estimatedStartDays": 10.862486788010687
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 10,
+      "estimatedStartDays": 13.32930611912144
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 11,
+      "estimatedStartDays": 13.64180611912144
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 12,
+      "estimatedStartDays": 14.01680611912144
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 13,
+      "estimatedStartDays": 14.32930611912144
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 0.1,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 1.2009338669063578
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 2.584912844029115
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 3,
+      "estimatedStartDays": 4.456287944151791
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 4,
+      "estimatedStartDays": 5.6441937565330065
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 5,
+      "estimatedStartDays": 6.0816937565330065
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 6,
+      "estimatedStartDays": 7.676348597501852
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 7,
+      "estimatedStartDays": 9.270025970911892
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 8,
+      "estimatedStartDays": 10.424986788010687
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 9,
+      "estimatedStartDays": 10.862486788010687
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 10,
+      "estimatedStartDays": 13.32930611912144
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 11,
+      "estimatedStartDays": 13.64180611912144
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 12,
+      "estimatedStartDays": 14.01680611912144
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 13,
+      "estimatedStartDays": 14.32930611912144
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 0.2,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 1.2009338669063578
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 2.584912844029115
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 3,
+      "estimatedStartDays": 4.456287944151791
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 4,
+      "estimatedStartDays": 4.893787944151791
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 5,
+      "estimatedStartDays": 6.0816937565330065
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 6,
+      "estimatedStartDays": 7.676348597501852
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 7,
+      "estimatedStartDays": 9.270025970911892
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 8,
+      "estimatedStartDays": 9.707525970911892
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 9,
+      "estimatedStartDays": 10.020025970911892
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 10,
+      "estimatedStartDays": 10.395025970911892
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 11,
+      "estimatedStartDays": 10.707525970911892
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 12,
+      "estimatedStartDays": 11.862486788010687
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 13,
+      "estimatedStartDays": 14.32930611912144
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 0.3,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 1.2009338669063578
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 2.584912844029115
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 3,
+      "estimatedStartDays": 4.456287944151791
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 4,
+      "estimatedStartDays": 4.893787944151791
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 5,
+      "estimatedStartDays": 6.488442785120637
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 6,
+      "estimatedStartDays": 8.082120158530676
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 7,
+      "estimatedStartDays": 9.270025970911892
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 8,
+      "estimatedStartDays": 9.707525970911892
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 9,
+      "estimatedStartDays": 10.020025970911892
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 10,
+      "estimatedStartDays": 10.395025970911892
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 11,
+      "estimatedStartDays": 10.707525970911892
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 12,
+      "estimatedStartDays": 13.174345302022646
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 14.32930611912144
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 0.4,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 1.2009338669063578
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 2.584912844029115
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 3,
+      "estimatedStartDays": 4.456287944151791
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 4,
+      "estimatedStartDays": 4.893787944151791
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 5,
+      "estimatedStartDays": 6.488442785120637
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 6,
+      "estimatedStartDays": 6.925942785120637
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 7,
+      "estimatedStartDays": 8.519620158530676
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 8,
+      "estimatedStartDays": 8.832120158530676
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 9,
+      "estimatedStartDays": 9.207120158530676
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 10,
+      "estimatedStartDays": 9.519620158530676
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 11,
+      "estimatedStartDays": 10.707525970911892
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 12,
+      "estimatedStartDays": 13.174345302022646
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 14.32930611912144
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 0.5,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 1.2009338669063578
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 2.584912844029115
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 3,
+      "estimatedStartDays": 3.022412844029115
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 4,
+      "estimatedStartDays": 4.893787944151791
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 5,
+      "estimatedStartDays": 6.488442785120637
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 6,
+      "estimatedStartDays": 6.925942785120637
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 7,
+      "estimatedStartDays": 7.238442785120637
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 8,
+      "estimatedStartDays": 7.550942785120637
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 9,
+      "estimatedStartDays": 7.925942785120637
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 10,
+      "estimatedStartDays": 9.519620158530676
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 11,
+      "estimatedStartDays": 11.98643948964143
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 12,
+      "estimatedStartDays": 13.174345302022646
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 13,
+      "estimatedStartDays": 15.436499567381746
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 0.6,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 1.2009338669063578
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 2,
+      "estimatedStartDays": 2.584912844029115
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 3,
+      "estimatedStartDays": 3.022412844029115
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 4,
+      "estimatedStartDays": 4.893787944151791
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 5,
+      "estimatedStartDays": 5.331287944151791
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 6,
+      "estimatedStartDays": 5.643787944151791
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 7,
+      "estimatedStartDays": 5.956287944151791
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 8,
+      "estimatedStartDays": 6.331287944151791
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 9,
+      "estimatedStartDays": 7.925942785120637
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 10,
+      "estimatedStartDays": 9.519620158530676
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 11,
+      "estimatedStartDays": 11.98643948964143
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 12,
+      "estimatedStartDays": 14.248593755000531
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 15.403554572099326
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 0.7,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 1,
+      "estimatedStartDays": 1.2009338669063578
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 2,
+      "estimatedStartDays": 1.6384338669063578
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 3,
+      "estimatedStartDays": 3.022412844029115
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 4,
+      "estimatedStartDays": 3.459912844029115
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 5,
+      "estimatedStartDays": 3.772412844029115
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 6,
+      "estimatedStartDays": 4.084912844029115
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 7,
+      "estimatedStartDays": 4.459912844029115
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 8,
+      "estimatedStartDays": 6.331287944151791
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 9,
+      "estimatedStartDays": 7.925942785120637
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 10,
+      "estimatedStartDays": 9.519620158530676
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 11,
+      "estimatedStartDays": 11.98643948964143
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 12,
+      "estimatedStartDays": 14.248593755000531
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 15.403554572099326
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 0.8,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 1,
+      "estimatedStartDays": 0.4375
+     },
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 2,
+      "estimatedStartDays": 1.6384338669063578
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 3,
+      "estimatedStartDays": 2.075933866906358
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 4,
+      "estimatedStartDays": 2.388433866906358
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 5,
+      "estimatedStartDays": 2.700933866906358
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 6,
+      "estimatedStartDays": 3.075933866906358
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 7,
+      "estimatedStartDays": 4.459912844029115
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 8,
+      "estimatedStartDays": 6.331287944151791
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 9,
+      "estimatedStartDays": 7.925942785120637
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 10,
+      "estimatedStartDays": 9.519620158530676
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 11,
+      "estimatedStartDays": 11.98643948964143
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 12,
+      "estimatedStartDays": 14.248593755000531
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 15.403554572099326
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 0.9,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 1,
+      "estimatedStartDays": 0.4375
+     },
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 2,
+      "estimatedStartDays": 0.75
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 3,
+      "estimatedStartDays": 1.0625
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 4,
+      "estimatedStartDays": 1.5
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 5,
+      "estimatedStartDays": 1.875
+     },
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 6,
+      "estimatedStartDays": 3.075933866906358
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 7,
+      "estimatedStartDays": 4.459912844029115
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 8,
+      "estimatedStartDays": 6.054567684997961
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 9,
+      "estimatedStartDays": 7.925942785120637
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 10,
+      "estimatedStartDays": 9.519620158530676
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 11,
+      "estimatedStartDays": 11.781774423889777
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 12,
+      "estimatedStartDays": 14.248593755000531
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 15.403554572099326
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   },
+   {
+    "lambda": 1,
+    "batching": false,
+    "ranked": [
+     {
+      "id": "JOB-1048",
+      "needScore": 64.5826388888889,
+      "efficiencyScore": 275,
+      "needRank": 11,
+      "efficiencyRank": 1,
+      "finalRank": 1,
+      "estimatedStartDays": 0.3125
+     },
+     {
+      "id": "JOB-1054",
+      "needScore": 62.235416666666666,
+      "efficiencyScore": 275,
+      "needRank": 13,
+      "efficiencyRank": 2,
+      "finalRank": 2,
+      "estimatedStartDays": 0.625
+     },
+     {
+      "id": "JOB-1045",
+      "needScore": 63.44375,
+      "efficiencyScore": 330,
+      "needRank": 12,
+      "efficiencyRank": 3,
+      "finalRank": 3,
+      "estimatedStartDays": 1
+     },
+     {
+      "id": "JOB-1050",
+      "needScore": 134.81555555555556,
+      "efficiencyScore": 385,
+      "needRank": 5,
+      "efficiencyRank": 5,
+      "finalRank": 4,
+      "estimatedStartDays": 1.4375
+     },
+     {
+      "id": "JOB-1046",
+      "needScore": 80.37430555555555,
+      "efficiencyScore": 385,
+      "needRank": 9,
+      "efficiencyRank": 4,
+      "finalRank": 5,
+      "estimatedStartDays": 1.875
+     },
+     {
+      "id": "JOB-1044",
+      "needScore": 238.4375,
+      "efficiencyScore": 1509.9230749998374,
+      "needRank": 1,
+      "efficiencyRank": 6,
+      "finalRank": 6,
+      "estimatedStartDays": 3.075933866906358
+     },
+     {
+      "id": "JOB-1043",
+      "needScore": 199.31652777777774,
+      "efficiencyScore": 1732.4807782006324,
+      "needRank": 2,
+      "efficiencyRank": 7,
+      "finalRank": 7,
+      "estimatedStartDays": 4.459912844029115
+     },
+     {
+      "id": "JOB-1049",
+      "needScore": 105.70138888888889,
+      "efficiencyScore": 1992.0865490399551,
+      "needRank": 7,
+      "efficiencyRank": 8,
+      "finalRank": 8,
+      "estimatedStartDays": 6.0535902174391545
+     },
+     {
+      "id": "JOB-1055",
+      "needScore": 125.70416666666667,
+      "efficiencyScore": 1993.4452289466954,
+      "needRank": 6,
+      "efficiencyRank": 9,
+      "finalRank": 9,
+      "estimatedStartDays": 7.648245058408
+     },
+     {
+      "id": "JOB-1042",
+      "needScore": 171.05902777777777,
+      "efficiencyScore": 2186.8363891705194,
+      "needRank": 3,
+      "efficiencyRank": 10,
+      "finalRank": 10,
+      "estimatedStartDays": 9.519620158530676
+     },
+     {
+      "id": "JOB-1053",
+      "needScore": 34.49930555555556,
+      "efficiencyScore": 3016.8944288491493,
+      "needRank": 14,
+      "efficiencyRank": 11,
+      "finalRank": 11,
+      "estimatedStartDays": 11.781774423889777
+     },
+     {
+      "id": "JOB-1052",
+      "needScore": 77.1451388888889,
+      "efficiencyScore": 3205.7538702439488,
+      "needRank": 10,
+      "efficiencyRank": 12,
+      "finalRank": 12,
+      "estimatedStartDays": 14.248593755000531
+     },
+     {
+      "id": "JOB-1047",
+      "needScore": 98.68680555555555,
+      "efficiencyScore": 6070.276516439907,
+      "needRank": 8,
+      "efficiencyRank": 13,
+      "finalRank": 13,
+      "estimatedStartDays": 15.403554572099326
+     },
+     {
+      "id": "JOB-1051",
+      "needScore": 167.11458333333334,
+      "efficiencyScore": 8070.42165341303,
+      "needRank": 4,
+      "efficiencyRank": 14,
+      "finalRank": 14,
+      "estimatedStartDays": 16.59146038448054
+     }
+    ]
+   }
+  ]
+ },
  "generated": {
   "inputs": [
    {

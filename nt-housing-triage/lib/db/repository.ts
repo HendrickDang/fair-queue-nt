@@ -68,8 +68,9 @@ export function insertReport(input: ReportInput, db: DatabaseSync = getDb()): vo
   db.prepare(
     `INSERT INTO reports
        (id, raw_text, summary, category, safety_level, urgency_flags,
-        occupant_vulnerability, trade_required, community_id, tier, household, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        occupant_vulnerability, trade_required, community_id, tier, household, created_at,
+        needs_reading)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(id) DO UPDATE SET
        raw_text = excluded.raw_text,
        summary = excluded.summary,
@@ -80,7 +81,8 @@ export function insertReport(input: ReportInput, db: DatabaseSync = getDb()): vo
        trade_required = excluded.trade_required,
        community_id = excluded.community_id,
        tier = excluded.tier,
-       household = excluded.household`,
+       household = excluded.household,
+       needs_reading = excluded.needs_reading`,
   ).run(
     input.id,
     input.rawText,
@@ -94,7 +96,39 @@ export function insertReport(input: ReportInput, db: DatabaseSync = getDb()): vo
     input.tier ?? null,
     input.household ?? null,
     input.reportedAt ?? new Date().toISOString(),
+    input.needsReading ? 1 : 0,
   );
+}
+
+/**
+ * A person has read a held report and said how urgent it is. The hold is
+ * lifted; if they judged it high or critical, the safety level is raised to
+ * that (it is never lowered). Written with an audit entry in one transaction.
+ */
+export function markReportRead(
+  input: { id: string; level: "high" | "critical" | null; actor: string },
+  db: DatabaseSync = getDb(),
+): boolean {
+  const row = getReport(input.id, db);
+  if (!row) return false;
+  const order = ["low", "medium", "high", "critical"];
+  const current = row.safety_level ?? "medium";
+  const raised = input.level && order.indexOf(input.level) > order.indexOf(current) ? input.level : current;
+  tx(db, () => {
+    db.prepare("UPDATE reports SET needs_reading = 0, safety_level = ? WHERE id = ?").run(raised, input.id);
+    db.prepare(
+      "INSERT INTO audit_log (id, actor, action, detail, created_at) VALUES (?, ?, ?, ?, ?)",
+    ).run(
+      `audit-${randomUUID()}`,
+      input.actor,
+      "read",
+      `${input.id}: read by a person. ${
+        input.level ? `Judged ${input.level}; safety level is now ${raised}.` : "Confirmed as the system read it; hold lifted."
+      }`,
+      new Date().toISOString(),
+    );
+  });
+  return true;
 }
 
 export function getReport(id: string, db: DatabaseSync = getDb()): ReportRow | null {
@@ -155,9 +189,13 @@ export function createSchedule(input: ScheduleInput, db: DatabaseSync = getDb())
   const now = new Date().toISOString();
 
   return tx(db, () => {
+    const role = input.decidedRole?.trim() || null;
+    const name = input.decidedName?.trim() || null;
+    const reason = input.reason?.trim() || null;
     db.prepare(
-      "INSERT INTO schedules (id, equity_lambda, cost_note, created_at) VALUES (?, ?, ?, ?)",
-    ).run(scheduleId, input.lambda, input.costNote ?? null, now);
+      `INSERT INTO schedules (id, equity_lambda, cost_note, created_at, decided_role, decided_name, reason)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    ).run(scheduleId, input.lambda, input.costNote ?? null, now, role, name, reason);
 
     const insertJob = db.prepare(
       "INSERT INTO schedule_jobs (schedule_id, report_id, position, rationale) VALUES (?, ?, ?, ?)",
@@ -180,9 +218,11 @@ export function createSchedule(input: ScheduleInput, db: DatabaseSync = getDb())
       "INSERT INTO audit_log (id, actor, action, detail, created_at) VALUES (?, ?, ?, ?, ?)",
     ).run(
       `audit-${randomUUID()}`,
-      input.actor ?? "coordinator",
+      // Who: the named person and their role when given, otherwise the generic actor.
+      name && role ? `${name} (${role})` : (name ?? role ?? input.actor ?? "coordinator"),
       input.action ?? "commit",
-      input.detail ?? input.costNote ?? `Committed schedule at λ=${input.lambda}`,
+      (input.detail ?? input.costNote ?? `Committed schedule at λ=${input.lambda}`) +
+        (reason ? ` Reason given: ${reason}` : ""),
       now,
     );
 
@@ -195,6 +235,9 @@ interface ScheduleJoinRow {
   s_lambda: number;
   s_cost: string | null;
   s_at: string;
+  s_role: string | null;
+  s_name: string | null;
+  s_reason: string | null;
   report_id: string | null;
   position: number | null;
   rationale: string | null;
@@ -209,6 +252,7 @@ export function listSchedulesWithJobs(limit = 10, db: DatabaseSync = getDb()): S
     .prepare(
       `SELECT s.id AS s_id, s.equity_lambda AS s_lambda, s.cost_note AS s_cost,
               s.created_at AS s_at,
+              s.decided_role AS s_role, s.decided_name AS s_name, s.reason AS s_reason,
               sj.report_id AS report_id, sj.position AS position, sj.rationale AS rationale,
               r.community_id AS community_id, r.safety_level AS safety_level, r.need_rank AS need_rank
          FROM schedules s
@@ -227,6 +271,9 @@ export function listSchedulesWithJobs(limit = 10, db: DatabaseSync = getDb()): S
         at: row.s_at,
         lambda: row.s_lambda,
         narrative: row.s_cost ?? "",
+        role: row.s_role,
+        name: row.s_name,
+        reason: row.s_reason,
         order: [],
       };
       byId.set(row.s_id, schedule);

@@ -46,7 +46,10 @@ export default function QueueStreet({ ranked, selectedId, onSelect }: Props) {
             const remote = isRemote(r.job);
             const roof = remote ? "var(--viz-remote)" : "var(--viz-town)";
             const kind = faultKind(r.job.report);
-            const label = `Position ${r.finalRank}: ${r.job.report.summary}. ${r.job.community.name}, ${TIER_LABEL[r.job.community.tier]}. ${FAULT_LABEL[kind]}, ${r.job.report.safety_level}.`;
+            const held = r.need.heldForReading;
+            const label = `Position ${r.finalRank}: ${r.job.report.summary}. ${r.job.community.name}, ${TIER_LABEL[r.job.community.tier]}. ${
+              held ? "Held at high priority until a person reads it" : `${FAULT_LABEL[kind]}, ${r.job.report.safety_level}`
+            }.`;
             return (
               <g
                 key={r.job.id}
@@ -67,9 +70,16 @@ export default function QueueStreet({ ranked, selectedId, onSelect }: Props) {
                 <title>{label}</title>
                 {selected && <rect x={3} y={2} width={SLOT - 6} height={H - 4} rx={8} fill="var(--accent)" opacity={0.14} />}
                 {/* what is broken, coloured by how urgent it is */}
-                <circle cx={SLOT / 2} cy={19} r={12} fill={SAFETY_DOT[r.job.report.safety_level]} />
-                <FaultIcon kind={kind} x={SLOT / 2 - 8} y={11} size={16} color="#0b1220" strokeWidth={2} labelled={false} />
-                <line x1={SLOT / 2} x2={SLOT / 2} y1={31} y2={38} stroke={SAFETY_DOT[r.job.report.safety_level]} strokeWidth={1.5} />
+                <circle cx={SLOT / 2} cy={19} r={12} fill={held ? "var(--accent)" : SAFETY_DOT[r.job.report.safety_level]} />
+                {held ? (
+                  // not read by a person yet: a question, not a fault type
+                  <text x={SLOT / 2} y={24.5} textAnchor="middle" fontSize={16} fontWeight={700} fill="#0b1220">
+                    ?
+                  </text>
+                ) : (
+                  <FaultIcon kind={kind} x={SLOT / 2 - 8} y={11} size={16} color="#0b1220" strokeWidth={2} labelled={false} />
+                )}
+                <line x1={SLOT / 2} x2={SLOT / 2} y1={31} y2={38} stroke={held ? "var(--accent)" : SAFETY_DOT[r.job.report.safety_level]} strokeWidth={1.5} />
                 {/* the house: remote houses stand on stumps with a tank, town houses sit on a slab */}
                 <rect x={15} y={58} width={32} height={remote ? 23 : 28} fill="var(--house-fill)" stroke="var(--house-line)" strokeWidth={1.2} />
                 <rect x={27} y={remote ? 66 : 70} width={8} height={remote ? 15 : 16} fill="none" stroke="var(--house-line)" strokeWidth={1.1} />

@@ -1,0 +1,30 @@
+{
+ "model": "nt-housing-triage",
+ "rule": "more urgent reading wins",
+ "by_register": {
+  "app_style": {
+   "n": 660,
+   "pct_urgent_read_as_routine": 8.1,
+   "pct_urgent_read_as_routine_with_fail_safe": 0.2,
+   "pct_sent_to_human_check": 39.7
+  },
+  "officer": {
+   "n": 660,
+   "pct_urgent_read_as_routine": 8.6,
+   "pct_urgent_read_as_routine_with_fail_safe": 0.0,
+   "pct_sent_to_human_check": 61.2
+  },
+  "sms": {
+   "n": 660,
+   "pct_urgent_read_as_routine": 13.1,
+   "pct_urgent_read_as_routine_with_fail_safe": 2.1,
+   "pct_sent_to_human_check": 57.9
+  },
+  "kriol_inf": {
+   "n": 660,
+   "pct_urgent_read_as_routine": 51.7,
+   "pct_urgent_read_as_routine_with_fail_safe": 0.7,
+   "pct_sent_to_human_check": 88.2
+  }
+ }
+}

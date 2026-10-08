@@ -23,17 +23,17 @@ export function whyCard(
   r: RankedJob,
   noBatchById?: Record<string, RankedJob>,
 ): WhyCard {
-  const needSentence = `${SAFETY_LABEL[r.job.report.safety_level]} safety — ${r.need.drivers
+  const needSentence = `${SAFETY_LABEL[r.job.report.safety_level]} safety - ${r.need.drivers
     .slice(0, 3)
     .join(", ")}.`;
 
   let gapSentence: string | null = null;
   if (r.equityGap > 0) {
-    gapSentence = `#${r.needRank} on need, #${r.efficiencyRank} after logistics — logistics pushed it down ${r.equityGap} place${r.equityGap === 1 ? "" : "s"}.`;
+    gapSentence = `#${r.needRank} on need, #${r.efficiencyRank} after logistics - logistics pushed it down ${r.equityGap} place${r.equityGap === 1 ? "" : "s"}.`;
   } else if (r.equityGap < 0) {
-    gapSentence = `#${r.needRank} on need, #${r.efficiencyRank} after logistics — logistics favours this job.`;
+    gapSentence = `#${r.needRank} on need, #${r.efficiencyRank} after logistics - logistics favours this job.`;
   } else {
-    gapSentence = `#${r.needRank} on need and #${r.efficiencyRank} on logistics — no equity gap.`;
+    gapSentence = `#${r.needRank} on need and #${r.efficiencyRank} on logistics - no equity gap.`;
   }
 
   let batchSentence: string | null = null;
@@ -45,8 +45,8 @@ export function whyCard(
     const saved = `saving ${formatAud(r.batch.savedCost)} of shared travel`;
     batchSentence =
       recovery > 0
-        ? `Batched as "${r.batch.label}" — recovers ${recovery} place${recovery === 1 ? "" : "s"}, ${saved}.`
-        : `Batched as "${r.batch.label}" — ${saved}.`;
+        ? `Batched as "${r.batch.label}" - recovers ${recovery} place${recovery === 1 ? "" : "s"}, ${saved}.`
+        : `Batched as "${r.batch.label}" - ${saved}.`;
   }
 
   let ageSentence: string | null = null;
@@ -81,6 +81,8 @@ export interface PolicyDecision {
   decidedBy: string;
   /** ISO timestamp of the commit. */
   decidedAt: string;
+  /** The reason the decider recorded for weighting travel cost, if any. */
+  reason?: string | null;
 }
 
 /**
@@ -184,6 +186,13 @@ export function tenantAnswer(
     ].toLowerCase()} repairs is a visit ${RESPONSE_TARGET[safety]}, the same target as in Darwin.`,
   ];
 
+  // 2b. Fail-safe hold: say plainly that the system could not read the report.
+  if (r.need.heldForReading) {
+    body.push(
+      "Our system could not tell what the hazard is from your report, so it is being held at high priority until a person reads it.",
+    );
+  }
+
   // 3. What is ahead of it, in concrete terms the tenant can check.
   if (options.ranked && r.finalRank > 1) {
     const ahead = aheadOf(r, options.ranked);
@@ -226,7 +235,9 @@ export function tenantAnswer(
     : "";
   if (r.movedByDial > 0) {
     body.push(
-      `It is ${plural(r.movedByDial, "place")} lower than safety alone would put it. That is because ${who} decided${when} to give travel cost some weight in this schedule. That decision is recorded and can be reviewed.`,
+      `It is ${plural(r.movedByDial, "place")} lower than safety alone would put it. That is because ${who} decided${when} to give travel cost some weight in this schedule. That decision is recorded and can be reviewed.` +
+        // The decider's own words, so the tenant gets the actual reason, not a summary of it.
+        (decision?.reason ? ` The reason recorded was: "${decision.reason.replace(/[.\s]+$/, "")}".` : ""),
     );
   } else if (r.movedByDial < 0) {
     body.push(
@@ -271,7 +282,7 @@ export function tenantAnswer(
 export function dialNarrative(summary: EquitySummary): string {
   const pct = Math.round(summary.lambda * 100);
   if (summary.lambda === 0) {
-    return "Efficiency dial at 0% — pure need ordering, no logistics weighting.";
+    return "Efficiency dial at 0% - pure need ordering, no logistics weighting.";
   }
   const added =
     summary.addedMedianDaysRemote > 0.05

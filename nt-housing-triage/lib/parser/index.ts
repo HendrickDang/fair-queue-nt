@@ -14,7 +14,7 @@ export interface ParseOptions {
 
 /**
  * Parse a fault report. Model-first when Ollama is reachable, deterministic
- * fallback otherwise. Never throws for bad input — a failed model call degrades
+ * fallback otherwise. Never throws for bad input - a failed model call degrades
  * to the fallback parser and records why.
  */
 export async function parseReport(

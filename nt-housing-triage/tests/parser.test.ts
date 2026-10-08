@@ -96,7 +96,7 @@ const GOLDEN: {
   },
 ];
 
-describe("fallback parser — golden set", () => {
+describe("fallback parser - golden set", () => {
   for (const example of GOLDEN) {
     it(`parses: ${example.text.slice(0, 48)}...`, () => {
       const result = parseWithFallback(example.text);
@@ -110,7 +110,7 @@ describe("fallback parser — golden set", () => {
   }
 });
 
-describe("fallback parser — communities", () => {
+describe("fallback parser - communities", () => {
   it("resolves a named community", () => {
     expect(parseWithFallback("no water for two days in Wadeye").community).toBe("Wadeye");
   });
@@ -126,7 +126,7 @@ describe("fallback parser — communities", () => {
   });
 });
 
-describe("parseWithFallback — word-start matching", () => {
+describe("parseWithFallback - word-start matching", () => {
   it("does not read 'tenant' as an elderly household member", () => {
     const p = parseWithFallback("Tenant reports a leak under the kitchen sink, Darwin");
     expect(p.occupant_vulnerability).not.toContain("elderly");
@@ -144,7 +144,7 @@ describe("parseWithFallback — word-start matching", () => {
   });
 });
 
-describe("parseWithFallback — fail-safe note", () => {
+describe("parseWithFallback - fail-safe note", () => {
   it("asks for a person when no hazard is recognised", () => {
     const p = parseWithFallback("pawa point im sparkin, smok kamat longa Wadeye");
     expect(p.notes.join(" ")).toMatch(/A person should read this report/);

@@ -22,13 +22,16 @@ from fairqueue.taxonomy import AGEING_CAP, AGEING_POINTS_PER_DAY
 REF = json.loads((Path(__file__).parents[1] / "reference" / "ts_reference.json").read_text())
 
 
-def _jobs(inputs):
+def _jobs(inputs, held=False):
+    """held=True marks every report with no recognised hazard as not yet read
+    by a person (the fail-safe hold), as export-reference.ts does."""
     jobs = []
     for i in inputs:
         report = parse(i["rawText"])
         c = match_community(i["rawText"])
         if c:
-            jobs.append(Job(i["id"], report, c, i["reportedAt"]))
+            jobs.append(Job(i["id"], report, c, i["reportedAt"],
+                            needs_reading=held and not report["urgency_flags"]))
     return jobs
 
 
@@ -40,9 +43,9 @@ def test_parser_matches_typescript(ref):
         assert p[key] == ref[key], key
 
 
-@pytest.mark.parametrize("queue", ["seed", "generated"])
+@pytest.mark.parametrize("queue", ["seed", "generated", "held"])
 def test_ranking_matches_typescript(queue):
-    jobs = _jobs(REF[queue]["inputs"])
+    jobs = _jobs(REF[queue]["inputs"], held=(queue == "held"))
     for run in REF[queue]["runs"]:
         ours = rank_jobs(jobs, run["lambda"], run["batching"],
                          ageing=REF["ageing"], now=REF["now"])
@@ -89,3 +92,25 @@ def test_ageing_is_capped_so_safety_still_dominates():
     by_id = {s["job"].id: s for s in ranked}
     assert by_id["R"]["age_points"] == AGEING_CAP
     assert ranked[0]["job"].id == "U"  # a fresh critical report still wins
+
+
+def test_hold_keeps_an_unread_report_at_high_priority():
+    """The fail-safe hold: a report with no recognised hazard scores as 'high'
+    until a person reads it, and goes back to its parsed score afterwards."""
+    c = COMMUNITIES[0]
+    report = parse("pawa point im sparkin, smok kamat longa Wadeye")
+    assert report["urgency_flags"] == []
+    unread = Job("U", report, c, needs_reading=True)
+    read = Job("R", report, c, needs_reading=False)
+    plain_high = Job("H", {**report, "safety_level": "high"}, c)
+    assert score_need(unread) == score_need(plain_high)
+    assert score_need(read) < score_need(unread)
+
+
+def test_hold_never_lowers_a_score_and_ignores_location():
+    jobs = _jobs(REF["generated"]["inputs"])
+    for j in jobs:
+        held = Job(j.id, j.report, j.community, j.reported_at, needs_reading=True)
+        assert score_need(held) >= score_need(j)
+        for c in COMMUNITIES[:8]:
+            assert score_need(Job(j.id, j.report, c, j.reported_at, needs_reading=True)) == score_need(held)

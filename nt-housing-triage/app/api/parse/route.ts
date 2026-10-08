@@ -52,6 +52,8 @@ export async function POST(request: Request) {
       reportedAt: new Date().toISOString(),
       communityId: community?.id ?? null,
       tier: community?.tier ?? null,
+      // Fail-safe: no hazard recognised means the report is held until a person reads it.
+      needsReading: result.urgency_flags.length === 0,
     });
   } catch (error) {
     console.error("nt-triage: failed to persist report", error);

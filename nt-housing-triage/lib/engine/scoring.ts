@@ -33,7 +33,7 @@ export function escalateSafety(report: {
 
   // 2. structural failure and exposed wiring are critical regardless of
   // vulnerability. Raw sewage is critical too, but a *contained* blocked toilet
-  // ("only toilet blocked, backing up") stays high — see taxonomy §9 example 6.
+  // ("only toilet blocked, backing up") stays high - see taxonomy §9 example 6.
   if (flags.has("structural") || flags.has("exposed_wiring")) {
     level = bump(level, "critical");
   }
@@ -77,6 +77,11 @@ export function scoreNeed(job: JobInput): NeedScore {
   const report = job.report;
   const safetyLevel = escalateSafety(report);
   const safetyScore = SAFETY_BASE[safetyLevel];
+  // Fail-safe hold: an unread report with no recognised hazard is scored as at
+  // least "high" until a person reads it. Uncertainty goes to a human, never to
+  // the back of the queue. The same rule is measured in the analysis (E3).
+  const heldForReading = job.needsReading === true;
+  const heldScore = heldForReading ? SAFETY_BASE[bump(safetyLevel, "high")] : safetyScore;
 
   let flagScore = 0;
   const drivers: string[] = [`${SAFETY_LABEL[safetyLevel]} safety level`];
@@ -93,13 +98,17 @@ export function scoreNeed(job: JobInput): NeedScore {
   }
   const vulnerabilityMultiplier = Math.min(2, 1 + vulnBonus);
 
-  const score = (safetyScore + flagScore) * vulnerabilityMultiplier;
+  const score = (heldScore + flagScore) * vulnerabilityMultiplier;
+  const holdPoints = (heldScore - safetyScore) * vulnerabilityMultiplier;
+  if (holdPoints > 0) drivers.push("held at high priority until a person reads it");
 
   return {
     score,
     safetyScore,
     flagScore,
     vulnerabilityMultiplier,
+    heldForReading,
+    holdPoints,
     // Ageing is applied by rankJobs (it needs the queue-wide reference "now"),
     // so a caller scoring a single job sees no waiting time.
     ageDays: 0,

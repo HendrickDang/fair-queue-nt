@@ -94,7 +94,7 @@ export interface ParsedReport {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Trigger phrases — generator vocabulary + fallback regex                     */
+/* Trigger phrases - generator vocabulary + fallback regex                     */
 /* -------------------------------------------------------------------------- */
 
 export const FLAG_TRIGGERS: Record<UrgencyFlag, string[]> = {
@@ -206,7 +206,7 @@ export const VULNERABILITY_WEIGHT: Record<Vulnerability, number> = {
 /**
  * Ageing: a fixed internal policy so a steady stream of new reports cannot keep
  * pushing an older report down the queue. Each day a report has been waiting
- * adds need points, capped so safety stays dominant — an old routine report can
+ * adds need points, capped so safety stays dominant - an old routine report can
  * never outrank a brand-new urgent one. The cap (30) sits below the gap from
  * "medium" (25) to "high" (60), so age lifts a job at most ~one tier.
  */

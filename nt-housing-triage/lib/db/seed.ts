@@ -11,7 +11,7 @@ import { countReports, insertReport, listReports, mapReportRow } from "./reposit
  * Seed the demo queue into the database the first time the app runs.
  *
  * The seed reports are parsed with the deterministic parser so the staged demo
- * is identical on every machine — no model and no network required.
+ * is identical on every machine - no model and no network required.
  */
 export function ensureSeeded(db: DatabaseSync = getDb()): void {
   if (countReports(db) > 0) return;
@@ -45,6 +45,7 @@ export function loadJobs(db: DatabaseSync = getDb()): Job[] {
       reportedAt: row.created_at,
       household: row.household ?? community?.name,
       report: mapReportRow(row),
+      needsReading: row.needs_reading === 1,
     });
     if (job) jobs.push(job);
   }

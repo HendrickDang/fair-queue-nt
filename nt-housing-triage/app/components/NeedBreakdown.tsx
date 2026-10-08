@@ -13,6 +13,7 @@ const DETAIL: Record<string, (need: NeedScore) => string> = {
   safety: () => "base points for the safety level",
   hazards: () => "added for each hazard in the report",
   household: (n) => `multiplier ×${n.vulnerabilityMultiplier.toFixed(2)} on the two rows above`,
+  hold: () => "kept at high priority until a person has read the report",
   waiting: (n) => `${Math.round(n.ageDays)} days since the report`,
 };
 
